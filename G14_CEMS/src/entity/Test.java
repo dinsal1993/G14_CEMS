@@ -1,44 +1,71 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Test implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 	private int id;
-	private String subject;
-	private String course;
 	private int duration;
-	private int pointsPerQuestion;
-	
+	private ArrayList<Question> questions;
+	private ArrayList<Integer> pointsPerQuestion;
+	private String executionCode;
+	private String teacherName;
+	public Test(int id, int duration, ArrayList<Question> questions, 
+				ArrayList<Integer> pointsPerQuestion,String executionCode,
+				String teacherName) {
+		this.id = id;
+		this.duration = duration;
+		this.questions = questions;
+		this.pointsPerQuestion = pointsPerQuestion;
+		this.executionCode = executionCode;
+		this.teacherName = teacherName;
+	}
 	public Test() {
 	}
-	
-	public Test(int id, String subject, String course, int duration,
-			int pointsPerQuestion) {
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
 		this.id = id;
-		this.subject = subject;
-		this.course = course;
+	}
+	public int getDuration() {
+		return duration;
+	}
+	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+	public ArrayList<Question> getQuestions() {
+		return questions;
+	}
+	public void setQuestions(ArrayList<Question> questions) {
+		this.questions = questions;
+	}
+	public ArrayList<Integer> getPointsPerQuestion() {
+		return pointsPerQuestion;
+	}
+	public void setPointsPerQuestion(ArrayList<Integer> pointsPerQuestion) {
 		this.pointsPerQuestion = pointsPerQuestion;
 	}
-	public int getId() { return id; }
-	public void setId(int id) { this.id = id; }
-	public String getSubject() { return subject; }
-	public void setSubject(String subject) { this.subject = subject; }
-	public String getCourse() { return course; }
-	public void setCourse(String course) { this.course = course; }
-	public int getDuration() { return duration; }
-	public void setDuration(int duration) { this.duration = duration; }
-	public int getPointsPerQuestion() { return pointsPerQuestion; }
-	public void setPointsPerQuestion(int pointsPerQuestion) {
-		this.pointsPerQuestion = pointsPerQuestion;
+	public String getExecutionCode() {
+		return executionCode;
 	}
+	public void setExecutionCode(String executionCode) {
+		this.executionCode = executionCode;
+	}
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	
 	@Override
 	public String toString() {
-		return "[" + id + ", " + subject + ", " + course + ", " +
-				duration + ", " + pointsPerQuestion + "]";
+		return "Test [id=" + id + ", duration=" + duration + ", questions=" + questions + ", pointsPerQuestion="
+				+ pointsPerQuestion + ", executionCode=" + executionCode + ", teacherName=" + teacherName + "]";
 	}
+	
+	
 	
 	
 

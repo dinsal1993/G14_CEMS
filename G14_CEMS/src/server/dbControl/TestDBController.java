@@ -1,5 +1,11 @@
 package server.dbControl;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +36,7 @@ public class TestDBController {
 					int pointsPerQuestion = Integer.parseInt(rs.getString(5));
 
 					// Create Test object and add to ObservableList<Test>
-					tests.add(new Test(id, subject, course, duration, pointsPerQuestion));
+					//tests.add(new Test(id, subject, course, duration, pointsPerQuestion));
 				}
 				rs.close();
 			} else
@@ -71,6 +77,8 @@ public class TestDBController {
 			}
 		return -1;
 	}
+	
+
 }
 		
 	

@@ -3,6 +3,7 @@ package client.gui;
 import java.io.IOException;
 
 import client.controllers.ClientUI;
+import client.controllers.ScreenControllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,11 +27,11 @@ public class mainFormController {
 
 	@FXML
 	void ClickSeeTests(ActionEvent event) throws IOException {
-		if (null == ClientUI.seeTestsControl) {
+		if (null == ScreenControllers.seeTestsControl) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SeeTestsForm.fxml"));
 			Parent root = loader.load();
 			
-			ClientUI.seeTestsControl = loader.getController();
+			ScreenControllers.seeTestsControl = loader.getController();
 			Scene scene = new Scene(root);
 			if (ClientUI.secondStage == null)
 				ClientUI.secondStage = new Stage();
@@ -43,7 +44,7 @@ public class mainFormController {
 			ClientUI.firstStage.hide();
 		}
 		
-		ClientUI.seeTestsControl.start();
+		ScreenControllers.seeTestsControl.start();
 
 	}
 

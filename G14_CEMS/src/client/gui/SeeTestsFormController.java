@@ -74,8 +74,8 @@ public class SeeTestsFormController {
 			for (Test t : TestController.list) {
 				if (t.getId() == Integer.parseInt(txtTestID.getText())) {
 					test.setId(t.getId());
-					test.setSubject(t.getSubject());
-					test.setCourse(t.getCourse());
+					//test.setSubject(t.getSubject());
+					//test.setCourse(t.getCourse());
 					test.setDuration(Integer.parseInt(txtNewDuration.getText()));
 					test.setPointsPerQuestion(t.getPointsPerQuestion());
 				}

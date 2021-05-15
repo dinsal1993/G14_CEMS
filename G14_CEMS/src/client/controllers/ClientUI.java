@@ -40,14 +40,13 @@ public class ClientUI extends Application {
 		ClientUI.firstStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/mainForm.fxml"));
 		Parent root = loader.load();
-		mainControl = loader.getController();
+		ScreenControllers.mainControl = loader.getController();
 		Scene scene = new Scene(root);
 		firstStage.setTitle("Student Main Menu");
 		firstStage.setScene(scene);
 		firstStage.show();
 		
-		mainControl = new mainFormController();
-		mainControl.start(primaryStage);
+		ScreenControllers.mainControl.start(primaryStage);
 	}
 	
 	public static void exit() {

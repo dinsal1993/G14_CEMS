@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.20100502512562815" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ManageTestController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Text fx:id="txtManageTest" fill="#0b0000" layoutX="224.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Test" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Text>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="362.0" prefWidth="638.0">
+         <children>
+            <TextField fx:id="txtTestID" layoutX="218.0" layoutY="30.0" styleClass="txtField" />
+            <Text fx:id="txtMustFillThisFieldToContinue" layoutX="210.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtCmnt" text="*must fill this field to continue*" />
+            <Label fx:id="lblTestID" layoutX="82.0" layoutY="28.0" text=" * Test ID:" textAlignment="RIGHT" textFill="#e20c0c" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnLockTest" layoutX="409.0" layoutY="30.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Lock test" textFill="WHITE" />
+            <TextField fx:id="txtExecutionCode" layoutX="156.0" layoutY="113.0" prefHeight="25.0" prefWidth="117.0" styleClass="txtField" />
+            <Button fx:id="btnBack" layoutX="16.0" layoutY="276.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+            <Label fx:id="lblExecutionCode" layoutX="6.0" layoutY="110.0" text="Execution code:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnSetExecutionCode" layoutX="86.0" layoutY="178.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Set Execution code" textFill="WHITE" />
+            <Label fx:id="txtStudentsUseThisCodeToTakeASpecificTest" layoutX="34.0" layoutY="149.0" styleClass="txtCmnt" text="*Students use this code to take a specific test*" />
+            <Separator layoutX="289.0" layoutY="90.0" orientation="VERTICAL" prefHeight="226.0" prefWidth="0.0" />
+            <Button fx:id="btnRequestUpdateTestTime" layoutX="409.0" layoutY="276.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Request update test time" textFill="WHITE" />
+            <Label fx:id="lblRequestExtraTime" layoutX="299.0" layoutY="110.0" text="Request extra time:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblReasons" layoutX="299.0" layoutY="143.0" text="Reasons:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="chkBoxRequestExtraTime" layoutX="477.0" layoutY="117.0" mnemonicParsing="false" prefHeight="10.0" prefWidth="107.0" styleClass="chkBox" />
+            <TextField fx:id="txtReasons" layoutX="384.0" layoutY="149.0" prefHeight="115.0" prefWidth="200.0" styleClass="txtField" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>
