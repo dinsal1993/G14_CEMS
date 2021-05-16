@@ -47,14 +47,14 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <ComboBox fx:id="BNcmb_CrateTest" editable="true" layoutX="359.0" layoutY="67.0" prefHeight="31.0" prefWidth="157.0" promptText="Choose Bank" style="-fx-background-color: white;" styleClass="cmbBox" />
-            <ComboBox fx:id="CNcmb_CreateTest" editable="true" layoutX="359.0" layoutY="137.0" prefHeight="31.0" prefWidth="157.0" promptText="Choose Course" style="-fx-background-color: white;" styleClass="cmbBox" />
-            <TextField fx:id="DurationtxtFailed_CreateTest" layoutX="359.0" layoutY="209.0" prefHeight="31.0" prefWidth="157.0" promptText="Enter Duration" styleClass="txtField" />
-            <TextArea fx:id="SnotestxtArea_CreateTest" layoutX="359.0" layoutY="380.0" prefHeight="63.0" prefWidth="359.0" promptText="Add Text" style="-fx-background-color: gray;" styleClass="txtField" />
-            <TextArea fx:id="TnotesTextArea_CreateTest" layoutX="359.0" layoutY="282.0" prefHeight="63.0" prefWidth="359.0" promptText="Add Text" style="-fx-background-color: gray;" styleClass="txtField" />
-            <Button fx:id="Backbtn_CreateTest" layoutX="44.0" layoutY="514.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
-            <Button fx:id="AddQbtn_CreateTest" layoutX="385.0" layoutY="473.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="166.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Add Question" textFill="WHITE" />
-            <Button fx:id="CreateTbn_CreateTest" layoutX="406.0" layoutY="514.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="124.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Create Test" textFill="WHITE" />
+            <ComboBox fx:id="cmbBankName" editable="true" layoutX="359.0" layoutY="67.0" prefHeight="31.0" prefWidth="157.0" promptText="Choose Bank" style="-fx-background-color: white;" styleClass="cmbBox" />
+            <ComboBox fx:id="cmbCourseName" editable="true" layoutX="359.0" layoutY="137.0" prefHeight="31.0" prefWidth="157.0" promptText="Choose Course" style="-fx-background-color: white;" styleClass="cmbBox" />
+            <TextField fx:id="txtDuration" layoutX="359.0" layoutY="209.0" prefHeight="31.0" prefWidth="157.0" promptText="Enter Duration" styleClass="txtField" />
+            <TextArea fx:id="txtStudentNotes" layoutX="359.0" layoutY="380.0" prefHeight="63.0" prefWidth="359.0" promptText="Add Text" style="-fx-background-color: gray;" styleClass="txtField" />
+            <TextArea fx:id="txtTeacherNotes" layoutX="359.0" layoutY="282.0" prefHeight="63.0" prefWidth="359.0" promptText="Add Text" style="-fx-background-color: gray;" styleClass="txtField" />
+            <Button fx:id="btnBack" layoutX="44.0" layoutY="514.0" mnemonicParsing="false" onAction="#click_Back" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+            <Button fx:id="btnAddQuestion" layoutX="385.0" layoutY="473.0" mnemonicParsing="false" onAction="#click_AddQuestion" prefHeight="32.0" prefWidth="166.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Add Question" textFill="WHITE" />
+            <Button fx:id="btnCreateTest" layoutX="406.0" layoutY="514.0" mnemonicParsing="false" onAction="#click_CreateTest" prefHeight="32.0" prefWidth="124.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Create Test" textFill="WHITE" />
          </children></AnchorPane>
   </items>
 </SplitPane>

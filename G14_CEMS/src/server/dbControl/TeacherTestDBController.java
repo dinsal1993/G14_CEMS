@@ -1,5 +1,6 @@
 package server.dbControl;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,7 +16,7 @@ import entity.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class TestDBController {
+public class TeacherTestDBController {
 
 	public static ArrayList<Test> getAllTests() {
 
@@ -76,6 +77,23 @@ public class TestDBController {
 				e.printStackTrace();
 			}
 		return -1;
+	}
+
+	public static ArrayList<String> getAllTestBanks() {
+		String sqlQuery = "select * from testbank";
+		ArrayList<String> arr = new ArrayList<String>();
+		try {
+			if(DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				while(rs.next()) {
+					arr.add(rs.getString(2));
+				}
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return arr;
 	}
 	
 

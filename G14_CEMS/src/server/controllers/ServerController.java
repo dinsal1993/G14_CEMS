@@ -16,6 +16,7 @@ public class ServerController extends AbstractServer {
 	public String hostName;
 	public String clientConnected = "not connected";
 	public static DBConnector dbConnector;
+	Message msgFromServer = null;
 
 	public ServerController(int port) {
 		super(port);
@@ -25,25 +26,33 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message)msg;
-		Message msgFromServer = null;
-		ArrayList<Test> arr;
+		
 		switch(message.getMessageType()) {
 		case GetAllTests:
-			arr = TestDBController.getAllTests();
+			ArrayList<Test> arr = TeacherTestDBController.getAllTests();
 			msgFromServer = new Message(MessageType.TestsList,arr);
 			break;
+		case GetAllTestBanks:
+			getAllTestBanks();
+			break;
 		case UpdateTestDuration:
-			TestDBController.updateTestDuration((Test)message.getMessageData());
+			TeacherTestDBController.updateTestDuration((Test)message.getMessageData());
 			msgFromServer = new Message(MessageType.SuccessUpdateTest, null);
 			break;
 		case GetTestCount:
-			int countTest = TestDBController.getTestCount();
+			int countTest = TeacherTestDBController.getTestCount();
 			msgFromServer = new Message(MessageType.TestCount, countTest);
 			break;
 			default:
 				msgFromServer = new Message(MessageType.Error, null);
 		}
 		sendToAllClients(msgFromServer);
+	}
+
+	private void getAllTestBanks() {
+		ArrayList<String> arr = TeacherTestDBController.getAllTestBanks();
+		msgFromServer = new Message(MessageType.TestBanksList, arr);
+		
 	}
 
 	@Override

@@ -30,13 +30,16 @@ public class ClientController extends AbstractClient {
 		Message message = (Message)msg;
 		switch(message.getMessageType()) {
 		case TestsList :
-			TestController.testArr = (ArrayList<Test>)message.getMessageData();
+			TeacherTestController.testArr = (ArrayList<Test>)message.getMessageData();
 			break;
 		case SuccessUpdateTest:
 			ClientUI.display("Update succesful");
 			break;
 		case TestCount:
-			TestController.testCount = (int)message.getMessageData();
+			TeacherTestController.testCount = (int)message.getMessageData();
+			break;
+		case TestBanksList:
+			TeacherTestController.testBankArray = (ArrayList<String>)message.getMessageData();
 			break;
 			default:
 				ClientUI.display("cant read message from server");

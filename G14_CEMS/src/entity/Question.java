@@ -2,13 +2,31 @@ package entity;
 
 import java.util.ArrayList;
 
+/** A question that can be used in a test */
 public class Question {
+	
+	/** The Question ID */
 	private int id;
+	
+	/** The question description(the question itself) */
 	private String description;
+	
+	/** List of possible answers */
 	private ArrayList<String> answers;
+	
+	/** The correct answer to the current question */
 	private int correctAnswer;
+	
+	/** The teacher that wrote the question */
 	private String teacherName;
 	
+	/**
+	 * @param id The unique question ID
+	 * @param description The text of the question
+	 * @param answers List of possible answers
+	 * @param correctAnswer The correct answer
+	 * @param teacherName The teacher who wrote the test
+	 */
 	public Question(int id, String description, ArrayList<String> answers,
 			int correctAnswer, String teacherName) {
 		this.id = id;

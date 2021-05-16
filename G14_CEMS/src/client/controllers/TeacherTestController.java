@@ -5,17 +5,19 @@ import java.util.ArrayList;
 import entity.Message;
 import entity.MessageType;
 import entity.Test;
+import entity.TestBank;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class TestController {
+public class TeacherTestController {
 	public static final int MAX_TEST_TIME = 300;
 	public static ObservableList<Test> list = FXCollections.observableArrayList();
 	public static ArrayList<Test> testArr = new ArrayList<>();
 	public static Test t = new Test();
 	public static int testCount;
 	
-	
+	public static ArrayList<String> testBankArray = new ArrayList<String>();
+
 	public static boolean updateTestValidFields(String testID, String newDuration) {
 		int id, duration;
 		try {
@@ -51,6 +53,13 @@ public class TestController {
 			list.remove(t);
 		for (Test t : testArr)
 			list.add(t);
+	}
+
+
+	public static ObservableList<String> getAllTestBanks() {		
+		Message msg = new Message(MessageType.GetAllTestBanks, null);
+		ClientUI.accept(msg);
+		return FXCollections.<String>observableArrayList(testBankArray);
 	}
 
 }

@@ -27,6 +27,7 @@ public class mainFormController {
 
 	@FXML
 	void ClickSeeTests(ActionEvent event) throws IOException {
+
 		if (null == ScreenControllers.seeTestsControl) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SeeTestsForm.fxml"));
 			Parent root = loader.load();
@@ -49,13 +50,6 @@ public class mainFormController {
 	}
 
 	public void start(Stage primaryStage) throws IOException {
-		//Parent root = (Parent) FXMLLoader.load(getClass().getResource("mainForm.fxml"));
-		//Scene scene = new Scene(root);
-		// scene.getStylesheets().add(getClass().getResource("/gui/ServerForm.css").toExternalForm());
-		//primaryStage.setTitle("Student Main Menu");
-		//primaryStage.setScene(scene);
-
-		//primaryStage.show();
 	}
 
 }

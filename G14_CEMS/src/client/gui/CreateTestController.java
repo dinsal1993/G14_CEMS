@@ -1,5 +1,11 @@
 package client.gui;
 
+import java.util.Observable;
+
+import client.controllers.TeacherTestController;
+import entity.TestBank;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -36,27 +42,65 @@ public class CreateTestController {
     private Label Snotestxt_CreateTest;
 
     @FXML
-    private ComboBox<?> BNcmb_CrateTest;
+    private ComboBox<String> cmbBankName;
 
     @FXML
-    private ComboBox<?> CNcmb_CreateTest;
+    private ComboBox<String> cmbCourseName;
 
     @FXML
-    private TextField DurationtxtFailed_CreateTest;
+    private TextField txtDuration;
 
     @FXML
-    private TextArea SnotestxtArea_CreateTest;
+    private TextArea txtStudentNotes;
 
     @FXML
-    private TextArea TnotesTextArea_CreateTest;
+    private TextArea txtTeacherNotes;
 
     @FXML
-    private Button Backbtn_CreateTest;
+    private Button btnBack;
 
     @FXML
-    private Button AddQbtn_CreateTest;
+    private Button btnAddQuestion;
 
     @FXML
-    private Button CreateTbn_CreateTest;
+    private Button btnCreateTest;
+    
+    private boolean fromNewBank;
+    
+    private ObservableList<String> testBankList;
 
+    @FXML
+    void click_AddQuestion(ActionEvent event) {
+
+    }
+
+    @FXML
+    void click_Back(ActionEvent event) {
+
+    }
+
+    @FXML
+    void click_CreateTest(ActionEvent event) {
+
+    }
+    
+    public void start() {
+    	initUI();
+    }
+    
+    private void initUI() {
+		cmbBankName.getItems().clear();
+		cmbCourseName.getItems().clear();
+		txtDuration.setText("");
+		txtTeacherNotes.setText("");
+		txtStudentNotes.setText("");
+		testBankList = TeacherTestController.getAllTestBanks();
+		cmbBankName.getItems().addAll(testBankList);
+		
+	}
+
+	public void startFromNewBank(String newBankName, String firstCourse) {
+    	//TODO:
+    	//initialize BankName and Course from the NewBank Form
+    }
 }

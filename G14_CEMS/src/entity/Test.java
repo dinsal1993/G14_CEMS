@@ -3,13 +3,40 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/** Test class representing a Test for student built by teachers */
 public class Test implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	/** Test id */
 	private int id;
+	
+	/** Test duration in minutes */
 	private int duration;
+	
+	/** list of questions */
 	private ArrayList<Question> questions;
+	
+	/** pointsPerQuestion[i] represents the question points for
+	 *  questions[i] */
 	private ArrayList<Integer> pointsPerQuestion;
+	
+	/** Used by student to take the test*/
 	private String executionCode;
+	
+	/** the author of the test */
 	private String teacherName;
+	
+	/**
+	 * 
+	 * @param id Test id
+	 * @param duration Test duration in minutes 
+	 * @param questions list of questions in the test
+	 * @param pointsPerQuestion pointsPerQuestion[i] represents the 
+	 *  question points for questions[i]
+	 * @param executionCode Used by students to take the test
+	 * @param teacherName the teacher that wrote the test
+	 */
 	public Test(int id, int duration, ArrayList<Question> questions, 
 				ArrayList<Integer> pointsPerQuestion,String executionCode,
 				String teacherName) {
@@ -20,8 +47,12 @@ public class Test implements Serializable {
 		this.executionCode = executionCode;
 		this.teacherName = teacherName;
 	}
+	
+	/**
+	 * Empty Constructor */
 	public Test() {
 	}
+	
 	public int getId() {
 		return id;
 	}

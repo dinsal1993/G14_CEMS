@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.controllers.ClientUI;
-import client.controllers.TestController;
+import client.controllers.TeacherTestController;
 import entity.Message;
 import entity.MessageType;
 import entity.Test;
@@ -66,12 +66,12 @@ public class SeeTestsFormController {
 
 	@FXML
 	void ClickUpdateDuration(ActionEvent event) {
-		if (TestController.updateTestValidFields(txtTestID.getText(), txtNewDuration.getText())) {
+		if (TeacherTestController.updateTestValidFields(txtTestID.getText(), txtNewDuration.getText())) {
 			Test test = new Test();
 			//list = (tblTests.getItems());
 
 			// get chosen test details
-			for (Test t : TestController.list) {
+			for (Test t : TeacherTestController.list) {
 				if (t.getId() == Integer.parseInt(txtTestID.getText())) {
 					test.setId(t.getId());
 					//test.setSubject(t.getSubject());
@@ -81,7 +81,7 @@ public class SeeTestsFormController {
 				}
 
 			}
-			TestController.updateTestDuration(test);
+			TeacherTestController.updateTestDuration(test);
 
 			fillTable();
 		}
@@ -117,9 +117,9 @@ public class SeeTestsFormController {
 		tblTests.getItems().clear();
 		
 		//updates the observable list of tests in TestController
-		TestController.getAllTest();
+		TeacherTestController.getAllTest();
 
-		tblTests.setItems(TestController.list);
+		tblTests.setItems(TeacherTestController.list);
 
 	}
 }

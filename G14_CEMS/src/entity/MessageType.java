@@ -7,5 +7,7 @@ public enum MessageType {
 	Error,
 	SuccessUpdateTest,
 	GetTestCount,
-	TestCount;
+	TestCount,
+	GetAllTestBanks,
+	TestBanksList;
 }
