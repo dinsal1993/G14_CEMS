@@ -1,6 +1,10 @@
 /client/
 /entity/
+<<<<<<< HEAD
 /mysql-connector-java-8.0.13.jar
 /ocsf/
 /server/
 /style/
+=======
+/server/
+>>>>>>> refs/heads/din

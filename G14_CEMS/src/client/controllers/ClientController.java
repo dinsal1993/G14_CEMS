@@ -2,12 +2,14 @@ package client.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
 import entity.Message;
 import entity.MessageType;
 import entity.Test;
+import entity.TestBank;
 import javafx.collections.ObservableList;
 import ocsf.client.*;
 import server.dbControl.UserDBController;
@@ -39,7 +41,7 @@ public class ClientController extends AbstractClient {
 			TeacherTestController.testCount = (int)message.getMessageData();
 			break;
 		case TestBanksList:
-			TeacherTestController.testBankArray = (ArrayList<String>)message.getMessageData();
+			TeacherTestController.banksMap = (HashMap<String, TestBank>)message.getMessageData();
 			break;
 		case logIn:
 			UserController.logInStatus = (String)message.getMessageData();

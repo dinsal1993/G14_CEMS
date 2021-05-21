@@ -1,12 +1,17 @@
 package server.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import client.controllers.ClientUI;
 import entity.Message;
 import entity.MessageType;
 import entity.Test;
+
 import entity.User;
+
+import entity.TestBank;
+
 import javafx.collections.ObservableList;
 import ocsf.server.*; 
 import server.dbControl.*;
@@ -35,6 +40,7 @@ public class ServerController extends AbstractServer {
 			msgFromServer = new Message(MessageType.TestsList,arr);
 			break;
 		case GetAllTestBanks:
+			System.out.println("in server controller. recieved msg");
 			getAllTestBanks();
 			break;
 		case UpdateTestDuration:
@@ -57,8 +63,10 @@ public class ServerController extends AbstractServer {
 	}
 
 	private void getAllTestBanks() {
-		ArrayList<String> arr = TeacherTestDBController.getAllTestBanks();
-		msgFromServer = new Message(MessageType.TestBanksList, arr);
+
+		HashMap<String, TestBank> testBankMap = TeacherTestDBController.getAllTestBanks();
+		msgFromServer = new Message(MessageType.TestBanksList, testBankMap);
+
 	}
 
 	@Override
@@ -75,9 +83,4 @@ public class ServerController extends AbstractServer {
 		super.serverStarted();
 		System.out.println("server started and listening on port " + getPort());
 	}
-	
-	
-	
-	
-
 }
