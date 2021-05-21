@@ -30,7 +30,8 @@ public class ClientUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		clientControl = new ClientController("localhost", 5555, this);
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginForm.fxml"));
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/LoginForm.fxml"));
 		Parent root = loader.load();
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
