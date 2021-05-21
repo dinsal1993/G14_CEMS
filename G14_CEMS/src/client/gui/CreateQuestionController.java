@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import client.controllers.ClientUI;
 import client.controllers.TeacherTestController;
+import client.controllers.UserController;
 import entity.Question;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -68,7 +69,7 @@ public class CreateQuestionController implements Serializable {
     	answers.add(txtAnswerD.getText());
     	
     	if(comboBank.getItems().isEmpty())
-    	ClientUI.display("First Create question bank");
+    		ClientUI.display("First Create question bank");
     	else if(txtAnswerA.getText().trim().isEmpty()||txtAnswerB.getText().trim().isEmpty()||txtAnswerC.getText().trim().isEmpty()||txtAnswerD.getText().trim().isEmpty())
 		    ClientUI.display("Please first insert the answers");
     	else { if(txtDescription.getText().trim().isEmpty()) 
@@ -83,13 +84,13 @@ public class CreateQuestionController implements Serializable {
     @FXML
     void Click_Back(ActionEvent event) {
     	//((Node)event.getSource()).getScene().getWindow().hide();
-    	ClientUI.secondStage.close();
-    	ClientUI.firstStage.show();
+    	UserController.currentStage.hide();
+    	UserController.beforeCurrentStage.show();
     }
    
     
 	public void start() {
-		// TODO Auto-generated method stub
+
 		txtAnswerA.setText("");
 		txtAnswerB.setText("");
 		txtAnswerC.setText("");

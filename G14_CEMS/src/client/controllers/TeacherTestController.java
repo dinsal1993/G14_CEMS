@@ -7,6 +7,8 @@ import java.util.Set;
 import entity.Course;
 import entity.Message;
 import entity.MessageType;
+import entity.Question;
+import entity.QuestionBank;
 import entity.Test;
 import entity.TestBank;
 import javafx.collections.FXCollections;
@@ -21,6 +23,7 @@ public class TeacherTestController {
 
 	
 	public static HashMap<String, TestBank> banksMap;
+	public static ArrayList<String> QuestionArr;
 
 	public static boolean updateTestValidFields(String testID, String newDuration) {
 		int id, duration;
@@ -80,6 +83,24 @@ public class TeacherTestController {
 		for(Course c : courses)
 			arr.add(c.getName());
 		return arr;
+	}
+	
+	public static void addQuestion(Question q) {
+		Message msg = new Message(MessageType.addQuestion,q);
+		ClientUI.accept(msg);
+	}
+	
+	public static void insertQuestionBank(QuestionBank QB)
+	{
+		Message msg = new Message(MessageType.insertQuestionBank,QB);
+		ClientUI.accept(msg);
+		
+	}
+
+	public static ObservableList<String> getAllQBanks() {		
+		Message msg = new Message(MessageType.GetAllQuestionBank, null);
+		ClientUI.accept(msg);
+		return FXCollections.<String>observableArrayList(QuestionArr);
 	}
 
 }

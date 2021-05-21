@@ -43,11 +43,9 @@ public class LoginFormController {
 	@FXML
 	private PasswordField txtPassword;
 
-	
 	public String getUsername() {
 		return txtUsername.getText();
 	}
-	
 
 	private String getPassword() {
 		return txtPassword.getText();
@@ -58,26 +56,32 @@ public class LoginFormController {
 	}
 
 	@FXML
-	void Login(ActionEvent event) { 
+	void Login(ActionEvent event) {
 
-		String logInStatus = UserController.logIn(getUsername(),getPassword());
-		switch(logInStatus) {
-		case "You must fill all the fields": 
+		String logInStatus = UserController.logIn(getUsername(),
+				getPassword());
+		switch (logInStatus) {
+		case "You must fill all the fields":
 		case "The user is not exist":
 		case "The password is incorrect":
-		case "The user is already connected": ClientUI.display(logInStatus); break;
-		case "teacher": //openTeacherMenuForm();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
+		case "The user is already connected":
+			ClientUI.display(logInStatus);
+			break;
+		case "teacher": // openTeacherMenuForm();
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource
+					("TeacherMenuForm.fxml"));
 			Parent root;
 			try {
-			ScreenControllers.teacherMenuController = loader.getController();
-			root = loader.load();
-			Scene scene = new Scene(root);
-			Stage teacher = new Stage();
-			teacher.setScene(scene);
-			UserController.currentStage.hide(); // close?
-			UserController.currentStage = teacher;
-			teacher.show();
+				ScreenControllers.teacherMenuController = 
+						loader.getController();
+				root = loader.load();
+				Scene scene = new Scene(root);
+				Stage teacher = new Stage();
+				teacher.setScene(scene);
+				UserController.currentStage.hide(); // close?
+				UserController.currentStage = teacher;
+				teacher.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -85,9 +89,7 @@ public class LoginFormController {
 		default:
 			ClientUI.display("cant read message from server");
 		}
-		
-		
-	}
 
+	}
 
 }

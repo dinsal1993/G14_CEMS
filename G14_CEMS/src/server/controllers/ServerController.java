@@ -17,13 +17,12 @@ import entity.User;
 import entity.TestBank;
 
 import javafx.collections.ObservableList;
-import ocsf.server.*; 
+import ocsf.server.*;
 import server.dbControl.*;
 
-
 public class ServerController extends AbstractServer {
-	
-	private static  Question q ;
+
+	private static Question q;
 	public String clientIp;
 	public String hostName;
 	public String clientConnected = "not connected";
@@ -37,36 +36,36 @@ public class ServerController extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		Message message = (Message)msg;
-		
-		switch(message.getMessageType()) {
+		Message message = (Message) msg;
+
+		switch (message.getMessageType()) {
 		case GetAllTests:
 			ArrayList<Test> arr = TeacherTestDBController.getAllTests();
-			msgFromServer = new Message(MessageType.TestsList,arr);
+			msgFromServer = new Message(MessageType.TestsList, arr);
 			break;
 		case GetAllQuestionBank:
 			ArrayList<String> arrQ = QuestionDBController.getAllQuestionBanks();
-			msgFromServer = new Message(MessageType.QuestionBankList,arrQ);
+			msgFromServer = new Message(MessageType.QuestionBankList, arrQ);
 			break;
 		case addQuestion:
-			QuestionDBController.addQuestion((Question)message.getMessageData());
+			QuestionDBController.addQuestion((Question) message.getMessageData());
 			msgFromServer = new Message(MessageType.addQuestion, null);
 			break;
 		case insertQuestionBank:
 			try {
-				QuestionDBController.insertQuestionBank((QuestionBank)message.getMessageData());
+				QuestionDBController.insertQuestionBank((QuestionBank) message.getMessageData());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		msgFromServer = new Message(MessageType.insertQuestionBank, null);
-		break;
+			msgFromServer = new Message(MessageType.insertQuestionBank, null);
+			break;
 		case GetAllTestBanks:
 			System.out.println("in server controller. recieved msg");
 			getAllTestBanks();
 			break;
 		case UpdateTestDuration:
-			TeacherTestDBController.updateTestDuration((Test)message.getMessageData());
+			TeacherTestDBController.updateTestDuration((Test) message.getMessageData());
 			msgFromServer = new Message(MessageType.SuccessUpdateTest, null);
 			break;
 		case GetTestCount:
@@ -74,14 +73,14 @@ public class ServerController extends AbstractServer {
 			msgFromServer = new Message(MessageType.TestCount, countTest);
 			break;
 		case logIn:
-			String logInStatus = UserDBController.tryToConnect( (User)message.getMessageData() );
-			msgFromServer = new Message(MessageType.logIn,logInStatus);
+			String logInStatus = UserDBController.tryToConnect((User) message.getMessageData());
+			msgFromServer = new Message(MessageType.logIn, logInStatus);
 			break;
-			default:
-				msgFromServer = new Message(MessageType.Error, null);
+		default:
+			msgFromServer = new Message(MessageType.Error, null);
 		}
 		sendToAllClients(msgFromServer);
-		
+
 	}
 
 	private void getAllTestBanks() {
@@ -90,11 +89,7 @@ public class ServerController extends AbstractServer {
 		msgFromServer = new Message(MessageType.TestBanksList, testBankMap);
 
 	}
-	private void getAllQuestionBanks() {
-		ArrayList<String> arr = TeacherTestDBController.getAllTestBanks();
-		msgFromServer = new Message(MessageType.TestBanksList, arr);
-		
-	}
+
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
 		super.clientConnected(client);

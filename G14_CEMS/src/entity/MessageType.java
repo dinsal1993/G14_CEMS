@@ -11,9 +11,8 @@ public enum MessageType {
 	GetAllTestBanks,
 
 	GetAllQuestionBank,
-	TestBanksList, QuestionBankList, addQuestion, insertQuestionBank;
+	TestBanksList, QuestionBankList, addQuestion, insertQuestionBank,
 
-	TestBanksList,
 	logIn;
 
 }
