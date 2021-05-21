@@ -1,10 +1,13 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** A bank (Subject) containing multiple Tests */
-public class TestBank {
+public class TestBank implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	/** Bank id, used for unique identification*/
 	public int id;
 	
@@ -23,6 +26,10 @@ public class TestBank {
 		this.id = id;
 		this.name = name;
 		this.courses = courses;
+	}
+
+	public TestBank() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {

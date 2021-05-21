@@ -2,6 +2,7 @@ package server.controllers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import client.controllers.ClientUI;
 import client.gui.CreateQuestionController;
@@ -10,9 +11,15 @@ import entity.MessageType;
 import entity.Question;
 import entity.QuestionBank;
 import entity.Test;
+
+import entity.User;
+
+import entity.TestBank;
+
 import javafx.collections.ObservableList;
 import ocsf.server.*; 
 import server.dbControl.*;
+
 
 public class ServerController extends AbstractServer {
 	
@@ -55,6 +62,7 @@ public class ServerController extends AbstractServer {
 		msgFromServer = new Message(MessageType.insertQuestionBank, null);
 		break;
 		case GetAllTestBanks:
+			System.out.println("in server controller. recieved msg");
 			getAllTestBanks();
 			break;
 		case UpdateTestDuration:
@@ -65,16 +73,22 @@ public class ServerController extends AbstractServer {
 			int countTest = TeacherTestDBController.getTestCount();
 			msgFromServer = new Message(MessageType.TestCount, countTest);
 			break;
+		case logIn:
+			String logInStatus = UserDBController.tryToConnect( (User)message.getMessageData() );
+			msgFromServer = new Message(MessageType.logIn,logInStatus);
+			break;
 			default:
 				msgFromServer = new Message(MessageType.Error, null);
 		}
 		sendToAllClients(msgFromServer);
+		
 	}
 
 	private void getAllTestBanks() {
-		ArrayList<String> arr = TeacherTestDBController.getAllTestBanks();
-		msgFromServer = new Message(MessageType.TestBanksList, arr);
-		
+
+		HashMap<String, TestBank> testBankMap = TeacherTestDBController.getAllTestBanks();
+		msgFromServer = new Message(MessageType.TestBanksList, testBankMap);
+
 	}
 	private void getAllQuestionBanks() {
 		ArrayList<String> arr = TeacherTestDBController.getAllTestBanks();
@@ -95,9 +109,4 @@ public class ServerController extends AbstractServer {
 		super.serverStarted();
 		System.out.println("server started and listening on port " + getPort());
 	}
-	
-	
-	
-	
-
 }

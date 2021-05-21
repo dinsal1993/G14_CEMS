@@ -21,7 +21,7 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="341.0" prefWidth="611.0">
          <children>
-            <Button fx:id="btnLogin" layoutX="241.0" layoutY="168.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Login" textFill="WHITE" />
+            <Button fx:id="btnLogin" layoutX="241.0" layoutY="168.0" mnemonicParsing="false" onAction="#Login" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Login" textFill="WHITE" />
             <Label fx:id="lblUsername" layoutX="98.0" layoutY="44.0" prefHeight="30.0" prefWidth="104.0" text="Username:">
                <font>
                   <Font size="20.0" />

@@ -1,34 +1,28 @@
 package client.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import client.gui.SeeTestsFormController;
-import client.gui.mainFormController;
-import entity.Message;
-import entity.Test;
+import client.gui.LoginFormController;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ClientUI extends Application {
 	
+
 	public static ClientController clientControl;
-	
-	public static ArrayList<Test> tests;
-	
-	public static Stage firstStage;
-	public static Stage secondStage;
-	
-	public static mainFormController mainControl;
-	public static SeeTestsFormController seeTestsControl;
-	
+	/////////////////////////////////////// why this is here?
+	//public static ArrayList<Test> tests;
+	//public static Stage firstStage;
+	//public static Stage secondStage;
+	//public static mainFormController mainControl;
+	//public static SeeTestsFormController seeTestsControl;
+	/////////////////////////////////////////////////////////////
 	public static void main(String[] args) {
 	    launch(args);
 	  }
@@ -37,16 +31,14 @@ public class ClientUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		clientControl = new ClientController("localhost", 5555, this);
 		
-		ClientUI.firstStage = primaryStage;
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/mainForm.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/client/gui/LoginForm.fxml"));
 		Parent root = loader.load();
-		ScreenControllers.mainControl = loader.getController();
 		Scene scene = new Scene(root);
-		firstStage.setTitle("Student Main Menu");
-		firstStage.setScene(scene);
-		firstStage.show();
-		
-		ScreenControllers.mainControl.start(primaryStage);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		ScreenControllers.loginFormController = loader.getController();
+		ScreenControllers.loginFormController.start(primaryStage); //nothing inside
+		UserController.currentStage = primaryStage;
 	}
 	
 	public static void exit() {
