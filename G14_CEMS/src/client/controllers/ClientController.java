@@ -32,9 +32,18 @@ public class ClientController extends AbstractClient {
 		case TestsList :
 			TeacherTestController.testArr = (ArrayList<Test>)message.getMessageData();
 			break;
+		case QuestionBankList :
+			TeacherTestController.QuestionArr = (ArrayList<String>)message.getMessageData();
+			break;
 		case SuccessUpdateTest:
 			ClientUI.display("Update succesful");
 			break;
+		case addQuestion:
+			ClientUI.display("Created question successfully");
+			break;
+		case insertQuestionBank:
+		ClientUI.display("Created question bank successfully");
+		break;
 		case TestCount:
 			TeacherTestController.testCount = (int)message.getMessageData();
 			break;

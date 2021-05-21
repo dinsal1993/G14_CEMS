@@ -1,10 +1,14 @@
 package server.controllers;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import client.controllers.ClientUI;
+import client.gui.CreateQuestionController;
 import entity.Message;
 import entity.MessageType;
+import entity.Question;
+import entity.QuestionBank;
 import entity.Test;
 import javafx.collections.ObservableList;
 import ocsf.server.*; 
@@ -12,6 +16,7 @@ import server.dbControl.*;
 
 public class ServerController extends AbstractServer {
 	
+	private static  Question q ;
 	public String clientIp;
 	public String hostName;
 	public String clientConnected = "not connected";
@@ -32,6 +37,23 @@ public class ServerController extends AbstractServer {
 			ArrayList<Test> arr = TeacherTestDBController.getAllTests();
 			msgFromServer = new Message(MessageType.TestsList,arr);
 			break;
+		case GetAllQuestionBank:
+			ArrayList<String> arrQ = QuestionDBController.getAllQuestionBanks();
+			msgFromServer = new Message(MessageType.QuestionBankList,arrQ);
+			break;
+		case addQuestion:
+			QuestionDBController.addQuestion((Question)message.getMessageData());
+			msgFromServer = new Message(MessageType.addQuestion, null);
+			break;
+		case insertQuestionBank:
+			try {
+				QuestionDBController.insertQuestionBank((QuestionBank)message.getMessageData());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		msgFromServer = new Message(MessageType.insertQuestionBank, null);
+		break;
 		case GetAllTestBanks:
 			getAllTestBanks();
 			break;
@@ -54,7 +76,11 @@ public class ServerController extends AbstractServer {
 		msgFromServer = new Message(MessageType.TestBanksList, arr);
 		
 	}
-
+	private void getAllQuestionBanks() {
+		ArrayList<String> arr = TeacherTestDBController.getAllTestBanks();
+		msgFromServer = new Message(MessageType.TestBanksList, arr);
+		
+	}
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
 		super.clientConnected(client);

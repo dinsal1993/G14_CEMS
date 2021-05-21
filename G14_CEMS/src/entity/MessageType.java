@@ -9,5 +9,6 @@ public enum MessageType {
 	GetTestCount,
 	TestCount,
 	GetAllTestBanks,
-	TestBanksList;
+	GetAllQuestionBank,
+	TestBanksList, QuestionBankList, addQuestion, insertQuestionBank;
 }
