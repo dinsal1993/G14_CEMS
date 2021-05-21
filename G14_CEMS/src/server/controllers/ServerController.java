@@ -6,9 +6,11 @@ import client.controllers.ClientUI;
 import entity.Message;
 import entity.MessageType;
 import entity.Test;
+import entity.User;
 import javafx.collections.ObservableList;
 import ocsf.server.*; 
 import server.dbControl.*;
+
 
 public class ServerController extends AbstractServer {
 	
@@ -43,16 +45,20 @@ public class ServerController extends AbstractServer {
 			int countTest = TeacherTestDBController.getTestCount();
 			msgFromServer = new Message(MessageType.TestCount, countTest);
 			break;
+		case logIn:
+			String logInStatus = UserDBController.tryToConnect( (User)message.getMessageData() );
+			msgFromServer = new Message(MessageType.logIn,logInStatus);
+			break;
 			default:
 				msgFromServer = new Message(MessageType.Error, null);
 		}
 		sendToAllClients(msgFromServer);
+		
 	}
 
 	private void getAllTestBanks() {
 		ArrayList<String> arr = TeacherTestDBController.getAllTestBanks();
 		msgFromServer = new Message(MessageType.TestBanksList, arr);
-		
 	}
 
 	@Override

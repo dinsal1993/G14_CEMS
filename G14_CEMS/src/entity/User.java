@@ -1,6 +1,10 @@
 package entity;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L; 
 	private int id;
 	private String username;
 	private String password;
@@ -18,6 +22,16 @@ public class User {
 		this.lastName = lastName;
 		this.email = email;
 		this.permissions = permissions;
+	}
+	
+	/**
+	 * 
+	 * @param username username account
+	 * @param password password for the username  account
+	 */
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
 	}
 	public int getId() {
 		return id;

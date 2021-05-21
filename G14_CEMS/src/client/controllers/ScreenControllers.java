@@ -1,11 +1,15 @@
 package client.controllers;
 
-import client.gui.SeeTestsFormController;
-import client.gui.mainFormController;
+import client.gui.LoginFormController;
+
+import client.gui.TeacherMenuController;
+
 
 public class ScreenControllers {
 	
-	public static mainFormController mainControl;
-	public static SeeTestsFormController seeTestsControl;
+	public static LoginFormController loginFormController;
+	public static UserController userController;
+	public static TeacherMenuController teacherMenuController;
 
+	
 }
