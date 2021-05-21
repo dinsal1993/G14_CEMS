@@ -1,12 +1,21 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** A question that can be used in a test */
-public class Question {
+public class Question implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/** The Question ID */
 	private int id;
+	
+	private static final AtomicInteger count = new AtomicInteger(0);
 	
 	/** The question description(the question itself) */
 	private String description;
@@ -29,7 +38,7 @@ public class Question {
 	 */
 	public Question(int id, String description, ArrayList<String> answers,
 			int correctAnswer, String teacherName) {
-		this.id = id;
+		this.id = count.incrementAndGet();
 		this.description = description;
 		this.answers = answers;
 		this.correctAnswer = correctAnswer;
