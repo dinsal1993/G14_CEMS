@@ -1,17 +1,31 @@
 package entity;
 
-public class Course {
-	public int id;
+import java.io.Serializable;
+
+public class Course implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	public int bankId;
+	public int courseId;
 	public String name;
-	public Course(int id, String name) {
-		this.id = id;
+	
+	public Course(int bankId, int courseId, String name) {
+		this.bankId = bankId;
+		this.courseId = courseId;
 		this.name = name;
 	}
-	public int getId() {
-		return id;
+	
+	public int getCourseId() {
+		return courseId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setCourseId(int courseId) {
+		this.courseId = courseId;
+	}
+	public int getBankId() {
+		return bankId;
+	}
+	public void setBankId(int id) {
+		this.bankId = id;
 	}
 	public String getName() {
 		return name;
@@ -19,8 +33,10 @@ public class Course {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	@Override
 	public String toString() {
-		return "Course [id=" + id + ", name=" + name + "]";
+		return "Course [bankId=" + bankId + ", courseId=" + courseId + ", name=" + name + "]";
 	}
+	
 }

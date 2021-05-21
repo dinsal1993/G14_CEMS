@@ -28,11 +28,11 @@ public class mainFormController {
 	@FXML
 	void ClickSeeTests(ActionEvent event) throws IOException {
 
-		if (null == ScreenControllers.seeTestsControl) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("SeeTestsForm.fxml"));
+		if (null == ScreenControllers.createTestControl) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateTestForm.fxml"));
 			Parent root = loader.load();
 			
-			ScreenControllers.seeTestsControl = loader.getController();
+			ScreenControllers.createTestControl = loader.getController();
 			Scene scene = new Scene(root);
 			if (ClientUI.secondStage == null)
 				ClientUI.secondStage = new Stage();
@@ -45,7 +45,7 @@ public class mainFormController {
 			ClientUI.firstStage.hide();
 		}
 		
-		ScreenControllers.seeTestsControl.start();
+		ScreenControllers.createTestControl.start();
 
 	}
 
