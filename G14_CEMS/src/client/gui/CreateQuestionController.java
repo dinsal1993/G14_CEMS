@@ -6,8 +6,14 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
+
+import client.controllers.UserController;
+
+
 import client.controllers.ClientUI;
+import client.controllers.ScreenControllers;
 import client.controllers.TeacherTestController;
+import client.controllers.UserController;
 import entity.Question;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +24,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import server.dbControl.QuestionDBController;
 
-public class CreateQuestionController implements Serializable {
+public class CreateQuestionController implements Serializable,Initializable {
 
     /**
 	 * 
@@ -29,6 +36,7 @@ public class CreateQuestionController implements Serializable {
 
 	@FXML
     private ComboBox<String> comboBank;
+	
 
     @FXML
     private TextArea txtDescription;
@@ -56,7 +64,29 @@ public class CreateQuestionController implements Serializable {
 
     @FXML
     private Button btnCreateQuestion;
-
+        
+   
+    public void start() {
+    	
+		txtAnswerA.setText("");
+		txtAnswerB.setText("");
+		txtAnswerC.setText("");
+		txtAnswerD.setText("");
+		txtDescription.setText("");
+		txtTeacherName.setText("fix Later");//take the teacher object from login and get teacher name by getter
+		txtTeacherName.setEditable(false);
+		comboBank.setEditable(false);
+		comboBank.setItems(TeacherTestController.getAllQBanks());
+		ArrayList<String> list  = new ArrayList<String>();
+		list.add("1");
+		list.add("2");
+		list.add("3");
+		list.add("4");
+		
+		comboCorrectAnswer.setItems(FXCollections.observableArrayList(list));
+		comboCorrectAnswer.setEditable(false);
+		
+	}
     
     @FXML
     void Click_CreateQuestion(ActionEvent event) {
@@ -77,41 +107,21 @@ public class CreateQuestionController implements Serializable {
     		{
     			Question q  = new Question(2, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
     			TeacherTestController.addQuestion(q);
-    			}	
+    			
+    		}	
     	}
+    	
     }
     @FXML
     void Click_Back(ActionEvent event) {
-    	//((Node)event.getSource()).getScene().getWindow().hide();
-    	ClientUI.secondStage.close();
-    	ClientUI.firstStage.show();
+    	 UserController.currentStage.close();
+    	 UserController.beforeCurrentStage.show();
+
     }
    
-    
-	public void start() {
-		// TODO Auto-generated method stub
-		txtAnswerA.setText("");
-		txtAnswerB.setText("");
-		txtAnswerC.setText("");
-		txtAnswerD.setText("");
-		txtDescription.setText("");
-		txtTeacherName.setText("fix Later");//take the teacher object from login and get teacher name by getter
-		txtTeacherName.setEditable(false);
-		comboBank.setEditable(false);
-		comboBank.setItems(TeacherTestController.getAllQBanks());
-		ArrayList<String> list  = new ArrayList<String>();
-		list.add("1");
-		list.add("2");
-		list.add("3");
-		list.add("4");
-		
-		comboCorrectAnswer.setItems(FXCollections.observableArrayList(list));
-		comboCorrectAnswer.setEditable(false);
-		
-		
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		start();
 	}
-
-
-
 }

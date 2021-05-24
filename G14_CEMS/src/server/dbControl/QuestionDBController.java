@@ -83,7 +83,7 @@ public class QuestionDBController implements Serializable {
 		try (PreparedStatement pst = DBConnector.myConn.prepareStatement(
 		        "SELECT 1 FROM cems.questionbank WHERE name = ?")) {
 			pst.setString(1,QB.getName());
-
+			
 		    try (ResultSet rs = pst.executeQuery()) {
 		        if (rs.next()) {
 		        	//ClientUI.display("This bank name already exist!");
@@ -91,7 +91,7 @@ public class QuestionDBController implements Serializable {
 		        } else {
 		            try (PreparedStatement insert = DBConnector.myConn.prepareStatement(
 		                    "insert into cems.questionbank (id,name) values (?,?)")) {
-		            	insert.setString(1, String.valueOf(QB.getId()));
+		            	insert.setInt(1, QB.getId());
 						
 						insert.setString(2,QB.getName() );
 		             
