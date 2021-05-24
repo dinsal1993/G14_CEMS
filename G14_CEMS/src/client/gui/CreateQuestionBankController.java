@@ -66,8 +66,8 @@ public class CreateQuestionBankController implements Serializable {
 		    ClientUI.display("Please first enter bank name");
 		 
 		 else { 
-			QuestionBank QB  = new QuestionBank(BNtxtFiled.getText());		
-	    	TeacherTestController.insertQuestionBank(QB);
+			 QuestionBank QB  = new QuestionBank(3, BNtxtFiled.getText());
+		    	TeacherTestController.insertQuestionBank(QB);
 	    	this.BNtxtFiled.setEditable(false);
 	    	this.CreateB.setDisable(true);
 	    	
@@ -114,7 +114,6 @@ public class CreateQuestionBankController implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		UserController.currentStage.close();
 	
 	    }
 

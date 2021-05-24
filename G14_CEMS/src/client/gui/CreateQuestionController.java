@@ -36,7 +36,6 @@ public class CreateQuestionController implements Serializable,Initializable {
 
 	@FXML
     private ComboBox<String> comboBank;
-	
 
     @FXML
     private TextArea txtDescription;

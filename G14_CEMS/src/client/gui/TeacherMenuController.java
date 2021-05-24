@@ -97,8 +97,11 @@ public class TeacherMenuController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 
     }
+    
+   
     
     @FXML
     void click_createQbank(ActionEvent event) {

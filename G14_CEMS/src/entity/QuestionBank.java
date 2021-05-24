@@ -18,12 +18,14 @@ public class QuestionBank implements Serializable {
 	private String name;
 	//change(2 digits)
 	private static final AtomicInteger count = new AtomicInteger(9);
+	
 	/**
 	 * @param id Unique id of the bank
 	 * @param name Name of the bank
 	 */
-	public QuestionBank(String name) {
+	public QuestionBank(int id, String name) {
 		//change
+		this.id = count.incrementAndGet();
 		this.name = name;
 	}
 	

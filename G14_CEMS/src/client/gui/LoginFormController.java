@@ -36,7 +36,7 @@ public class LoginFormController {
 	private Button btnRegister;
 
 	@FXML
-	private Button btnForgetPassword;
+	private Button btnForgetPassword
 
 	@FXML
 	private TextField txtUsername;
