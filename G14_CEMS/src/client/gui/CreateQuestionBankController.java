@@ -1,19 +1,26 @@
 package client.gui;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import client.controllers.ClientUI;
+import client.controllers.ScreenControllers;
 import client.controllers.TeacherTestController;
+import client.controllers.UserController;
 import entity.Question;
 import entity.QuestionBank;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class CreateQuestionBankController implements Serializable {
 
@@ -71,7 +78,24 @@ public class CreateQuestionBankController implements Serializable {
 
 	    }
     
-    
+		@FXML
+		void click_Back(ActionEvent event) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
+			Parent root;
+			try {
+				ScreenControllers.teacherMenuController = loader.getController();
+				root = loader.load();
+				Scene scene = new Scene(root);
+				Stage teacherMenu = new Stage();
+				teacherMenu.setScene(scene);
+				UserController.currentStage.hide(); // close?
+				UserController.currentStage = teacherMenu;
+				teacherMenu.show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
 
   
 

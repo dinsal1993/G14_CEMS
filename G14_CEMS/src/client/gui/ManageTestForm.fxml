@@ -29,30 +29,28 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="btnLockTest" layoutX="409.0" layoutY="30.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Lock test" textFill="WHITE" />
-            <TextField fx:id="txtExecutionCode" layoutX="156.0" layoutY="113.0" prefHeight="25.0" prefWidth="117.0" styleClass="txtField" />
-            <Button fx:id="btnBack" layoutX="16.0" layoutY="276.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
-            <Label fx:id="lblExecutionCode" layoutX="6.0" layoutY="110.0" text="Execution code:">
+            <Button fx:id="btnLockTest" layoutX="409.0" layoutY="30.0" mnemonicParsing="false" onAction="#ClickLockTest" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Lock test" textFill="WHITE" />
+            <Button fx:id="btnBack" layoutX="16.0" layoutY="276.0" mnemonicParsing="false" onAction="#Click_Back" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+            <Button fx:id="btnRequestExtraTime" layoutX="240.0" layoutY="276.0" mnemonicParsing="false" onAction="#clickRequestExtraTime" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Request Extra Time" textFill="WHITE" />
+            <Label fx:id="lblRequestExtraTime" layoutX="29.0" layoutY="120.0" text="Request extra time:">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button fx:id="btnSetExecutionCode" layoutX="86.0" layoutY="178.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Set Execution code" textFill="WHITE" />
-            <Label fx:id="txtStudentsUseThisCodeToTakeASpecificTest" layoutX="34.0" layoutY="149.0" styleClass="txtCmnt" text="*Students use this code to take a specific test*" />
-            <Separator layoutX="289.0" layoutY="90.0" orientation="VERTICAL" prefHeight="226.0" prefWidth="0.0" />
-            <Button fx:id="btnRequestUpdateTestTime" layoutX="409.0" layoutY="276.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Request update test time" textFill="WHITE" />
-            <Label fx:id="lblRequestExtraTime" layoutX="299.0" layoutY="110.0" text="Request extra time:">
+            <Label fx:id="lblReasons" layoutX="29.0" layoutY="177.0" text="Reasons:">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="lblReasons" layoutX="299.0" layoutY="143.0" text="Reasons:">
+            <CheckBox fx:id="chkBoxRequestExtraTime" layoutX="228.0" layoutY="127.0" mnemonicParsing="false" prefHeight="10.0" prefWidth="107.0" styleClass="chkBox" />
+            <TextField fx:id="txtReasons" alignment="TOP_LEFT" layoutX="128.0" layoutY="177.0" prefHeight="77.0" prefWidth="424.0" styleClass="txtField" />
+            <Separator layoutX="16.0" layoutY="105.0" prefHeight="2.0" prefWidth="565.0" />
+            <Label fx:id="lblEnterTestID" layoutX="299.0" layoutY="120.0" text="Enter Test ID">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <CheckBox fx:id="chkBoxRequestExtraTime" layoutX="477.0" layoutY="117.0" mnemonicParsing="false" prefHeight="10.0" prefWidth="107.0" styleClass="chkBox" />
-            <TextField fx:id="txtReasons" layoutX="384.0" layoutY="149.0" prefHeight="115.0" prefWidth="200.0" styleClass="txtField" />
+            <TextField fx:id="txtTestIDForExtraTime" layoutX="424.0" layoutY="123.0" />
          </children></AnchorPane>
   </items>
 </SplitPane>

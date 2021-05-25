@@ -1,5 +1,6 @@
 package client.gui;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.ResourceBundle;
 
 
 import client.controllers.ClientUI;
+import client.controllers.ScreenControllers;
 import client.controllers.TeacherTestController;
 import client.controllers.UserController;
 import entity.Question;
@@ -14,11 +16,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import server.dbControl.QuestionDBController;
 
 public class CreateQuestionController implements Serializable {
@@ -83,9 +89,20 @@ public class CreateQuestionController implements Serializable {
     }
     @FXML
     void Click_Back(ActionEvent event) {
-    	//((Node)event.getSource()).getScene().getWindow().hide();
-    	UserController.currentStage.hide();
-    	UserController.beforeCurrentStage.show();
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
+		Parent root;
+		try {
+			ScreenControllers.teacherMenuController = loader.getController();
+			root = loader.load();
+			Scene scene = new Scene(root);
+			Stage teacherMenu = new Stage();
+			teacherMenu.setScene(scene);
+			UserController.currentStage.hide(); // close?
+			UserController.currentStage = teacherMenu;
+			teacherMenu.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
    
     

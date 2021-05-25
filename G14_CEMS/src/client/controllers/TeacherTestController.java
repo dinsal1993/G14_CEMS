@@ -11,15 +11,20 @@ import entity.Question;
 import entity.QuestionBank;
 import entity.Test;
 import entity.TestBank;
+import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TeacherTestController {
 	public static final int MAX_TEST_TIME = 300;
 	public static ObservableList<Test> list = FXCollections.observableArrayList();
+	public static ObservableList<Course> courseList = FXCollections.observableArrayList();
 	public static ArrayList<Test> testArr = new ArrayList<>();
+	public static ArrayList<Course> courseArr = new ArrayList<>();
 	public static Test t = new Test();
+	public static testCopy tc = new testCopy();
 	public static int testCount;
+	public static Course course = new Course();
 
 	
 	public static HashMap<String, TestBank> banksMap;
@@ -102,5 +107,42 @@ public class TeacherTestController {
 		ClientUI.accept(msg);
 		return FXCollections.<String>observableArrayList(QuestionArr);
 	}
-
+	
+	public static void lockTest(Test test) {
+		Message msg = new Message(MessageType.LockTest, test);
+		ClientUI.accept(msg);
+		
+	}
+	
+	public static void requestExtraTime(testCopy test) {
+		Message msg = new Message(MessageType.RequestExtraTime, test);
+		ClientUI.accept(msg);
+		
+	}
+	
+	public static ObservableList<Course> refreshCourseTable()
+	{
+		Message msg = new Message(MessageType.RefreshCourseTable, courseArr);
+		ClientUI.accept(msg);
+		
+		/*for (Course c : courseList)
+			courseList.remove(c);*/
+		for (Course c : courseArr)
+			courseList.add(c);
+		
+		return courseList;
+		
+	}
+	
+	public static void addCourse(Course c)
+	{
+		Message msg = new Message(MessageType.AddCourse,c);
+		ClientUI.accept(msg);
+	}
+	
+	public static void deleteCourse(Course c)
+	{
+		Message msg = new Message(MessageType.DeleteCourse,c);
+		ClientUI.accept(msg);
+	}
 }

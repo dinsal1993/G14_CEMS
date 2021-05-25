@@ -1,8 +1,13 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class testCopy {
+public class testCopy  implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	
 	private int testID;
 	private int year;
 	private int semester;
@@ -11,6 +16,7 @@ public class testCopy {
 	private int actualTime;
 	private int studentID;
 	private boolean scoreApproved;
+	private String reasons;
 	
 	public testCopy(int testID, int year, int semester, 
 			ArrayList<Integer> studentAnswers, int finalScore,
@@ -23,7 +29,12 @@ public class testCopy {
 		this.actualTime = actualTime;
 		this.studentID = studentID;
 		this.scoreApproved = scoreApproved;
+		reasons = null;
 	}
+	public testCopy() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public int getTestID() {
 		return testID;
 	}
@@ -71,6 +82,12 @@ public class testCopy {
 	}
 	public void setScoreApproved(boolean scoreApproved) {
 		this.scoreApproved = scoreApproved;
+	}
+	public String getReasons() {
+		return reasons;
+	}
+	public void setReasons(String reason) {
+		this.reasons = reason;
 	}
 	@Override
 	public String toString() {
