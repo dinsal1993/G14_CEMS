@@ -7,6 +7,8 @@ import java.util.Set;
 import entity.Course;
 import entity.Message;
 import entity.MessageType;
+import entity.Question;
+import entity.QuestionBank;
 import entity.Test;
 import entity.TestBank;
 import javafx.collections.FXCollections;
@@ -21,6 +23,7 @@ public class TeacherTestController {
 
 	
 	public static HashMap<String, TestBank> banksMap;
+	public static ArrayList<String> QuestionArr;
 
 	public static boolean updateTestValidFields(String testID, String newDuration) {
 		int id, duration;
@@ -63,23 +66,37 @@ public class TeacherTestController {
 	public static ObservableList<String> getAllTestBanks() {		
 		Message msg = new Message(MessageType.GetAllTestBanks, null);
 		ClientUI.accept(msg);
-		System.out.println("print after sql query:");
-		System.out.println(banksMap);
 		
-		ObservableList<String> arr = FXCollections.observableArrayList();
-		for(String name : banksMap.keySet())
-			arr.add(name);
+		ObservableList<String> arr =
+				FXCollections.observableArrayList(banksMap.keySet());
 		return arr;
-		// NullPointerException ? 
-		//arr is not in memory after method ends ?
 	}
 
 	public static ObservableList<String> getCourseList(String bankName) {
 		ObservableList<String> arr = FXCollections.observableArrayList();
 		ArrayList<Course> courses = banksMap.get(bankName).getCourses();
+
 		for(Course c : courses)
 			arr.add(c.getName());
 		return arr;
+	}
+	
+	public static void addQuestion(Question q) {
+		Message msg = new Message(MessageType.addQuestion,q);
+		ClientUI.accept(msg);
+	}
+	
+	public static void insertQuestionBank(QuestionBank QB)
+	{
+		Message msg = new Message(MessageType.insertQuestionBank,QB);
+		ClientUI.accept(msg);
+		
+	}
+
+	public static ObservableList<String> getAllQBanks() {		
+		Message msg = new Message(MessageType.GetAllQuestionBank, null);
+		ClientUI.accept(msg);
+		return FXCollections.<String>observableArrayList(QuestionArr);
 	}
 
 }

@@ -13,19 +13,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ClientUI extends Application {
-	
 
 	public static ClientController clientControl;
-	/////////////////////////////////////// why this is here?
-	//public static ArrayList<Test> tests;
-	//public static Stage firstStage;
-	//public static Stage secondStage;
-	//public static mainFormController mainControl;
-	//public static SeeTestsFormController seeTestsControl;
-	/////////////////////////////////////////////////////////////
+
 	public static void main(String[] args) {
-	    launch(args);
-	  }
+		launch(args);
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -37,23 +30,24 @@ public class ClientUI extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		ScreenControllers.loginFormController = loader.getController();
-		ScreenControllers.loginFormController.start(primaryStage); //nothing inside
 		UserController.currentStage = primaryStage;
+		UserController.extraStage = new Stage();
+		ScreenControllers.loginFormController.start(primaryStage);
 	}
-	
+
 	public static void exit() {
 		try {
 			clientControl.closeConnection();
-		}catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println("Error in closing connection");
 		}
 		System.exit(0);
 	}
-	
+
 	public static void display(String msg) {
 		JOptionPane.showMessageDialog(null, msg);
 	}
-	
+
 	public static void accept(Object msg) {
 		clientControl.handleMessageFromClientUI(msg);
 	}

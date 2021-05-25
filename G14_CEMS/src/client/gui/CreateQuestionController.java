@@ -1,9 +1,7 @@
 package client.gui;
 
-import java.io.Serializable;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 
 
@@ -19,7 +17,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -27,12 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import server.dbControl.QuestionDBController;
 
-public class CreateQuestionController implements Serializable,Initializable {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class CreateQuestionController{
 
 	@FXML
     private ComboBox<String> comboBank;
@@ -97,7 +93,7 @@ public class CreateQuestionController implements Serializable,Initializable {
     	answers.add(txtAnswerD.getText());
     	
     	if(comboBank.getItems().isEmpty())
-    	ClientUI.display("First Create question bank");
+    		ClientUI.display("First Create question bank");
     	else if(txtAnswerA.getText().trim().isEmpty()||txtAnswerB.getText().trim().isEmpty()||txtAnswerC.getText().trim().isEmpty()||txtAnswerD.getText().trim().isEmpty())
 		    ClientUI.display("Please first insert the answers");
     	else { if(txtDescription.getText().trim().isEmpty()) 
@@ -113,14 +109,17 @@ public class CreateQuestionController implements Serializable,Initializable {
     }
     @FXML
     void Click_Back(ActionEvent event) {
-    	 UserController.currentStage.close();
-    	 UserController.beforeCurrentStage.show();
-
-    }
-   
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		start();
+      FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("TeacherMenuForm.fxml"));
+		Parent root = null;
+		try {
+			root = loader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.teacherMenuController.start();
 	}
 }

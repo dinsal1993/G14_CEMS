@@ -1,4 +1,3 @@
-  
 package client.gui;
 
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class LoginFormController {
 	private Button btnRegister;
 
 	@FXML
-	private Button btnForgetPassword
+	private Button btnForgetPassword;
 
 	@FXML
 	private TextField txtUsername;
@@ -78,12 +77,8 @@ public class LoginFormController {
 						loader.getController();
 				root = loader.load();
 				Scene scene = new Scene(root);
-				Stage teacher = new Stage();
-				teacher.setScene(scene);
-				UserController.currentStage.hide(); // close?
-				UserController.currentStage = teacher;
-				UserController.beforeCurrentStage=teacher;//change
-				teacher.show();
+				UserController.currentStage.setScene(scene);
+				ScreenControllers.teacherMenuController.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

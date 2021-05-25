@@ -103,8 +103,8 @@ public class UserDBController {
 	}
 
 	/**
-	 * check if username and password match to the username and password in the data
-	 * base
+	 * check if username and password match to the username and password
+	 *  in the database
 	 * 
 	 * @param userInfo - gets the username and password
 	 * @return
