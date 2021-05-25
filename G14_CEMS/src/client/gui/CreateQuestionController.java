@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+
+import client.controllers.UserController;
+
+
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
 import client.controllers.TeacherTestController;
@@ -21,10 +25,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import server.dbControl.QuestionDBController;
 
 public class CreateQuestionController{
-
 
 	@FXML
     private ComboBox<String> comboBank;
@@ -55,7 +59,29 @@ public class CreateQuestionController{
 
     @FXML
     private Button btnCreateQuestion;
-
+        
+   
+    public void start() {
+    	
+		txtAnswerA.setText("");
+		txtAnswerB.setText("");
+		txtAnswerC.setText("");
+		txtAnswerD.setText("");
+		txtDescription.setText("");
+		txtTeacherName.setText("fix Later");//take the teacher object from login and get teacher name by getter
+		txtTeacherName.setEditable(false);
+		comboBank.setEditable(false);
+		comboBank.setItems(TeacherTestController.getAllQBanks());
+		ArrayList<String> list  = new ArrayList<String>();
+		list.add("1");
+		list.add("2");
+		list.add("3");
+		list.add("4");
+		
+		comboCorrectAnswer.setItems(FXCollections.observableArrayList(list));
+		comboCorrectAnswer.setEditable(false);
+		
+	}
     
     @FXML
     void Click_CreateQuestion(ActionEvent event) {
@@ -76,12 +102,14 @@ public class CreateQuestionController{
     		{
     			Question q  = new Question(2, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
     			TeacherTestController.addQuestion(q);
-    			}	
+    			
+    		}	
     	}
+    	
     }
     @FXML
     void Click_Back(ActionEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource
+      FXMLLoader loader = new FXMLLoader(getClass().getResource
 				("TeacherMenuForm.fxml"));
 		Parent root = null;
 		try {
@@ -93,33 +121,5 @@ public class CreateQuestionController{
 		Scene scene = new Scene(root);
 		UserController.currentStage.setScene(scene);
 		ScreenControllers.teacherMenuController.start();
-    }
-   
-    
-	public void start() {
-
-		txtAnswerA.setText("");
-		txtAnswerB.setText("");
-		txtAnswerC.setText("");
-		txtAnswerD.setText("");
-		txtDescription.setText("");
-		txtTeacherName.setText("fix Later");//take the teacher object from login and get teacher name by getter
-		txtTeacherName.setEditable(false);
-		comboBank.setEditable(false);
-		comboBank.setItems(TeacherTestController.getAllQBanks());
-		ArrayList<String> list  = new ArrayList<String>();
-		list.add("1");
-		list.add("2");
-		list.add("3");
-		list.add("4");
-		
-		comboCorrectAnswer.setItems(FXCollections.observableArrayList(list));
-		comboCorrectAnswer.setEditable(false);
-		
-		
-
 	}
-
-
-
 }
