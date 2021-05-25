@@ -1,9 +1,12 @@
 package client.gui;
 
+import entity.Question;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
@@ -14,40 +17,59 @@ public class AddQuestionController {
     private Text txtHeader;
 
     @FXML
-    private ComboBox<?> comboBank;
+    private ComboBox<String> comboBank;
 
     @FXML
     private Button btnBack;
+    
+    @FXML
+    private Button btnView;
 
     @FXML
-    private Button btnAddToTest;
+    private Button btnAdd;
 
     @FXML
-    private TableView<?> tblQuestionList;
+    private Button btnRemove;
 
     @FXML
-    private TableColumn<?, ?> col_id;
+    private TableView<Question> tblQuestionList;
 
     @FXML
-    private TableColumn<?, ?> col_description;
+    private TableColumn<Question, Integer> col_id;
 
     @FXML
-    private TableColumn<?, ?> col_score;
+    private TableColumn<Question, String> col_description;
+    
+    @FXML
+    private ListView<String> lstQuestionsInTest;
+    
+    private ObservableList<String> QuestionsInTest;
 
     @FXML
-    private TableColumn<?, ?> col_view;
+    void click_addQuestion(ActionEvent event) {
+    	//TODO add question to ListView and List
+    }
 
     @FXML
-    private TableColumn<?, ?> col_choose;
+    void click_removeQuestion(ActionEvent event) {
+    	//TODO remove from ListView and List
+    }
 
     @FXML
-    void Click_AddToTest(ActionEvent event) {
-
+    void click_viewQuestion(ActionEvent event) {
+    	//TODO open new stage with CreateQuestionForm
+    	//all buttons disabled except "back"
+    	//this is just to view the question
     }
 
     @FXML
     void Click_Back(ActionEvent event) {
 
     }
+
+	public void start(String bank) {
+		
+		
+	}
 
 }

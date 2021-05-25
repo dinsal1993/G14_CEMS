@@ -39,7 +39,7 @@ public class UserController {
 	/**
 	 * stage before current stage of the user 
 	 */
-	public static Stage beforeCurrentStage;
+	public static Stage extraStage;
 	
 	
 	/**

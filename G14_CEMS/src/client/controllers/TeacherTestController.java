@@ -66,20 +66,16 @@ public class TeacherTestController {
 	public static ObservableList<String> getAllTestBanks() {		
 		Message msg = new Message(MessageType.GetAllTestBanks, null);
 		ClientUI.accept(msg);
-		System.out.println("print after sql query:");
-		System.out.println(banksMap);
 		
-		ObservableList<String> arr = FXCollections.observableArrayList();
-		for(String name : banksMap.keySet())
-			arr.add(name);
+		ObservableList<String> arr =
+				FXCollections.observableArrayList(banksMap.keySet());
 		return arr;
-		// NullPointerException ? 
-		//arr is not in memory after method ends ?
 	}
 
 	public static ObservableList<String> getCourseList(String bankName) {
 		ObservableList<String> arr = FXCollections.observableArrayList();
 		ArrayList<Course> courses = banksMap.get(bankName).getCourses();
+
 		for(Course c : courses)
 			arr.add(c.getName());
 		return arr;
