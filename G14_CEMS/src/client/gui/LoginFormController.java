@@ -77,11 +77,8 @@ public class LoginFormController {
 						loader.getController();
 				root = loader.load();
 				Scene scene = new Scene(root);
-				Stage teacher = new Stage();
-				teacher.setScene(scene);
-				UserController.currentStage.hide(); // close?
-				UserController.currentStage = teacher;
-				teacher.show();
+				UserController.currentStage.setScene(scene);
+				ScreenControllers.teacherMenuController.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

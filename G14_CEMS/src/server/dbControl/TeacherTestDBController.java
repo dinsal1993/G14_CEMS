@@ -22,18 +22,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TeacherTestDBController {
-	
+
 	public static void main(String[] args) throws SQLException, IOException {
 		ArrayList<Course> courses = new ArrayList<Course>();
-		courses.add(new Course(1,1,"Hedva"));
-		courses.add(new Course(1,2, "Algebra"));
-		TestBank bank = new TestBank(2,"Math",courses);
+		courses.add(new Course(2, 1, "Electromagnetism"));
+		courses.add(new Course(2, 2, "Mechanics"));
+		TestBank bank = new TestBank(2, "Physics", courses);
 		String sql = "insert into testbank values (?, ?, ?)";
 		DBConnector db = new DBConnector();
 		PreparedStatement ps = DBConnector.myConn.prepareStatement(sql);
 		ps.setString(1, "2");
-		ps.setString(2, "Math");
-		
+		ps.setString(2, "Physics");
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
 		oos.writeObject(courses);
@@ -65,7 +65,7 @@ public class TeacherTestDBController {
 					int pointsPerQuestion = Integer.parseInt(rs.getString(5));
 
 					// Create Test object and add to ObservableList<Test>
-					//tests.add(new Test(id, subject, course, duration, pointsPerQuestion));
+					// tests.add(new Test(id, subject, course, duration, pointsPerQuestion));
 				}
 				rs.close();
 			} else
@@ -95,50 +95,51 @@ public class TeacherTestDBController {
 	public static int getTestCount() {
 		String sqlQuery = "select count(*) from test";
 		try {
-			if(DBConnector.myConn != null) {
+			if (DBConnector.myConn != null) {
 				Statement st = DBConnector.myConn.createStatement();
 				ResultSet rs = st.executeQuery(sqlQuery);
 				rs.next();
 				return Integer.parseInt(rs.getString(1));
 			}
-		}catch(SQLException e) {
-				e.printStackTrace();
-			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return -1;
 	}
 
 	public static HashMap<String, TestBank> getAllTestBanks() {
 		String sqlQuery = "select * from testbank";
-		
-		//save test Banks in HashMap for later use without accessing DB 
-		//every time - better performance.
-		TestBank temp = new TestBank();
+
+		// save test Banks in HashMap for later use without accessing DB
+		// every time - better performance.
+		TestBank temp;
 		ArrayList<Course> courses;
-		
-		//hashMap of testBanks for faster access
-		HashMap<String,TestBank> testBankMap = new HashMap<String, TestBank>();
+
+		// hashMap of testBanks for faster access
+		HashMap<String, TestBank> testBankMap = new HashMap<String, TestBank>();
 		try {
-			if(DBConnector.myConn != null) {
+			if (DBConnector.myConn != null) {
 				Statement st = DBConnector.myConn.createStatement();
 				ResultSet rs = st.executeQuery(sqlQuery);
-				while(rs.next()) {
-					if(null != rs.getBlob(3)) {
-						Blob coursesBlob = rs.getBlob(3);
-						BufferedInputStream bis = new BufferedInputStream(coursesBlob.getBinaryStream());
-						ObjectInputStream ois = new ObjectInputStream(bis);
-						courses = (ArrayList<Course>)ois.readObject();
-					
-					//construct current read testBank
-						temp.setId(Integer.parseInt(rs.getString(1)));
-						temp.setName(rs.getString(2));
-						temp.setCourses(courses);
-					
-					//Add testBank to hashMap
-						testBankMap.put(temp.getName(), temp);
-					}
+				while (rs.next()) {
+
+					Blob coursesBlob = rs.getBlob(3);
+					BufferedInputStream bis = new BufferedInputStream(coursesBlob.getBinaryStream());
+					ObjectInputStream ois = new ObjectInputStream(bis);
+					courses = (ArrayList<Course>) ois.readObject();
+
+					// construct current read testBank
+					temp = new TestBank();
+					temp.setId(Integer.parseInt(rs.getString(1)));
+					temp.setName(rs.getString(2));
+					temp.setCourses(courses);
+
+					// Add testBank to hashMap
+					testBankMap.put(temp.getName(), temp);
+
 				}
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -149,9 +150,5 @@ public class TeacherTestDBController {
 		}
 		return testBankMap;
 	}
-	
 
 }
-		
-	
-

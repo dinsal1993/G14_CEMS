@@ -36,7 +36,7 @@ public class Course implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Course [bankId=" + bankId + ", courseId=" + courseId + ", name=" + name + "]";
+		return name;
 	}
 	
 }

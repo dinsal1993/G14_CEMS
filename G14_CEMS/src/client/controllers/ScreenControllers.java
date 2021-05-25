@@ -2,6 +2,7 @@ package client.controllers;
 
 import client.gui.LoginFormController;
 import client.gui.TeacherMenuController;
+import client.gui.AddQuestionController;
 import client.gui.CreateTestController;
 
 public class ScreenControllers {
@@ -9,4 +10,5 @@ public class ScreenControllers {
 	public static UserController userController;
 	public static TeacherMenuController teacherMenuController;
 	public static CreateTestController createTestControl;
+	public static AddQuestionController addQuestionControl;
 }

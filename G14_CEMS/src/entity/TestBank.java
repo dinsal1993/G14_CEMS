@@ -58,6 +58,6 @@ public class TestBank implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TestBank [id=" + id + ", name=" + name + ", courses=" + courses + "]";
+		return name;
 	}
 }

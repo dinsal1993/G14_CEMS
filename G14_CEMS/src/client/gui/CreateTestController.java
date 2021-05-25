@@ -1,14 +1,20 @@
 package client.gui;
 
+import java.io.IOException;
 import java.util.Observable;
 
+import client.controllers.ScreenControllers;
 import client.controllers.TeacherTestController;
+import client.controllers.UserController;
 import entity.TestBank;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -74,12 +80,36 @@ public class CreateTestController {
 
 	@FXML
 	void click_AddQuestion(ActionEvent event) {
-
+		FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("AddQuestionForm.fxml"));
+		Parent root = null;
+		try {
+			root = loader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		UserController.currentStage.hide();
+		UserController.extraStage.setScene(scene);
+		UserController.extraStage.show();
+		ScreenControllers.addQuestionControl.start(cmbBankName.getValue());
 	}
 
 	@FXML
 	void click_Back(ActionEvent event) {
-
+		FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("TeacherMenuForm.fxml"));
+		Parent root = null;
+		try {
+			root = loader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.teacherMenuController.start();
 	}
 
 	@FXML
@@ -89,18 +119,21 @@ public class CreateTestController {
 
 	public void start() {
 		initUI();
+		bankListener();
+	}
 
-		// when bank is chosen, update course list accordingly
-		cmbBankName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
+	private void bankListener() {
+		cmbBankName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
 			@Override
-			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-				if (cmbBankName.getSelectionModel().getSelectedItem() != null) {
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(newValue != null && oldValue != null) {
 					cmbCourseName.getItems().clear();
-					courseList = TeacherTestController.getCourseList(newValue.toString());
+					courseList = 
+							TeacherTestController.getCourseList(newValue);
 					cmbCourseName.getItems().addAll(courseList);
 				}
-
+				
 			}
 		});
 	}
