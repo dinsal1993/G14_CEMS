@@ -73,9 +73,10 @@ public class LoginFormController {
 					("TeacherMenuForm.fxml"));
 			Parent root;
 			try {
+				
+				root = loader.load();
 				ScreenControllers.teacherMenuController = 
 						loader.getController();
-				root = loader.load();
 				Scene scene = new Scene(root);
 				UserController.currentStage.setScene(scene);
 				ScreenControllers.teacherMenuController.start();

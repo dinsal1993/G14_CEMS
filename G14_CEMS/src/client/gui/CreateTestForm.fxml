@@ -55,13 +55,6 @@
             <Button fx:id="btnBack" layoutX="44.0" layoutY="514.0" mnemonicParsing="false" onAction="#click_Back" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
             <Button fx:id="btnAddQuestion" layoutX="385.0" layoutY="473.0" mnemonicParsing="false" onAction="#click_AddQuestion" prefHeight="32.0" prefWidth="166.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Add Question" textFill="WHITE" />
             <Button fx:id="btnCreateTest" layoutX="406.0" layoutY="514.0" mnemonicParsing="false" onAction="#click_CreateTest" prefHeight="32.0" prefWidth="124.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Create Test" textFill="WHITE" />
-            <Label fx:id="ExecutionCodetxt_CreateTest" layoutX="483.0" layoutY="38.0" text="Execution Code">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtExeCode" layoutX="650.0" layoutY="41.0" />
-            <Button fx:id="btnGenerateCode" layoutX="656.0" layoutY="83.0" mnemonicParsing="false" onAction="#clickGenerate" prefHeight="32.0" prefWidth="112.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em; -fx-border-radius: 5em;" styleClass="btn" text="Generate Code" textFill="WHITE" />
          </children></AnchorPane>
   </items>
 </SplitPane>

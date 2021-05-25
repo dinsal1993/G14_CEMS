@@ -63,7 +63,7 @@ public class TeacherMenuController {
     }
     
     @FXML
-    void click_createQuestion(ActionEvent event) {
+    void click_CreateQuestion(ActionEvent event) {
     	
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuestionForm.fxml"));
 		Parent root;
@@ -104,16 +104,16 @@ public class TeacherMenuController {
    
     
     @FXML
-    void click_createQbank(ActionEvent event) {
+    void click_CreateQBank(ActionEvent event) {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuestionBankForm.fxml"));
 		Parent root;
 		try {
 		
 		root = loader.load();
-    ScreenControllers.createQBankControl = loader.getController();
+		ScreenControllers.createQBankControl = loader.getController();
 		Scene scene = new Scene(root);
 		UserController.currentStage.setScene(scene);
-		ScreenControllers.createQuestionControl.start();
+		ScreenControllers.createQBankControl.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -127,15 +127,16 @@ public class TeacherMenuController {
     	
     	try {
 			root = loader.load();
+			ScreenControllers.createTestControl = loader.getController();
+	    	Scene scene = new Scene(root);
+
+	    	UserController.currentStage.setScene(scene);
+	    	ScreenControllers.createTestControl.start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	ScreenControllers.createTestControl = loader.getController();
-    	Scene scene = new Scene(root);
-
-    	UserController.currentStage.setScene(scene);
-    	ScreenControllers.createTestControl.start();
+    	
     }
     @FXML
     public void clickManageTest(ActionEvent event) throws Exception

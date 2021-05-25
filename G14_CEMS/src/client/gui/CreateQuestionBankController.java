@@ -107,5 +107,10 @@ public class CreateQuestionBankController {
 		UserController.currentStage.setScene(scene);
 		ScreenControllers.teacherMenuController.start();
 	}
+
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
  }
 
