@@ -27,6 +27,8 @@ public class Test implements Serializable {
 	/** the author of the test */
 	private String teacherName;
 	
+	private String isLocked;
+	
 	/**
 	 * 
 	 * @param id Test id
@@ -46,6 +48,7 @@ public class Test implements Serializable {
 		this.pointsPerQuestion = pointsPerQuestion;
 		this.executionCode = executionCode;
 		this.teacherName = teacherName;
+		this.isLocked = "false";
 	}
 	
 	/**
@@ -88,6 +91,13 @@ public class Test implements Serializable {
 	}
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
+	}
+	
+	public String getLocked() {
+		return isLocked;
+	}
+	public void setLocked(String lock) {
+		this.isLocked = lock;
 	}
 	
 	@Override

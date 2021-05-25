@@ -1,6 +1,10 @@
 /client/
 /entity/
-/mysql-connector-java-8.0.13.jar
+
 /ocsf/
 /server/
+
+/mysql-connector-java-8.0.13.jar
+
 /style/
+

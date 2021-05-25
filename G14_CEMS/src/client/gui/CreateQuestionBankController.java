@@ -22,12 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CreateQuestionBankController implements Serializable {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class CreateQuestionBankController {
 
 	@FXML
     private AnchorPane UpperAP_CreateQB;
@@ -95,29 +90,22 @@ public class CreateQuestionBankController implements Serializable {
 			
 
 	    }
+
 	 
 	@FXML
 	    void click_back(ActionEvent event) {
-	
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
-		Parent root;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("TeacherMenuForm.fxml"));
+		Parent root = null;
 		try {
-		ScreenControllers.teacherMenuController = loader.getController();
-		root = loader.load();
-		Scene scene = new Scene(root);
-		Stage teacher = new Stage();
-		teacher.setScene(scene);
-		UserController.currentStage = teacher;
-
-		UserController.currentStage.hide(); // close?
-		teacher.show();
+			root = loader.load();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-	    }
-
-	
-	
-
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.teacherMenuController.start();
+	}
+ }
 }

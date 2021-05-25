@@ -33,7 +33,9 @@
             <TextField fx:id="BNtxtFiled" layoutX="295.0" layoutY="90.0" prefHeight="36.0" prefWidth="158.0" promptText="Enter Bank Name" styleClass="txtField" />
             <Button fx:id="CreateQ" layoutX="128.0" layoutY="252.0" mnemonicParsing="false" onAction="#Click_CreateQuestion" prefHeight="53.0" prefWidth="167.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Create Question" textFill="WHITE" />
             <Button fx:id="CreateB" layoutX="407.0" layoutY="252.0" mnemonicParsing="false" onAction="#ClickCreateBank" prefHeight="53.0" prefWidth="167.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Create Bank" textFill="WHITE" />
+
             <Button fx:id="CreateQBback" layoutX="40.0" layoutY="402.0" mnemonicParsing="false" onAction="#click_back" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+
          </children></AnchorPane>
   </items>
 </SplitPane>

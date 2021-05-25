@@ -15,6 +15,11 @@ public class Course implements Serializable {
 		this.name = name;
 	}
 	
+	public Course()
+	{
+		
+	}
+	
 	public int getCourseId() {
 		return courseId;
 	}

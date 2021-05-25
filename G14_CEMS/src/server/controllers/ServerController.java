@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import client.controllers.ClientUI;
 import client.gui.CreateQuestionController;
+import entity.Course;
 import entity.Message;
 import entity.MessageType;
 import entity.Question;
@@ -13,7 +14,7 @@ import entity.QuestionBank;
 import entity.Test;
 
 import entity.User;
-
+import entity.testCopy;
 import entity.TestBank;
 
 import javafx.collections.ObservableList;
@@ -25,7 +26,7 @@ public class ServerController extends AbstractServer {
 	private static Question q;
 	public String clientIp;
 	public String hostName;
-	public String clientConnected = "not connected";
+	public String clientConnected = "Not Connected";
 	public static DBConnector dbConnector;
 	Message msgFromServer = null;
 
@@ -75,6 +76,26 @@ public class ServerController extends AbstractServer {
 		case logIn:
 			String logInStatus = UserDBController.tryToConnect((User) message.getMessageData());
 			msgFromServer = new Message(MessageType.logIn, logInStatus);
+			break;
+		case LockTest:
+			TeacherTestDBController.lockTest((Test)message.getMessageData());
+			msgFromServer = new Message(MessageType.SuccessLockTest, null);
+			break;
+		case RequestExtraTime:
+			TeacherTestDBController.requestExtraTime((testCopy)message.getMessageData());
+			msgFromServer = new Message(MessageType.SentExtraTimeRequest, null);
+			break;
+		case RefreshCourseTable:
+			ArrayList<Course> list = TeacherTestDBController.refreshCourseTable();
+			msgFromServer = new Message(MessageType.CourseList, list);
+			break;
+		case AddCourse:
+			TeacherTestDBController.addCourse((Course)message.getMessageData());
+			msgFromServer = new Message(MessageType.CourseAdded,null);
+			break;
+		case DeleteCourse:
+			TeacherTestDBController.deleteCourse((Course)message.getMessageData());
+			msgFromServer = new Message(MessageType.CourseDeleted,null);
 			break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);

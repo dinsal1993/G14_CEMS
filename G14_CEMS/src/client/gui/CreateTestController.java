@@ -22,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class CreateTestController {
 
@@ -72,6 +73,15 @@ public class CreateTestController {
 
 	@FXML
 	private Button btnCreateTest;
+	 
+	@FXML
+	private Label ExecutionCodetxt_CreateTest;
+
+	@FXML
+	private TextField txtExeCode;
+
+	@FXML
+	private Button btnGenerateCode;
 
 	private boolean fromNewBank;
 

@@ -6,10 +6,13 @@ import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
+import entity.Course;
 import entity.Message;
 import entity.MessageType;
 import entity.Test;
 import entity.TestBank;
+import entity.testCopy;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.client.*;
 import server.dbControl.UserDBController;
@@ -55,6 +58,36 @@ public class ClientController extends AbstractClient {
 		case logIn:
 			UserController.logInStatus = (String)message.getMessageData();
 	     	break;
+		case LockTest:
+			TeacherTestController.lockTest((Test)message.getMessageData());
+			break;
+		case SuccessLockTest:
+			ClientUI.display("Test Has Been Locked Successfully!");
+			break;
+		case RequestExtraTime:
+			TeacherTestController.requestExtraTime((testCopy)message.getMessageData());
+			break;
+		case SentExtraTimeRequest:
+			ClientUI.display("Request Has Been Sent!");
+			break;
+		case RefreshCourseTable:
+			TeacherTestController.refreshCourseTable();
+			break;
+		case CourseList:
+			TeacherTestController.courseArr = (ArrayList<Course>)message.getMessageData();
+			break;
+		case AddCourse:
+			TeacherTestController.addCourse((Course)message.getMessageData());
+			break;
+		case CourseAdded:
+			ClientUI.display("Course Has Been Added!");
+			break;
+		case DeleteCourse:
+			TeacherTestController.deleteCourse((Course)message.getMessageData());
+			break;
+		case CourseDeleted:
+			ClientUI.display("Course Has Been Deleted!");
+			break;
 			default:
 				ClientUI.display("cant read message from server");
 		}

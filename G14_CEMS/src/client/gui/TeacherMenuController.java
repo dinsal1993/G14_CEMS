@@ -136,5 +136,40 @@ public class TeacherMenuController {
     	UserController.currentStage.setScene(scene);
     	ScreenControllers.createTestControl.start();
     }
-
+    @FXML
+    public void clickManageTest(ActionEvent event) throws Exception
+    {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageTestForm.fxml"));
+		Parent root;
+		try {
+			ScreenControllers.manageTestControl = loader.getController();
+			root = loader.load();
+			Scene scene = new Scene(root);
+			Stage manage = new Stage();
+			manage.setScene(scene);
+			UserController.currentStage.hide(); // close?
+			UserController.currentStage = manage;
+			manage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+       @FXML
+    public void clickEditCourses(ActionEvent event) throws Exception
+    {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("EditCoursesForm.fxml"));
+		Parent root;
+		try {
+			ScreenControllers.editCoursesControl = loader.getController();
+			root = loader.load();
+			Scene scene = new Scene(root);
+			Stage editCourse = new Stage();
+			editCourse.setScene(scene);
+			UserController.currentStage.hide(); // close?
+			UserController.currentStage = editCourse;
+			editCourse.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

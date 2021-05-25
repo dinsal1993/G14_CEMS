@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,11 +17,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import client.controllers.ClientUI;
 import entity.Course;
 import entity.Test;
 import entity.TestBank;
+import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 
 public class TeacherTestDBController {
 
@@ -49,7 +55,7 @@ public class TeacherTestDBController {
 	public static ArrayList<Test> getAllTests() {
 
 		ArrayList<Test> tests = new ArrayList<Test>();
-		String sqlQuery = "select * from test";
+		String sqlQuery = "select id,duration,isLocked from test";
 
 		try {
 			if (DBConnector.myConn != null) {
@@ -59,12 +65,15 @@ public class TeacherTestDBController {
 				while (rs.next()) {
 					// Gather Data
 					int id = Integer.parseInt(rs.getString(1));
-					String subject = rs.getString(2);
-					String course = rs.getString(3);
-					int duration = Integer.parseInt(rs.getString(4));
-					int pointsPerQuestion = Integer.parseInt(rs.getString(5));
+					int duration = Integer.parseInt(rs.getString(2));
+					//String subject = rs.getString(2);
+					String isLocked = rs.getString(3);
+					
+					//int pointsPerQuestion = Integer.parseInt(rs.getString(5));
 
 					// Create Test object and add to ObservableList<Test>
+					tests.add(new Test(id, duration,null, null, null,null));
+
 					// tests.add(new Test(id, subject, course, duration, pointsPerQuestion));
 				}
 				rs.close();
@@ -151,4 +160,93 @@ public class TeacherTestDBController {
 		return testBankMap;
 	}
 
+	
+	public static void lockTest(Test t) {
+		
+		String sqlQuery = "update test set isLocked = ? where id = ?;";
+		try {
+			if (DBConnector.myConn != null) {
+				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
+				ps.setString(1, String.valueOf("true"));
+				ps.setString(2, String.valueOf(t.getId()));
+				ps.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void requestExtraTime(testCopy tc) {
+		
+		String sqlQuery = "update testcopy set requestExtraTime = ? ,reasons = ? where id = ?;";
+		try {
+			if (DBConnector.myConn != null) {
+				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
+				ps.setString(1, String.valueOf("yes"));
+				ps.setString(2, String.valueOf(tc.getReasons()));
+				ps.setString(3, String.valueOf(tc.getTestID()));
+				ps.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static ArrayList<Course> refreshCourseTable()
+	{
+		
+		ArrayList<Course> list = new ArrayList<>();
+		String sqlQuery = "select * from courses";
+		
+		try {
+			if(DBConnector.myConn != null)
+			{
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				while(rs.next())
+				{
+					list.add(new Course(Integer.parseInt(rs.getString("bankID")),Integer.parseInt(rs.getString("courseID")),rs.getString("name")));
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	public static void addCourse(Course c)
+	{
+		String sqlQuery = "insert into courses (bankID ,courseID, name) values (?,?,?)";
+		try {
+			if (DBConnector.myConn != null) {
+				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
+				ps.setString(1, String.valueOf(c.getBankId()));
+				ps.setString(2, String.valueOf(c.getCourseId()));
+				ps.setString(3, String.valueOf(c.getName()));
+				ps.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	public static void deleteCourse(Course c)
+	{
+		String sqlQuery = "delete from courses where bankID = ?;";
+		try {
+			if (DBConnector.myConn != null) {
+				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
+				ps.setString(1, String.valueOf(c.getBankId()));
+				ps.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
 }

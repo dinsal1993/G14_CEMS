@@ -25,7 +25,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
+import javafx.stage.Stage;
+
 import javafx.scene.layout.AnchorPane;
+
 import server.dbControl.QuestionDBController;
 
 public class CreateQuestionController{
