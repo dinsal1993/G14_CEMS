@@ -90,27 +90,36 @@ public class CreateTestController {
 
 	@FXML
 	void click_AddQuestion(ActionEvent event) {
-
+		FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("AddQuestionForm.fxml"));
+		Parent root = null;
+		try {
+			root = loader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(root);
+		UserController.currentStage.hide();
+		UserController.extraStage.setScene(scene);
+		UserController.extraStage.show();
+		ScreenControllers.addQuestionControl.start(cmbBankName.getValue());
 	}
 
 	@FXML
-	void click_Back(ActionEvent event)
-	{
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
-		Parent root;
+	void click_Back(ActionEvent event) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("TeacherMenuForm.fxml"));
+		Parent root = null;
 		try {
-			ScreenControllers.teacherMenuController = loader.getController();
 			root = loader.load();
-			Scene scene = new Scene(root);
-			Stage teacherMenu = new Stage();
-			teacherMenu.setScene(scene);
-			UserController.currentStage.hide(); // close?
-			UserController.currentStage = teacherMenu;
-			teacherMenu.show();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.teacherMenuController.start();
 	}
 
 	@FXML
@@ -120,18 +129,21 @@ public class CreateTestController {
 
 	public void start() {
 		initUI();
+		bankListener();
+	}
 
-		// when bank is chosen, update course list accordingly
-		cmbBankName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
+	private void bankListener() {
+		cmbBankName.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
 			@Override
-			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-				if (cmbBankName.getSelectionModel().getSelectedItem() != null) {
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(newValue != null && oldValue != null) {
 					cmbCourseName.getItems().clear();
-					courseList = TeacherTestController.getCourseList(newValue.toString());
+					courseList = 
+							TeacherTestController.getCourseList(newValue);
 					cmbCourseName.getItems().addAll(courseList);
 				}
-
+				
 			}
 		});
 	}
@@ -152,34 +164,5 @@ public class CreateTestController {
 	public void startFromNewBank(String newBankName, String firstCourse) {
 		// TODO:
 		// initialize BankName and Course from the NewBank Form
-	}
-	
-	public String generateCode()
-	{
-		// chose a Character random from this String
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                    + "0123456789"
-                                    + "abcdefghijklmnopqrstuvxyz";
-  
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(4);
-  
-        for (int i = 0; i < 4; i++) {
-  
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index = (int)(AlphaNumericString.length() * Math.random());
-  
-            // add Character one by one in end of sb
-            sb.append(AlphaNumericString.charAt(index));
-        }
-  
-        return sb.toString();
-	}
-	
-	@FXML
-	public void clickGenerate(ActionEvent event)
-	{
-		txtExeCode.setText(generateCode());
 	}
 }

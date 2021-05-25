@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.12343096234309624" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.CreateQuestionController">
+<SplitPane fx:id="split" dividerPositions="0.12343096234309624" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.CreateQuestionController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="74.0" prefWidth="638.0" styleClass="upperAnchor">
          <children>
@@ -34,7 +34,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtDescription" layoutX="15.0" layoutY="93.0" prefHeight="145.0" prefWidth="272.0" promptText="Add text" styleClass="txtField" />
+            <TextArea fx:id="txtDescription" layoutX="15.0" layoutY="93.0" prefHeight="187.0" prefWidth="294.0" promptText="Add text" styleClass="txtField" />
             <Label layoutX="14.0" layoutY="282.0" text="Teacher Name">
                <font>
                   <Font size="20.0" />

@@ -1,10 +1,11 @@
 package client.gui;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+
+
+
+import client.controllers.UserController;
 
 
 import client.controllers.ClientUI;
@@ -24,15 +25,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
 import javafx.stage.Stage;
+
+import javafx.scene.layout.AnchorPane;
+
 import server.dbControl.QuestionDBController;
 
-public class CreateQuestionController implements Serializable {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class CreateQuestionController{
 
 	@FXML
     private ComboBox<String> comboBank;
@@ -63,7 +63,29 @@ public class CreateQuestionController implements Serializable {
 
     @FXML
     private Button btnCreateQuestion;
-
+        
+   
+    public void start() {
+    	
+		txtAnswerA.setText("");
+		txtAnswerB.setText("");
+		txtAnswerC.setText("");
+		txtAnswerD.setText("");
+		txtDescription.setText("");
+		txtTeacherName.setText("fix Later");//take the teacher object from login and get teacher name by getter
+		txtTeacherName.setEditable(false);
+		comboBank.setEditable(false);
+		comboBank.setItems(TeacherTestController.getAllQBanks());
+		ArrayList<String> list  = new ArrayList<String>();
+		list.add("1");
+		list.add("2");
+		list.add("3");
+		list.add("4");
+		
+		comboCorrectAnswer.setItems(FXCollections.observableArrayList(list));
+		comboCorrectAnswer.setEditable(false);
+		
+	}
     
     @FXML
     void Click_CreateQuestion(ActionEvent event) {
@@ -84,52 +106,24 @@ public class CreateQuestionController implements Serializable {
     		{
     			Question q  = new Question(2, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
     			TeacherTestController.addQuestion(q);
-    			}	
+    			
+    		}	
     	}
+    	
     }
     @FXML
     void Click_Back(ActionEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
-		Parent root;
+      FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("TeacherMenuForm.fxml"));
+		Parent root = null;
 		try {
-			ScreenControllers.teacherMenuController = loader.getController();
 			root = loader.load();
-			Scene scene = new Scene(root);
-			Stage teacherMenu = new Stage();
-			teacherMenu.setScene(scene);
-			UserController.currentStage.hide(); // close?
-			UserController.currentStage = teacherMenu;
-			teacherMenu.show();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-   
-    
-	public void start() {
-
-		txtAnswerA.setText("");
-		txtAnswerB.setText("");
-		txtAnswerC.setText("");
-		txtAnswerD.setText("");
-		txtDescription.setText("");
-		txtTeacherName.setText("fix Later");//take the teacher object from login and get teacher name by getter
-		txtTeacherName.setEditable(false);
-		comboBank.setEditable(false);
-		comboBank.setItems(TeacherTestController.getAllQBanks());
-		ArrayList<String> list  = new ArrayList<String>();
-		list.add("1");
-		list.add("2");
-		list.add("3");
-		list.add("4");
-		
-		comboCorrectAnswer.setItems(FXCollections.observableArrayList(list));
-		comboCorrectAnswer.setEditable(false);
-		
-		
-
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.teacherMenuController.start();
 	}
-
-
-
 }

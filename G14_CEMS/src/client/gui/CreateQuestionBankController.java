@@ -22,12 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class CreateQuestionBankController implements Serializable {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class CreateQuestionBankController {
 
 	@FXML
     private AnchorPane UpperAP_CreateQB;
@@ -55,48 +50,62 @@ public class CreateQuestionBankController implements Serializable {
 
     @FXML
     private Button CreateQBback;
+    
+    
+	public boolean flag=false;
 
-	public void start() {
-		// TODO Auto-generated method stub
-		
-	}
 	 @FXML
 	void ClickCreateBank(ActionEvent event) {
-		 	
+		
 		 if(BNtxtFiled.getText().trim().isEmpty())
 		    ClientUI.display("Please first enter bank name");
-		 else {
-	    	QuestionBank QB  = new QuestionBank(3, BNtxtFiled.getText());
-	    	TeacherTestController.insertQuestionBank(QB);}
+		 
+		 else { 
+			 QuestionBank QB  = new QuestionBank(3, BNtxtFiled.getText());
+		    	TeacherTestController.insertQuestionBank(QB);
+	    	this.BNtxtFiled.setEditable(false);
+	    	this.CreateB.setDisable(true);
+	    	
+		 }
 
 	 }
 	 
 	 @FXML
 	    void Click_CreateQuestion(ActionEvent event) {
-		 //first go to create question window
-		 //then back to create question bank window
-
-	    }
-    
-		@FXML
-		void click_Back(ActionEvent event) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuestionForm.fxml"));
 			Parent root;
 			try {
-				ScreenControllers.teacherMenuController = loader.getController();
-				root = loader.load();
-				Scene scene = new Scene(root);
-				Stage teacherMenu = new Stage();
-				teacherMenu.setScene(scene);
-				UserController.currentStage.hide(); // close?
-				UserController.currentStage = teacherMenu;
-				teacherMenu.show();
+			ScreenControllers.createQuestionControl = loader.getController();
+			root = loader.load();
+			Scene scene = new Scene(root);
+			Stage teacher = new Stage();
+			teacher.setScene(scene);
+			UserController.currentStage = teacher;
+
+			UserController.currentStage.hide(); // close?
+			teacher.show();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
 
+	    }
+
+	 
+	@FXML
+	    void click_back(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("TeacherMenuForm.fxml"));
+		Parent root = null;
+		try {
+			root = loader.load();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-  
-
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.teacherMenuController.start();
+	}
+ }
 }
