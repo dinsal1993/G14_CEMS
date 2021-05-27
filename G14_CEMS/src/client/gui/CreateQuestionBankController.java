@@ -94,7 +94,7 @@ public class CreateQuestionBankController {
 	 
 	@FXML
 	    void click_back(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource
+		FXMLLoader loader = new FXMLLoader(getClass().getResource
 				("TeacherMenuForm.fxml"));
 		Parent root = null;
 		try {

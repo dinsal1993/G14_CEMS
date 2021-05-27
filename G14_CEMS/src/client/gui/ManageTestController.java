@@ -66,20 +66,18 @@ public class ManageTestController {
     
     @FXML
     void Click_Back(ActionEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
-		Parent root;
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource
+				("TeacherMenuForm.fxml"));
+		Parent root = null;
 		try {
-			ScreenControllers.teacherMenuController = loader.getController();
 			root = loader.load();
-			Scene scene = new Scene(root);
-			Stage teacherMenu = new Stage();
-			teacherMenu.setScene(scene);
-			UserController.currentStage.hide(); // close?
-			UserController.currentStage = teacherMenu;
-			teacherMenu.show();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.teacherMenuController.start();
     }
     @FXML
 	void ClickLockTest(ActionEvent event) {

@@ -84,6 +84,23 @@ public class LoginFormController {
 				e.printStackTrace();
 			}
 			break;
+		case "student": // openStudentMenuForm();
+
+			FXMLLoader loader1 = new FXMLLoader(getClass().getResource
+					("StudentMenuForm.fxml"));
+			Parent root1;
+			try {
+				
+				root1 = loader1.load();
+				ScreenControllers.studentMenuControl = 
+						loader1.getController();
+				Scene scene = new Scene(root1);
+				UserController.currentStage.setScene(scene);
+				ScreenControllers.studentMenuControl.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 		default:
 			ClientUI.display("cant read message from server");
 		}
