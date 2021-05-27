@@ -114,6 +114,14 @@ public class ServerController extends AbstractServer {
 			int count = TeacherTestDBController.getQuestionNumber();
 			msgFromServer = new Message(MessageType.CountedQuestions,count);
 			break;
+		case GetQuestionBankNumber:
+			int bankNum = TeacherTestDBController.getQuestionBankNumber();
+			msgFromServer = new Message(MessageType.CountedBankQuestions,bankNum);
+			break;
+		case GetAllQuestions:
+			ArrayList<Question> arrQuestions = QuestionDBController.getAllQuestions();
+			msgFromServer = new Message(MessageType.QuestionsList, arrQuestions);
+			break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}

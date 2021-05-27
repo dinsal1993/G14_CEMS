@@ -3,6 +3,7 @@ package client.gui;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
@@ -51,17 +52,22 @@ public class CreateQuestionBankController {
     @FXML
     private Button CreateQBback;
     
+    public static int atomicCount = 0;
+    public static final AtomicInteger count = new AtomicInteger(TeacherTestController.currentBanks);
     
 	public boolean flag=false;
 
 	 @FXML
 	void ClickCreateBank(ActionEvent event) {
 		
+		 TeacherTestController.currentBanks = TeacherTestController.getCurrentBankNum();
+	    atomicCount = TeacherTestController.currentBanks;
+	    count.set(atomicCount);
 		 if(BNtxtFiled.getText().trim().isEmpty())
 		    ClientUI.display("Please first enter bank name");
 		 
 		 else { 
-			 QuestionBank QB  = new QuestionBank(3, BNtxtFiled.getText());
+			 QuestionBank QB  = new QuestionBank(count, BNtxtFiled.getText());
 		    	TeacherTestController.insertQuestionBank(QB);
 	    	this.BNtxtFiled.setEditable(false);
 	    	this.CreateB.setDisable(true);

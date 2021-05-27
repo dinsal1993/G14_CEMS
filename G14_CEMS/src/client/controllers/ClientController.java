@@ -10,6 +10,7 @@ import client.gui.CreateQuestionController;
 import entity.Course;
 import entity.Message;
 import entity.MessageType;
+import entity.Question;
 import entity.Test;
 import entity.TestBank;
 import entity.testCopy;
@@ -125,6 +126,18 @@ public class ClientController extends AbstractClient {
 			break;
 		case CountedQuestions:
 			TeacherTestController.currentQuestions = (int)message.getMessageData();
+			break;
+		case GetQuestionBankNumber:
+			TeacherTestController.getCurrentQuestionNum();
+			break;
+		case CountedBankQuestions:
+			TeacherTestController.currentBanks = (int)message.getMessageData();
+			break;
+		case GetAllQuestions:
+			TeacherTestController.getAllQuestions();
+			break;
+		case QuestionsList :
+			TeacherTestController.QuestionList = (ArrayList<Question>)message.getMessageData();
 			break;
 			default:
 				ClientUI.display("cant read message from server");

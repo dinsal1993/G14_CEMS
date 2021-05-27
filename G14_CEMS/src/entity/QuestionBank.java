@@ -3,6 +3,8 @@ package entity;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import client.gui.CreateQuestionBankController;
+
 /** A bank (Subject) containing multiple questions */
 public class QuestionBank implements Serializable {
 	
@@ -17,15 +19,15 @@ public class QuestionBank implements Serializable {
 	/** Name of the bank (Subject) */
 	private String name;
 	//change(2 digits)
-	private static final AtomicInteger count = new AtomicInteger(9);
+	//private static final AtomicInteger count = new AtomicInteger(9);
 	
 	/**
 	 * @param id Unique id of the bank
 	 * @param name Name of the bank
 	 */
-	public QuestionBank(int id, String name) {
+	public QuestionBank(AtomicInteger id, String name) {
 		//change
-		this.id = count.incrementAndGet();
+		this.id = CreateQuestionBankController.count.incrementAndGet();
 		this.name = name;
 	}
 	

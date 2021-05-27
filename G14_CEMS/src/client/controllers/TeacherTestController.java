@@ -27,11 +27,13 @@ public class TeacherTestController {
 	public static int testCount;
 	public static Course course = new Course();
     public static int currentQuestions = 0;
-
+    public static int currentBanks = 0;
 	
 	public static HashMap<String, TestBank> banksMap;
+	public static HashMap<String, Question> questionMap;
 	public static ArrayList<String> QuestionArr;
-
+	public static ArrayList<Question> QuestionList;
+	
 	public static boolean updateTestValidFields(String testID, String newDuration) {
 		int id, duration;
 		try {
@@ -150,6 +152,20 @@ public class TeacherTestController {
 		ClientUI.accept(msg);
 		return currentQuestions;
 		
+	}
+	
+	public static int getCurrentBankNum()
+	{
+		Message msg = new Message(MessageType.GetQuestionBankNumber,null);
+		ClientUI.accept(msg);
+		return currentBanks;
+	}
+	
+	public static ObservableList<Question> getAllQuestions() {		
+		Message msg = new Message(MessageType.GetAllQuestions, null);
+		ClientUI.accept(msg);
+		
+		return FXCollections.<Question>observableArrayList(QuestionList);
 	}
 
 

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import client.controllers.ClientUI;
 import entity.Question;
@@ -20,6 +21,43 @@ public class QuestionDBController implements Serializable {
 
 
 
+	public static ArrayList<Question> getAllQuestions() {
+
+		ArrayList<Question> questions = new ArrayList<Question>();
+		
+		String sqlQuery = "select * from question";
+
+		try {
+			if (DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+
+				while (rs.next()) {
+					// Gather Data
+					ArrayList<String> answers = new ArrayList<String>();
+					Integer id = Integer.parseInt(rs.getString(1));
+					String description = rs.getString(2);
+					int correctAnswer = Integer.parseInt(rs.getString(3));
+					String teacherName = rs.getString(4);
+					String option1 = rs.getString(5);
+					String option2 = rs.getString(6);
+					String option3 = rs.getString(7);
+					String option4 = rs.getString(8);
+					answers.add(option1);
+					answers.add(option2);
+					answers.add(option3);
+					answers.add(option4);
+					questions.add(new Question(null,description,answers,correctAnswer,teacherName));
+				}
+				rs.close();
+			} else
+				System.out.println("myConn is NULL !");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return questions;
+	}
+	
 	public static ArrayList<String> getAllQuestionBanks() {
 
 		ArrayList<String> banks = new ArrayList<String>();
@@ -43,7 +81,6 @@ public class QuestionDBController implements Serializable {
 		}
 		return banks;
 	}
-
 
 
 	public static void addQuestion(Question q) {

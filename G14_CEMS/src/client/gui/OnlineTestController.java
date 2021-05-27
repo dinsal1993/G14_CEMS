@@ -1,11 +1,15 @@
 package client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
 import client.controllers.StudentController;
+import client.controllers.TeacherTestController;
 import client.controllers.UserController;
+import entity.Question;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +34,9 @@ public class OnlineTestController {
     
     @FXML
     private Label lblValidCode;
+    
+    private ObservableList<Question> testQuestionsList;
+   
     
     @FXML
     void clickBack(ActionEvent event) 
@@ -56,6 +63,8 @@ public class OnlineTestController {
 		{
     		lblValidCode.setText("Its A Valid Code!");
     		lblValidCode.setTextFill(Color.GREEN);
+    		testQuestionsList = TeacherTestController.getAllQuestions();
+    		System.out.println(testQuestionsList);
     		
     		//TO-DO:
     		//Need to start a timer before starting the exam 

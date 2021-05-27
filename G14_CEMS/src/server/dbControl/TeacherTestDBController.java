@@ -282,6 +282,21 @@ public class TeacherTestDBController {
 		}
 		return -1;
 	}
+
+	public static int getQuestionBankNumber() {
+		String sqlQuery = "select count(*) from questionbank";
+		try {
+			if (DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				rs.next();
+				return Integer.parseInt(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 		
 	}
 	

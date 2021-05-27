@@ -31,6 +31,7 @@ public class Question implements Serializable {
 	/** The teacher that wrote the question */
 	private String teacherName;
 	
+	
 	/**
 	 * @param id The unique question ID
 	 * @param description The text of the question
@@ -78,10 +79,20 @@ public class Question implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", description=" + description + ", answers=" + answers + ", correctAnswer="
-				+ correctAnswer + ", teacherName=" + teacherName + "]";
+	/*	return "Question [id=" + id + ", description=" + description + ", answers=" + answers + ", correctAnswer="
+				+ correctAnswer + ", teacherName=" + teacherName + "]";*/
+		return "Question Number " +id + "\ndescription : " + description+
+				"\n Option 1: " + answers.get(0).toString() + 
+				"\n Option 2: "+ answers.get(1).toString() + 
+				"\n Option 3: " + answers.get(2).toString() +
+				"\n Option 4: " + answers.get(3).toString() + "\n\n";
+		
+	
+	}
+	
+	
 	}
 	
 	
 
-}
+
