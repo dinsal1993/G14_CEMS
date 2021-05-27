@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.15" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="689.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.CreateTestController">
+  <items>
+    <AnchorPane fx:id="UpperAP_CreateTest" minHeight="0.0" minWidth="0.0" prefHeight="60.0" prefWidth="830.0">
+         <children>
+            <Text fx:id="CreateTestTitle" layoutX="371.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Test" wrappingWidth="161.6083984375">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+         </children></AnchorPane>
+    <AnchorPane fx:id="LowerAP_CreateTest" minHeight="0.0" minWidth="0.0" prefHeight="433.0" prefWidth="775.0">
+         <children>
+            <Label fx:id="BNtxt_CreateTest" layoutX="37.0" layoutY="38.0" text="Bank Name">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="CourseNametxt_CreateTest" layoutX="41.0" layoutY="99.0" text="Course Name">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="Durationtxt_CreateTest" layoutX="41.0" layoutY="180.0" text="Duration">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="TNotestxt_CreateTest" layoutX="41.0" layoutY="259.0" text="Teacher's Notes">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="Snotestxt_CreateTest" layoutX="41.0" layoutY="364.0" text="Student's Notes">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cmbBankName" editable="true" layoutX="250.0" layoutY="38.0" prefHeight="31.0" prefWidth="157.0" promptText="Choose Bank" style="-fx-background-color: white;" styleClass="cmbBox" />
+            <ComboBox fx:id="cmbCourseName" editable="true" layoutX="250.0" layoutY="99.0" prefHeight="31.0" prefWidth="157.0" promptText="Choose Course" style="-fx-background-color: white;" styleClass="cmbBox" />
+            <TextField fx:id="txtDuration" layoutX="250.0" layoutY="180.0" prefHeight="31.0" prefWidth="157.0" promptText="Enter Duration" styleClass="txtField" />
+            <TextArea fx:id="txtStudentNotes" layoutX="250.0" layoutY="364.0" prefHeight="63.0" prefWidth="359.0" promptText="Add Text" style="-fx-background-color: gray;" styleClass="txtField" />
+            <TextArea fx:id="txtTeacherNotes" layoutX="250.0" layoutY="259.0" prefHeight="63.0" prefWidth="359.0" promptText="Add Text" style="-fx-background-color: gray;" styleClass="txtField" />
+            <Button fx:id="btnBack" layoutX="44.0" layoutY="514.0" mnemonicParsing="false" onAction="#click_Back" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+            <Button fx:id="btnAddQuestion" layoutX="385.0" layoutY="473.0" mnemonicParsing="false" onAction="#click_AddQuestion" prefHeight="32.0" prefWidth="166.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Add Question" textFill="WHITE" />
+            <Button fx:id="btnCreateTest" layoutX="406.0" layoutY="514.0" mnemonicParsing="false" onAction="#click_CreateTest" prefHeight="32.0" prefWidth="124.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Create Test" textFill="WHITE" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

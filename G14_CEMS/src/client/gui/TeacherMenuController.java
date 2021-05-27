@@ -63,7 +63,7 @@ public class TeacherMenuController {
     }
     
     @FXML
-    void click_createQuestion(ActionEvent event) {
+    void click_CreateQuestion(ActionEvent event) {
     	
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuestionForm.fxml"));
 		Parent root;
@@ -88,7 +88,8 @@ public class TeacherMenuController {
    
     
     @FXML
-    void click_createQBank(ActionEvent event) {
+    void click_CreateQBank(ActionEvent event) {
+
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuestionBankForm.fxml"));
 		Parent root;
 		try {
@@ -120,6 +121,7 @@ public class TeacherMenuController {
 			e.printStackTrace();
 		}
     }
+  
     @FXML
     public void clickManageTest(ActionEvent event) throws Exception
     {
