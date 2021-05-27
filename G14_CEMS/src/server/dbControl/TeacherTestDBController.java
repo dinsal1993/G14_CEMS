@@ -25,6 +25,9 @@ import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
+import java.util.Date;  
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;   
 
 
 public class TeacherTestDBController {
@@ -54,8 +57,11 @@ public class TeacherTestDBController {
 
 	public static ArrayList<Test> getAllTests() {
 
+		//TO-DO:
+		//need to select question and questionPoint from DB and add them to test
+		
 		ArrayList<Test> tests = new ArrayList<Test>();
-		String sqlQuery = "select id,duration,isLocked from test";
+		String sqlQuery = "select * from test";
 
 		try {
 			if (DBConnector.myConn != null) {
@@ -66,11 +72,7 @@ public class TeacherTestDBController {
 					// Gather Data
 					int id = Integer.parseInt(rs.getString(1));
 					int duration = Integer.parseInt(rs.getString(2));
-					//String subject = rs.getString(2);
-					String isLocked = rs.getString(3);
 					
-					//int pointsPerQuestion = Integer.parseInt(rs.getString(5));
-
 					// Create Test object and add to ObservableList<Test>
 					tests.add(new Test(id, duration,null, null, null,null));
 
@@ -163,11 +165,25 @@ public class TeacherTestDBController {
 	
 	public static void lockTest(Test t) {
 		
-		String sqlQuery = "update test set isLocked = ? where id = ?;";
+		/*DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+		LocalDateTime currentDate = LocalDateTime.now();  
+		//System.out.println(dtf.format(now));
+		DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("HH");  
+		LocalDateTime currentHour = LocalDateTime.now();
+		DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("mm");  
+		LocalDateTime currentMinutes = LocalDateTime.now();
+		String date = dtf.format(currentDate);
+		String hour = dtf1.format(currentHour);
+		String minutes = dtf2.format(currentMinutes);
+		System.out.println(date);
+		System.out.println(hour);
+		System.out.println(minutes);
+		*/
+		String sqlQuery = "update pretest set isgoing = ? where id = ?;";
 		try {
 			if (DBConnector.myConn != null) {
 				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
-				ps.setString(1, String.valueOf("true"));
+				ps.setString(1, String.valueOf(0));
 				ps.setString(2, String.valueOf(t.getId()));
 				ps.executeUpdate();
 			}
@@ -176,6 +192,7 @@ public class TeacherTestDBController {
 		}
 	}
 	
+	//has to be edited
 	public static void requestExtraTime(testCopy tc) {
 		
 		String sqlQuery = "update testcopy set requestExtraTime = ? ,reasons = ? where id = ?;";
@@ -249,4 +266,4 @@ public class TeacherTestDBController {
 		}
 
 	}
-}
+	}

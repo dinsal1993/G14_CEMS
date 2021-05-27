@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import client.controllers.ClientUI;
+import client.controllers.StudentController;
 import client.gui.CreateQuestionController;
 import entity.Course;
 import entity.Message;
@@ -96,6 +97,18 @@ public class ServerController extends AbstractServer {
 		case DeleteCourse:
 			TeacherTestDBController.deleteCourse((Course)message.getMessageData());
 			msgFromServer = new Message(MessageType.CourseDeleted,null);
+			break;
+		case CheckTest:
+			boolean flag = StudentDBController.checkTest((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.CheckedTest,flag);
+			break;
+		case CheckStudentID:
+			boolean isStudentIDExist = StudentDBController.checkStudentID((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.CheckedStudentID,isStudentIDExist);
+			break;
+		case CheckValidCode:
+			boolean isCodeExist = StudentDBController.checkValidCode((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.CheckedCode,isCodeExist);
 			break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);

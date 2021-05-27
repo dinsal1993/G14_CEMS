@@ -73,12 +73,30 @@ public class LoginFormController {
 					("TeacherMenuForm.fxml"));
 			Parent root;
 			try {
+				
+				root = loader.load();
 				ScreenControllers.teacherMenuController = 
 						loader.getController();
-				root = loader.load();
 				Scene scene = new Scene(root);
 				UserController.currentStage.setScene(scene);
 				ScreenControllers.teacherMenuController.start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "student": // openStudentMenuForm();
+
+			FXMLLoader loader1 = new FXMLLoader(getClass().getResource
+					("StudentMenuForm.fxml"));
+			Parent root1;
+			try {
+				
+				root1 = loader1.load();
+				ScreenControllers.studentMenuControl = 
+						loader1.getController();
+				Scene scene = new Scene(root1);
+				UserController.currentStage.setScene(scene);
+				ScreenControllers.studentMenuControl.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

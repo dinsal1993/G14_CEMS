@@ -33,9 +33,13 @@ public class ClientController extends AbstractClient {
 	protected void handleMessageFromServer(Object msg) {
 		awaitResponse = false; // zarih liot be sof a kod????
 		Message message = (Message)msg;
+		
 		switch(message.getMessageType()) {
 		case TestsList :
 			TeacherTestController.testArr = (ArrayList<Test>)message.getMessageData();
+			break;
+		case GetAllQuestionBank:
+			TeacherTestController.getAllQBanks();
 			break;
 		case QuestionBankList :
 			TeacherTestController.QuestionArr = (ArrayList<String>)message.getMessageData();
@@ -87,6 +91,33 @@ public class ClientController extends AbstractClient {
 			break;
 		case CourseDeleted:
 			ClientUI.display("Course Has Been Deleted!");
+			break;
+		case CheckTest:
+			StudentController.isTestExist((String)message.getMessageData());
+			break;
+		case CheckedTest:
+			if(!(boolean)message.getMessageData())
+				StudentController.testExist = false;
+			else
+				StudentController.testExist = true;
+			break;
+		case CheckStudentID:
+			StudentController.isStudentIDExist((String)message.getMessageData());
+			break;
+		case CheckedStudentID:
+			if(!(boolean)message.getMessageData())
+				StudentController.studentIDExist = false;
+			else
+				StudentController.studentIDExist = true;
+			break;
+		case CheckValidCode:
+			StudentController.isExecutionCodeValid((String)message.getMessageData());
+			break;
+		case CheckedCode:
+			if(!(boolean)message.getMessageData())
+				StudentController.validCode = false;
+			else
+				StudentController.validCode = true;
 			break;
 			default:
 				ClientUI.display("cant read message from server");
