@@ -42,7 +42,9 @@ public class LoginFormController {
 
 	@FXML
 	private PasswordField txtPassword;
-
+	
+	public static String username;
+	
 	public String getUsername() {
 		return txtUsername.getText();
 	}
@@ -67,8 +69,9 @@ public class LoginFormController {
 		case "The user is already connected":
 			ClientUI.display(logInStatus);
 			break;
+		
 		case "teacher": // openTeacherMenuForm();
-
+			username = getUsername();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource
 					("TeacherMenuForm.fxml"));
 			Parent root;
@@ -85,7 +88,7 @@ public class LoginFormController {
 			}
 			break;
 		case "student": // openStudentMenuForm();
-
+			username = getUsername();
 			FXMLLoader loader1 = new FXMLLoader(getClass().getResource
 					("StudentMenuForm.fxml"));
 			Parent root1;

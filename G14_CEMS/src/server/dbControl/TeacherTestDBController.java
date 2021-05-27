@@ -266,4 +266,23 @@ public class TeacherTestDBController {
 		}
 
 	}
+	
+	public static int getQuestionNumber()
+	{
+		String sqlQuery = "select count(*) from question";
+		try {
+			if (DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				rs.next();
+				return Integer.parseInt(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
+		
+	}
+	
+

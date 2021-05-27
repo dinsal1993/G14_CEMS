@@ -110,6 +110,10 @@ public class ServerController extends AbstractServer {
 			boolean isCodeExist = StudentDBController.checkValidCode((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.CheckedCode,isCodeExist);
 			break;
+		case GetQuestionsNumber:
+			int count = TeacherTestDBController.getQuestionNumber();
+			msgFromServer = new Message(MessageType.CountedQuestions,count);
+			break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}

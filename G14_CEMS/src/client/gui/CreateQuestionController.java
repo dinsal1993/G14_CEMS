@@ -2,8 +2,7 @@ package client.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 import client.controllers.UserController;
 
@@ -64,7 +63,9 @@ public class CreateQuestionController{
     @FXML
     private Button btnCreateQuestion;
         
-   
+    
+    public static int atomicCount = 0;
+    public static final AtomicInteger count = new AtomicInteger(TeacherTestController.currentQuestions);
     public void start() {
     	
 		txtAnswerA.setText("");
@@ -72,7 +73,7 @@ public class CreateQuestionController{
 		txtAnswerC.setText("");
 		txtAnswerD.setText("");
 		txtDescription.setText("");
-		txtTeacherName.setText("fix Later");//take the teacher object from login and get teacher name by getter
+		txtTeacherName.setText(LoginFormController.username);
 		txtTeacherName.setEditable(false);
 		comboBank.setEditable(false);
 		comboBank.setItems(TeacherTestController.getAllQBanks());
@@ -96,6 +97,9 @@ public class CreateQuestionController{
     	answers.add(txtAnswerC.getText());
     	answers.add(txtAnswerD.getText());
     	
+    	TeacherTestController.currentQuestions = TeacherTestController.getCurrentQuestionNum();
+    	atomicCount = TeacherTestController.currentQuestions;
+    	count.set(atomicCount);
     	if(comboBank.getItems().isEmpty())
     		ClientUI.display("First Create question bank");
     	else if(txtAnswerA.getText().trim().isEmpty()||txtAnswerB.getText().trim().isEmpty()||txtAnswerC.getText().trim().isEmpty()||txtAnswerD.getText().trim().isEmpty())
@@ -104,7 +108,7 @@ public class CreateQuestionController{
     			ClientUI.display("Description field is empty!");
     		else 
     		{
-    			Question q  = new Question(2, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
+    			Question q  = new Question(count, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
     			TeacherTestController.addQuestion(q);
     			
     		}	
@@ -126,4 +130,5 @@ public class CreateQuestionController{
 		UserController.currentStage.setScene(scene);
 		ScreenControllers.teacherMenuController.start();
 	}
+   
 }

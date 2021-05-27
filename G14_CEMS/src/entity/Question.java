@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import client.gui.CreateQuestionController;
+
 /** A question that can be used in a test */
 public class Question implements Serializable {
 	
@@ -15,7 +17,7 @@ public class Question implements Serializable {
 	/** The Question ID */
 	private int id;
 	
-	private static final AtomicInteger count = new AtomicInteger(0);
+	//private final AtomicInteger count = new AtomicInteger(0);
 	
 	/** The question description(the question itself) */
 	private String description;
@@ -36,9 +38,9 @@ public class Question implements Serializable {
 	 * @param correctAnswer The correct answer
 	 * @param teacherName The teacher who wrote the test
 	 */
-	public Question(int id, String description, ArrayList<String> answers,
+	public Question(AtomicInteger id, String description, ArrayList<String> answers,
 			int correctAnswer, String teacherName) {
-		this.id = count.incrementAndGet();
+		this.id = CreateQuestionController.count.incrementAndGet();
 		this.description = description;
 		this.answers = answers;
 		this.correctAnswer = correctAnswer;

@@ -26,6 +26,7 @@ public class TeacherTestController {
 	public static testCopy tc = new testCopy();
 	public static int testCount;
 	public static Course course = new Course();
+    public static int currentQuestions = 0;
 
 	
 	public static HashMap<String, TestBank> banksMap;
@@ -142,7 +143,14 @@ public class TeacherTestController {
 		Message msg = new Message(MessageType.DeleteCourse,c);
 		ClientUI.accept(msg);
 	}
-
-
 	
+	public static int getCurrentQuestionNum()
+	{
+		Message msg = new Message(MessageType.GetQuestionsNumber,null);
+		ClientUI.accept(msg);
+		return currentQuestions;
+		
+	}
+
+
 }

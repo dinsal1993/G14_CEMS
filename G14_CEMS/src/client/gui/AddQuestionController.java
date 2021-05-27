@@ -63,7 +63,7 @@ public class AddQuestionController {
     }
 
     @FXML
-    void Click_Back(ActionEvent event) {
+    void click_Back(ActionEvent event) {
 
     }
 

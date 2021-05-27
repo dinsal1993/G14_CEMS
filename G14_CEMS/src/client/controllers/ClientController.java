@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
+import client.gui.CreateQuestionController;
 import entity.Course;
 import entity.Message;
 import entity.MessageType;
@@ -118,6 +119,12 @@ public class ClientController extends AbstractClient {
 				StudentController.validCode = false;
 			else
 				StudentController.validCode = true;
+			break;
+		case GetQuestionsNumber:
+			TeacherTestController.getCurrentQuestionNum();
+			break;
+		case CountedQuestions:
+			TeacherTestController.currentQuestions = (int)message.getMessageData();
 			break;
 			default:
 				ClientUI.display("cant read message from server");

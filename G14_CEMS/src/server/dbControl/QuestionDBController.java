@@ -51,7 +51,7 @@ public class QuestionDBController implements Serializable {
     	
 
 		String sqlQuery = "insert into question (id,description,correctAnswer,teacherName,A1,A2,A3,A4) values (?,?,?,?,?,?,?,?)";
-
+		
 		PreparedStatement pst = null;
 		try {
 			if (DBConnector.myConn != null) {
