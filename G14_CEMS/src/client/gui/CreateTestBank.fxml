@@ -21,7 +21,7 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="btnBack" layoutX="37.0" layoutY="367.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em; -fx-border-color: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+            <Button fx:id="btnBack" layoutX="37.0" layoutY="367.0" mnemonicParsing="false" onAction="#click_back" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
             <Label fx:id="lblBankName" layoutX="28.0" layoutY="15.0" text="Bank name">
                <font>
                   <Font size="20.0" />
@@ -40,8 +40,8 @@
             <TextField fx:id="txtBankName" layoutX="166.0" layoutY="15.0" styleClass="txtField" />
             <TextField fx:id="txtCourseName" layoutX="166.0" layoutY="65.0" styleClass="txtField" />
             <ListView fx:id="lstViewExistingBanks" layoutX="166.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" styleClass="lstView" />
-            <Button fx:id="btnCreateBank" layoutX="455.0" layoutY="311.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em; -fx-border-color: 5em;" styleClass="btn" text="Create bank" textFill="WHITE" />
-            <Button fx:id="btnCreateTest" layoutX="459.0" layoutY="45.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em; -fx-border-radius: 5em;" styleClass="btn" text="Create test" textFill="WHITE" />
+            <Button fx:id="btnCreateBank" layoutX="455.0" layoutY="311.0" mnemonicParsing="false" onAction="#click_createBank" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Create bank" textFill="WHITE" />
+            <Button fx:id="btnCreateTest" layoutX="459.0" layoutY="45.0" mnemonicParsing="false" onAction="#click_createTest" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Create test" textFill="WHITE" />
             <Text layoutX="431.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(must create a test before create a bank)" wrappingWidth="142.50196141004562" />
          </children></AnchorPane>
   </items>

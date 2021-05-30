@@ -1,5 +1,6 @@
 package server.controllers;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +62,15 @@ public class ServerController extends AbstractServer {
 				e.printStackTrace();
 			}
 			msgFromServer = new Message(MessageType.insertQuestionBank, null);
+			break;
+		case insertTestBank:
+			try {
+				TeacherTestDBController.insertTestBank((TestBank) message.getMessageData());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			msgFromServer = new Message(MessageType.insertTestBank, null);
 			break;
 		case GetAllTestBanks:
 			System.out.println("in server controller. recieved msg");

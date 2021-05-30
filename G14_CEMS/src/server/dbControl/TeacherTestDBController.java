@@ -266,4 +266,40 @@ public class TeacherTestDBController {
 		}
 
 	}
+	public static void insertTestBank(TestBank TB) throws IOException
+	{
+		
+		
+		ArrayList<Course> courses = new ArrayList<Course>();
+		String sqlQuery = "insert into cems.testbank (id,name,courses) values (?,?,?)";
+
+		PreparedStatement pst = null;
+		try {
+	
+			if (DBConnector.myConn != null) {
+				pst = DBConnector.myConn.prepareStatement(sqlQuery);
+				//serialize object
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ObjectOutputStream oos = new ObjectOutputStream(baos);
+				oos.writeObject(courses);
+				//store in byte array
+				byte[] empAsByte;
+				empAsByte = baos.toByteArray();
+				//create blob object
+				Blob b = DBConnector.myConn.createBlob();
+				
+				//fill blob object with byte array
+				
+				pst.setString(1, String.valueOf(TB.getId()));
+				pst.setString(2,TB.getName() );
+				b.setBytes(1, empAsByte);
+				pst.setBlob(3, b);
+				
+				pst.executeUpdate();
+			} else
+				System.out.println("myConn is NULL !");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	}
