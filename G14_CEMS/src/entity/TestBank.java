@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** A bank (Subject) containing multiple Tests */
 public class TestBank implements Serializable {
@@ -17,13 +18,16 @@ public class TestBank implements Serializable {
 	/** List of courses in the Bank (Subject) */
 	public ArrayList<Course> courses;
 	
+	
+	private static final AtomicInteger count = new AtomicInteger(10);
+	
 	/**
 	 * @param id Unique id of the bank
 	 * @param name Name of the bank
 	 * @param courses List of courses in the bank
 	 */
 	public TestBank(int id, String name, ArrayList<Course> courses) {
-		this.id = id;
+		this.id = count.incrementAndGet();
 		this.name = name;
 		this.courses = courses;
 	}

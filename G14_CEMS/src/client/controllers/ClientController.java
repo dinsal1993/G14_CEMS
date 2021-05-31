@@ -53,6 +53,9 @@ public class ClientController extends AbstractClient {
 		case insertQuestionBank:
 		ClientUI.display("Created question bank successfully");
 		break;
+		case insertTestBank:
+			ClientUI.display("Created test bank successfully");
+			break;
 		case TestCount:
 			TeacherTestController.testCount = (int)message.getMessageData();
 			break;

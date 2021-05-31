@@ -9,7 +9,7 @@ import client.gui.TeacherMenuController;
 import client.gui.TestTypeController;
 import client.gui.CreateQuestionBankController;
 import client.gui.CreateQuestionController;
-
+import client.gui.CreateTestBankController;
 import client.gui.AddQuestionController;
 
 
@@ -29,9 +29,10 @@ public class ScreenControllers {
 	public static OnlineTestController onlineTestControl;
 	public static ManualTestController manualTestControl;
 	public static StudentMenuController studentMenuControl;
-	//change 
+	
 	public static CreateQuestionController createQuestionControl;
 	public static CreateQuestionBankController createQBankControl;
+	public static CreateTestBankController createTestBankControl;
 	
 
 	

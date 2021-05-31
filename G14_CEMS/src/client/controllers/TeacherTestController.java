@@ -99,6 +99,12 @@ public class TeacherTestController {
 		
 	}
 
+	public static void insertTestBank(TestBank TB)
+	{
+		Message msg = new Message(MessageType.insertTestBank,TB);
+		ClientUI.accept(msg);
+	}
+
 	public static ObservableList<String> getAllQBanks() {		
 		Message msg = new Message(MessageType.GetAllQuestionBank, null);
 		ClientUI.accept(msg);

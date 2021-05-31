@@ -1,9 +1,9 @@
 package client.gui;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-
-
+import java.util.ResourceBundle;
 
 import client.controllers.UserController;
 
@@ -31,8 +31,9 @@ import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
 
 import server.dbControl.QuestionDBController;
+////////////////change
 
-public class CreateQuestionController{
+public class CreateQuestionController implements Initializable{
 
 	@FXML
     private ComboBox<String> comboBank;
@@ -72,7 +73,7 @@ public class CreateQuestionController{
 		txtAnswerC.setText("");
 		txtAnswerD.setText("");
 		txtDescription.setText("");
-		txtTeacherName.setText("fix Later");//take the teacher object from login and get teacher name by getter
+		txtTeacherName.setText(LoginFormController.username);//take the teacher object from login and get teacher name by getter
 		txtTeacherName.setEditable(false);
 		comboBank.setEditable(false);
 		comboBank.setItems(TeacherTestController.getAllQBanks());
@@ -113,7 +114,7 @@ public class CreateQuestionController{
     }
     @FXML
     void Click_Back(ActionEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource
+      FXMLLoader loader = new FXMLLoader(getClass().getResource
 				("TeacherMenuForm.fxml"));
 		Parent root = null;
 		try {
@@ -125,5 +126,12 @@ public class CreateQuestionController{
 		Scene scene = new Scene(root);
 		UserController.currentStage.setScene(scene);
 		ScreenControllers.teacherMenuController.start();
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		start();
+		
 	}
 }

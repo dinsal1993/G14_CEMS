@@ -63,7 +63,7 @@ public class TeacherMenuController {
     }
     
     @FXML
-    void click_CreateQuestion(ActionEvent event) {
+    void click_createQuestion(ActionEvent event) {
     	
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuestionForm.fxml"));
 		Parent root;
@@ -88,7 +88,7 @@ public class TeacherMenuController {
    
     
     @FXML
-    void click_CreateQBank(ActionEvent event) {
+    void click_createQBank(ActionEvent event) {
 
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuestionBankForm.fxml"));
 		Parent root;
@@ -155,6 +155,25 @@ public class TeacherMenuController {
 			UserController.currentStage = editCourse;
 			editCourse.show();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    @FXML
+    void click_CreateTestBank(ActionEvent event)
+    {
+    	
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateTestBank.fxml"));
+    	Parent root = null;
+    	
+    	try {
+			root = loader.load();
+			ScreenControllers.createTestBankControl = loader.getController();
+	    	Scene scene = new Scene(root);
+
+	    	UserController.currentStage.setScene(scene);
+	    	ScreenControllers.createTestBankControl.start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
