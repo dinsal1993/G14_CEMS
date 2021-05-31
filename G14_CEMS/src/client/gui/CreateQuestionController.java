@@ -105,7 +105,18 @@ public class CreateQuestionController implements Initializable{
     			ClientUI.display("Description field is empty!");
     		else 
     		{
-    			Question q  = new Question(2, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
+    			String bank = comboBank.getSelectionModel().getSelectedItem();
+    			String qBankID = TeacherTestController.getQbankID(bank);
+    			int questionCount = TeacherTestController.getQCount(qBankID);
+    			String qID = null;
+    			questionCount++;
+    			if(questionCount < 10)
+    				qID = TeacherTestController.getQbankID(bank) + "00" + questionCount;
+    			else if(questionCount <= 99)
+    				qID = TeacherTestController.getQbankID(bank) + "0" + questionCount;
+    			else
+    				qID = TeacherTestController.getQbankID(bank) + questionCount;
+    			Question q  = new Question(qID, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
     			TeacherTestController.addQuestion(q);
     			
     		}	

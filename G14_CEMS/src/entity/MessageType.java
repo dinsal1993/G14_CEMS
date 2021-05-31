@@ -23,6 +23,6 @@ public enum MessageType {
 	TestBanksList, QuestionBankList, addQuestion, insertQuestionBank,
 	insertTestBank,
 
-	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode;
+	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, GetQCount, GetQBankID;
 
 }

@@ -50,6 +50,9 @@ public class ServerController extends AbstractServer {
 			ArrayList<String> arrQ = QuestionDBController.getAllQuestionBanks();
 			msgFromServer = new Message(MessageType.QuestionBankList, arrQ);
 			break;
+		case GetQCount:
+			getQCount((String)message.getMessageData());
+			break;
 		case addQuestion:
 			QuestionDBController.addQuestion((Question) message.getMessageData());
 			msgFromServer = new Message(MessageType.addQuestion, null);
@@ -83,6 +86,9 @@ public class ServerController extends AbstractServer {
 		case GetTestCount:
 			int countTest = TeacherTestDBController.getTestCount();
 			msgFromServer = new Message(MessageType.TestCount, countTest);
+			break;
+		case GetQBankID:
+			getQBankID((String)message.getMessageData());
 			break;
 		case logIn:
 			String logInStatus = UserDBController.tryToConnect((User) message.getMessageData());
@@ -125,6 +131,19 @@ public class ServerController extends AbstractServer {
 		}
 		sendToAllClients(msgFromServer);
 
+	}
+
+	private void getQBankID(String bankName) {
+		String id = QuestionDBController.getQBankID(bankName);
+		if(id == null)
+			msgFromServer = new Message(MessageType.Error, "no such question bank");
+		msgFromServer = new Message(MessageType.GetQBankID, id);
+	}
+
+	private void getQCount(String bankName) {
+		int count = QuestionDBController.getQuestionCount(bankName);
+		msgFromServer = new Message(MessageType.GetQCount, count);
+		
 	}
 
 	private void getAllTestBanks() {

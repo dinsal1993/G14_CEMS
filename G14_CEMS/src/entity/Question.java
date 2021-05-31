@@ -7,15 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 /** A question that can be used in a test */
 public class Question implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/** The Question ID */
-	private int id;
-	
-	private static final AtomicInteger count = new AtomicInteger(0);
+	private String id;
 	
 	/** The question description(the question itself) */
 	private String description;
@@ -36,18 +31,18 @@ public class Question implements Serializable {
 	 * @param correctAnswer The correct answer
 	 * @param teacherName The teacher who wrote the test
 	 */
-	public Question(int id, String description, ArrayList<String> answers,
+	public Question(String id, String description, ArrayList<String> answers,
 			int correctAnswer, String teacherName) {
-		this.id = count.incrementAndGet();
+		this.id = id;
 		this.description = description;
 		this.answers = answers;
 		this.correctAnswer = correctAnswer;
 		this.teacherName = teacherName;
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getDescription() {

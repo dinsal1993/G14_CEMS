@@ -50,6 +50,12 @@ public class ClientController extends AbstractClient {
 		case addQuestion:
 			ClientUI.display("Created question successfully");
 			break;
+		case GetQCount:
+			TeacherTestController.qCountByBank = (int)message.getMessageData();
+			break;
+		case GetQBankID:
+			TeacherTestController.qBankID = (String)message.getMessageData();
+			break;
 		case insertQuestionBank:
 		ClientUI.display("Created question bank successfully");
 		break;

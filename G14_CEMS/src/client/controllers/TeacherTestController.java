@@ -30,6 +30,8 @@ public class TeacherTestController {
 	
 	public static HashMap<String, TestBank> banksMap;
 	public static ArrayList<String> QuestionArr;
+	public static int qCountByBank;
+	public static String qBankID;
 
 	public static boolean updateTestValidFields(String testID, String newDuration) {
 		int id, duration;
@@ -147,6 +149,20 @@ public class TeacherTestController {
 	{
 		Message msg = new Message(MessageType.DeleteCourse,c);
 		ClientUI.accept(msg);
+	}
+
+	//get count of questions in bank
+	public static int getQCount(String bankID) {
+		Message msg = new Message(MessageType.GetQCount,bankID);
+		ClientUI.accept(msg);
+		return qCountByBank;
+	}
+
+	public static String getQbankID(String bankName) {
+		Message msg = new Message(MessageType.GetQBankID,bankName);
+		ClientUI.accept(msg);
+		return qBankID;
+		
 	}
 
 
