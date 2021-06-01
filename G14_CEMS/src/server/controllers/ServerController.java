@@ -122,6 +122,10 @@ public class ServerController extends AbstractServer {
 			ArrayList<Question> arrQuestions = QuestionDBController.getAllQuestions();
 			msgFromServer = new Message(MessageType.QuestionsList, arrQuestions);
 			break;
+		case GetTestQuestions:
+			HashMap<String, Test> testMap = QuestionDBController.getTestQuestions();
+			msgFromServer = new Message(MessageType.TestQuestions, testMap);
+			break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}

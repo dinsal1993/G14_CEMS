@@ -139,6 +139,12 @@ public class ClientController extends AbstractClient {
 		case QuestionsList :
 			TeacherTestController.QuestionList = (ArrayList<Question>)message.getMessageData();
 			break;
+		case GetTestQuestions:
+			TeacherTestController.getTestQuestions();
+			break;
+		case TestQuestions:
+			TeacherTestController.testMap = (HashMap<String,Test>)message.getMessageData();
+			break;
 			default:
 				ClientUI.display("cant read message from server");
 		}

@@ -23,6 +23,7 @@ public class TeacherTestController {
 	public static ArrayList<Test> testArr = new ArrayList<>();
 	public static ArrayList<Course> courseArr = new ArrayList<>();
 	public static Test t = new Test();
+	public static Test testQuestions = new Test();
 	public static testCopy tc = new testCopy();
 	public static int testCount;
 	public static Course course = new Course();
@@ -31,6 +32,7 @@ public class TeacherTestController {
 	
 	public static HashMap<String, TestBank> banksMap;
 	public static HashMap<String, Question> questionMap;
+	public static HashMap<String, Test> testMap;
 	public static ArrayList<String> QuestionArr;
 	public static ArrayList<Question> QuestionList;
 	
@@ -167,6 +169,13 @@ public class TeacherTestController {
 		
 		return FXCollections.<Question>observableArrayList(QuestionList);
 	}
-
+	
+	public static HashMap<String, Test> getTestQuestions() {		
+	
+		Message msg = new Message(MessageType.GetTestQuestions, null);
+		ClientUI.accept(msg);
+		
+		return testMap;
+	}
 
 }

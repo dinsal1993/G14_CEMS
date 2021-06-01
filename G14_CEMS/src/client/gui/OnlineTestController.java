@@ -2,6 +2,7 @@ package client.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
@@ -9,6 +10,8 @@ import client.controllers.StudentController;
 import client.controllers.TeacherTestController;
 import client.controllers.UserController;
 import entity.Question;
+import entity.Test;
+import entity.TestBank;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,8 +38,10 @@ public class OnlineTestController {
     @FXML
     private Label lblValidCode;
     
-    private ObservableList<Question> testQuestionsList;
-   
+    public static ObservableList<Question> testQuestionsList;
+    public static Test test;
+    public static HashMap<String,Test> testMap;
+    
     
     @FXML
     void clickBack(ActionEvent event) 
@@ -63,8 +68,25 @@ public class OnlineTestController {
 		{
     		lblValidCode.setText("Its A Valid Code!");
     		lblValidCode.setTextFill(Color.GREEN);
-    		testQuestionsList = TeacherTestController.getAllQuestions();
-    		System.out.println(testQuestionsList);
+    		testMap = TeacherTestController.getTestQuestions();
+    		System.out.println(testMap);
+    		//testQuestionsList = testMap.get(0).getQuestions();
+    		//System.out.println(testQuestionsList);
+    		/*testQuestionsList = TeacherTestController.getAllQuestions();
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource
+    				("TestQuestionsAndAnswersForm.fxml"));
+        	Parent root = null;
+        	
+        	try {
+    			root = loader.load();
+    			ScreenControllers.duringTestControl = loader.getController();
+    	    	Scene scene = new Scene(root);
+
+    	    	UserController.currentStage.setScene(scene);
+    	    	ScreenControllers.duringTestControl.start(0);
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}*/
     		
     		//TO-DO:
     		//Need to start a timer before starting the exam 
@@ -109,5 +131,12 @@ public class OnlineTestController {
     
     
     }
-
+    
+    public static ObservableList<Question> getList()
+    {
+    	return testQuestionsList;
+    }
+    
+    
+ 
 }

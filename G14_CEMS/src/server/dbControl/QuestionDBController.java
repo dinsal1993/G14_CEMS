@@ -1,16 +1,28 @@
 package server.dbControl;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import client.controllers.ClientUI;
+import entity.Course;
 import entity.Question;
 import entity.QuestionBank;
+import entity.Test;
+import entity.TestBank;
+
+
 
 
 public class QuestionDBController implements Serializable {
@@ -18,8 +30,6 @@ public class QuestionDBController implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-
 
 	public static ArrayList<Question> getAllQuestions() {
 
@@ -85,8 +95,6 @@ public class QuestionDBController implements Serializable {
 
 	public static void addQuestion(Question q) {
 
-    	
-
 		String sqlQuery = "insert into question (id,description,correctAnswer,teacherName,A1,A2,A3,A4) values (?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement pst = null;
@@ -140,10 +148,66 @@ public class QuestionDBController implements Serializable {
 		    }
 		    pst.close();
 		}
+	}		
+	
+	public static HashMap<String, Test> getTestQuestions() {
+		String sqlQuery = "select * from test";
 		
-	}
+		Test temp;
+		ArrayList<Question> questions;
+		ArrayList<Integer> points;
 		
+		HashMap<String, Test> testMap = new HashMap<String, Test>();
+		try {
+			if (DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				while (rs.next()) {
+		
+					Blob questionsBlob = rs.getBlob(3);
+					BufferedInputStream bis = new BufferedInputStream(questionsBlob.getBinaryStream());
+					ObjectInputStream ois = new ObjectInputStream(bis);
+					questions = (ArrayList<Question>) ois.readObject();
+					
+
+					Blob qPointsBlob = rs.getBlob(4);
+					BufferedInputStream bis1 = new BufferedInputStream(qPointsBlob.getBinaryStream());
+					ObjectInputStream ois1 = new ObjectInputStream(bis1);
+					points = (ArrayList<Integer>) ois1.readObject();
+					
+					// construct current read test
+					temp = new Test();
+					temp.setId(Integer.parseInt(rs.getString(1)));
+					temp.setDuration(Integer.parseInt(rs.getString(2)));
+					temp.setQuestions(null);
+					temp.setPointsPerQuestion(null);
+					temp.setTeacherName(rs.getString(5));
+			
+
+					// Add test to hashMap
+					testMap.put(temp.getExecutionCode(), temp);
+
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return testMap;
+
+
 	}
+	
+
+}//End class
+
+
+	
 		/*String sqlQuery = "insert into cems.questionbank (id,name) values (?,?)";
 
 		PreparedStatement pst = null;
