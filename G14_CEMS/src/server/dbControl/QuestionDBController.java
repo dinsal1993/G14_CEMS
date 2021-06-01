@@ -80,7 +80,7 @@ public class QuestionDBController implements Serializable {
 	}
 	
 	
-	public static ArrayList<Question> getAllQuestions() {
+	/*public static ArrayList<Question> getAllQuestions() {
 
 		ArrayList<Question> questions = new ArrayList<Question>();
 		
@@ -115,7 +115,7 @@ public class QuestionDBController implements Serializable {
 			e.printStackTrace();
 		}
 		return questions;
-	}
+	}*/
 	
 	public static ArrayList<String> getAllQuestionBanks() {
 
@@ -284,29 +284,7 @@ public class QuestionDBController implements Serializable {
 }//End class
 
 
-	
-		/*String sqlQuery = "insert into cems.questionbank (id,name) values (?,?)";
-
-		PreparedStatement pst = null;
-		try {
-			if (DBConnector.myConn != null) {
-				pst = DBConnector.myConn.prepareStatement(sqlQuery);
-				pst.setString(1, String.valueOf(QB.getId()));
-				
-				pst.setString(2,QB.getName() );
-				pst.executeUpdate();
-
-				//DBConnector.myConn.close();
-				pst.close();
-
-
-			} else
-				System.out.println("myConn is NULL !");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}*/
-	
+		
 	
 
 

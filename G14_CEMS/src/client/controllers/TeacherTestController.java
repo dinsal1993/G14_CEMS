@@ -123,13 +123,13 @@ public class TeacherTestController {
 		
 	}
 	
-	public static ObservableList<Course> refreshCourseTable()
+	/*public static ObservableList<Course> refreshCourseTable()
 	{
 		Message msg = new Message(MessageType.RefreshCourseTable, courseArr);
 		ClientUI.accept(msg);
 		
-		/*for (Course c : courseList)
-			courseList.remove(c);*/
+		//for (Course c : courseList)
+			//courseList.remove(c);
 		for (Course c : courseArr)
 			courseList.add(c);
 		
@@ -169,7 +169,7 @@ public class TeacherTestController {
 		ClientUI.accept(msg);
 		
 		return FXCollections.<Question>observableArrayList(QuestionList);
-	}
+	}*/
 	
 	public static HashMap<String, Test> getTestQuestions() {		
 	

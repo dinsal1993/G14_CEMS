@@ -118,10 +118,10 @@ public class ServerController extends AbstractServer {
 			int bankNum = TeacherTestDBController.getQuestionBankNumber();
 			msgFromServer = new Message(MessageType.CountedBankQuestions,bankNum);
 			break;
-		case GetAllQuestions:
+	/*	case GetAllQuestions:
 			ArrayList<Question> arrQuestions = QuestionDBController.getAllQuestions();
 			msgFromServer = new Message(MessageType.QuestionsList, arrQuestions);
-			break;
+			break;*/
 		case GetTestQuestions:
 			HashMap<String, Test> testMap = QuestionDBController.getTestQuestions();
 			msgFromServer = new Message(MessageType.TestQuestions, testMap);

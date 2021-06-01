@@ -25,9 +25,9 @@ public class QuestionBank implements Serializable {
 	 * @param id Unique id of the bank
 	 * @param name Name of the bank
 	 */
-	public QuestionBank(AtomicInteger id, String name) {
+	public QuestionBank(int id, String name) {
 		//change
-		this.id = CreateQuestionBankController.count.incrementAndGet();
+		this.id = id;
 		this.name = name;
 	}
 	

@@ -76,7 +76,7 @@ public class ClientController extends AbstractClient {
 		case SentExtraTimeRequest:
 			ClientUI.display("Request Has Been Sent!");
 			break;
-		case RefreshCourseTable:
+		/*case RefreshCourseTable:
 			TeacherTestController.refreshCourseTable();
 			break;
 		case CourseList:
@@ -93,7 +93,7 @@ public class ClientController extends AbstractClient {
 			break;
 		case CourseDeleted:
 			ClientUI.display("Course Has Been Deleted!");
-			break;
+			break;*/
 		case CheckTest:
 			StudentController.isTestExist((String)message.getMessageData());
 			break;
@@ -121,7 +121,7 @@ public class ClientController extends AbstractClient {
 			else
 				StudentController.validCode = true;
 			break;
-		case GetQuestionsNumber:
+		/*case GetQuestionsNumber:
 			TeacherTestController.getCurrentQuestionNum();
 			break;
 		case CountedQuestions:
@@ -138,7 +138,7 @@ public class ClientController extends AbstractClient {
 			break;
 		case QuestionsList :
 			TeacherTestController.QuestionList = (ArrayList<Question>)message.getMessageData();
-			break;
+			break;*/
 		case GetTestQuestions:
 			TeacherTestController.getTestQuestions();
 			break;

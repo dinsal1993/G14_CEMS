@@ -60,14 +60,14 @@ public class CreateQuestionBankController {
 	 @FXML
 	void ClickCreateBank(ActionEvent event) {
 		
-		 TeacherTestController.currentBanks = TeacherTestController.getCurrentBankNum();
-	    atomicCount = TeacherTestController.currentBanks;
-	    count.set(atomicCount);
+		// TeacherTestController.currentBanks = TeacherTestController.getCurrentBankNum();
+	    //atomicCount = TeacherTestController.currentBanks;
+	    //count.set(atomicCount);
 		 if(BNtxtFiled.getText().trim().isEmpty())
 		    ClientUI.display("Please first enter bank name");
 		 
 		 else { 
-			 QuestionBank QB  = new QuestionBank(count, BNtxtFiled.getText());
+			 QuestionBank QB  = new QuestionBank(1, BNtxtFiled.getText());
 		    	TeacherTestController.insertQuestionBank(QB);
 	    	this.BNtxtFiled.setEditable(false);
 	    	this.CreateB.setDisable(true);

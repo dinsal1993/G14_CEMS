@@ -87,10 +87,10 @@ public class EditCoursesController implements Initializable {
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {	
     
-		refreshTable();
+		//refreshTable();
 			
 	}
-    
+    /*
     @FXML
 	void click_Back(ActionEvent event)
 	{
@@ -115,7 +115,7 @@ public class EditCoursesController implements Initializable {
     	Integer courseID = Integer.parseInt(txtCourseID.getText());
     	String name = txtName.getText();
     	Course c = new Course(bankID,courseID,name);
-    	TeacherTestController.addCourse(c);
+    	//TeacherTestController.addCourse(c);
     	refreshTable();
     }
     
@@ -126,7 +126,7 @@ public class EditCoursesController implements Initializable {
     	Integer courseID = Integer.parseInt(txtCourseID.getText());
     	String name = txtName.getText();
     	Course c = new Course(bankID,courseID,name);
-    	TeacherTestController.deleteCourse(c);
+    	//TeacherTestController.deleteCourse(c);
     	refreshTable();
     }
     
@@ -149,7 +149,7 @@ public class EditCoursesController implements Initializable {
 		tbl_Name.setCellValueFactory(new PropertyValueFactory<Course,String>("name"));
 		
 		tbl_Courses.setItems(TeacherTestController.refreshCourseTable());
-    }
+    }*/
 	
     
 	
