@@ -240,8 +240,8 @@ public class TeacherTestDBController {
 		try {
 			if (DBConnector.myConn != null) {
 				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
-				ps.setString(1, String.valueOf(c.getBankId()));
-				ps.setString(2, String.valueOf(c.getCourseId()));
+				ps.setString(1, String.valueOf(c.getSubjectID()));
+				ps.setString(2, String.valueOf(c.getCourseID()));
 				ps.setString(3, String.valueOf(c.getName()));
 				ps.executeUpdate();
 			}
@@ -258,7 +258,7 @@ public class TeacherTestDBController {
 		try {
 			if (DBConnector.myConn != null) {
 				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
-				ps.setString(1, String.valueOf(c.getBankId()));
+				ps.setString(1, String.valueOf(c.getSubjectID()));
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {

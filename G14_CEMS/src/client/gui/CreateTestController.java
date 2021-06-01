@@ -137,7 +137,7 @@ public class CreateTestController {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(newValue != null && oldValue != null) {
+				if(newValue != null) {
 					cmbCourseName.getItems().clear();
 					courseList = 
 							TeacherTestController.getCourseList(newValue);
@@ -156,7 +156,7 @@ public class CreateTestController {
 		txtStudentNotes.setText("");
 
 		// add banks to Bank comboBox
-		testBankList = TeacherTestController.getAllTestBanks();
+		testBankList = TeacherTestController.getAllSubjects();
 		cmbBankName.getItems().addAll(testBankList);
 
 	}

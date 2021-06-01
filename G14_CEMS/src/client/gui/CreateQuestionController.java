@@ -76,7 +76,7 @@ public class CreateQuestionController implements Initializable{
 		txtTeacherName.setText(LoginFormController.username);//take the teacher object from login and get teacher name by getter
 		txtTeacherName.setEditable(false);
 		comboBank.setEditable(false);
-		comboBank.setItems(TeacherTestController.getAllQBanks());
+		comboBank.setItems(TeacherTestController.getAllSubjects());
 		ArrayList<String> list  = new ArrayList<String>();
 		list.add("1");
 		list.add("2");
@@ -105,17 +105,17 @@ public class CreateQuestionController implements Initializable{
     			ClientUI.display("Description field is empty!");
     		else 
     		{
-    			String bank = comboBank.getSelectionModel().getSelectedItem();
-    			String qBankID = TeacherTestController.getQbankID(bank);
-    			int questionCount = TeacherTestController.getQCount(qBankID);
+    			String subject = comboBank.getSelectionModel().getSelectedItem();
+    			String subjectID = TeacherTestController.getSubjectID(subject);
+    			int questionCount = TeacherTestController.getQCount(subjectID);
     			String qID = null;
     			questionCount++;
     			if(questionCount < 10)
-    				qID = TeacherTestController.getQbankID(bank) + "00" + questionCount;
+    				qID = subjectID + "00" + questionCount;
     			else if(questionCount <= 99)
-    				qID = TeacherTestController.getQbankID(bank) + "0" + questionCount;
+    				qID = subjectID + "0" + questionCount;
     			else
-    				qID = TeacherTestController.getQbankID(bank) + questionCount;
+    				qID = subjectID + questionCount;
     			Question q  = new Question(qID, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
     			TeacherTestController.addQuestion(q);
     			

@@ -13,6 +13,7 @@ import entity.Message;
 import entity.MessageType;
 import entity.Question;
 import entity.QuestionBank;
+import entity.Subject;
 import entity.Test;
 
 import entity.User;
@@ -46,9 +47,9 @@ public class ServerController extends AbstractServer {
 			ArrayList<Test> arr = TeacherTestDBController.getAllTests();
 			msgFromServer = new Message(MessageType.TestsList, arr);
 			break;
-		case GetAllQuestionBank:
-			ArrayList<String> arrQ = QuestionDBController.getAllQuestionBanks();
-			msgFromServer = new Message(MessageType.QuestionBankList, arrQ);
+		case GetAllSubjects:
+			ArrayList<Subject> subjects = QuestionDBController.getAllSubjects();
+			msgFromServer = new Message(MessageType.GetAllSubjects, subjects);
 			break;
 		case GetQCount:
 			getQCount((String)message.getMessageData());
@@ -87,8 +88,8 @@ public class ServerController extends AbstractServer {
 			int countTest = TeacherTestDBController.getTestCount();
 			msgFromServer = new Message(MessageType.TestCount, countTest);
 			break;
-		case GetQBankID:
-			getQBankID((String)message.getMessageData());
+		case GetSubjectID:
+			getSubjectID((String)message.getMessageData());
 			break;
 		case logIn:
 			String logInStatus = UserDBController.tryToConnect((User) message.getMessageData());
@@ -133,15 +134,15 @@ public class ServerController extends AbstractServer {
 
 	}
 
-	private void getQBankID(String bankName) {
-		String id = QuestionDBController.getQBankID(bankName);
+	private void getSubjectID(String bankName) {
+		String id = QuestionDBController.getSubjectID(bankName);
 		if(id == null)
 			msgFromServer = new Message(MessageType.Error, "no such question bank");
-		msgFromServer = new Message(MessageType.GetQBankID, id);
+		msgFromServer = new Message(MessageType.GetSubjectID, id);
 	}
 
-	private void getQCount(String bankName) {
-		int count = QuestionDBController.getQuestionCount(bankName);
+	private void getQCount(String subjectID) {
+		int count = QuestionDBController.getQuestionCount(subjectID);
 		msgFromServer = new Message(MessageType.GetQCount, count);
 		
 	}

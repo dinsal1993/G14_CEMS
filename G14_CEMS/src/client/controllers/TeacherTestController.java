@@ -9,6 +9,7 @@ import entity.Message;
 import entity.MessageType;
 import entity.Question;
 import entity.QuestionBank;
+import entity.Subject;
 import entity.Test;
 import entity.TestBank;
 import entity.testCopy;
@@ -29,9 +30,9 @@ public class TeacherTestController {
 
 	
 	public static HashMap<String, TestBank> banksMap;
-	public static ArrayList<String> QuestionArr;
+	public static ArrayList<Subject> subjects;
 	public static int qCountByBank;
-	public static String qBankID;
+	public static String subjectID;
 
 	public static boolean updateTestValidFields(String testID, String newDuration) {
 		int id, duration;
@@ -107,10 +108,13 @@ public class TeacherTestController {
 		ClientUI.accept(msg);
 	}
 
-	public static ObservableList<String> getAllQBanks() {		
-		Message msg = new Message(MessageType.GetAllQuestionBank, null);
+	public static ObservableList<String> getAllSubjects() {		
+		Message msg = new Message(MessageType.GetAllSubjects, null);
 		ClientUI.accept(msg);
-		return FXCollections.<String>observableArrayList(QuestionArr);
+		ObservableList<String> answer = FXCollections.observableArrayList();
+		for(Subject s : subjects)
+			answer.add(s.getName());
+		return answer;
 	}
 	
 	public static void lockTest(Test test) {
@@ -152,16 +156,16 @@ public class TeacherTestController {
 	}
 
 	//get count of questions in bank
-	public static int getQCount(String bankID) {
-		Message msg = new Message(MessageType.GetQCount,bankID);
+	public static int getQCount(String subjectID) {
+		Message msg = new Message(MessageType.GetQCount,subjectID);
 		ClientUI.accept(msg);
 		return qCountByBank;
 	}
 
-	public static String getQbankID(String bankName) {
-		Message msg = new Message(MessageType.GetQBankID,bankName);
+	public static String getSubjectID(String bankName) {
+		Message msg = new Message(MessageType.GetSubjectID,bankName);
 		ClientUI.accept(msg);
-		return qBankID;
+		return subjectID;
 		
 	}
 

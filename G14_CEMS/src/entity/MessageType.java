@@ -11,7 +11,7 @@ public enum MessageType {
 	GetAllTestBanks,
 	LockTest,
 	SuccessLockTest,
-	GetAllQuestionBank,
+	GetAllSubjects,
 	RequestExtraTime,
 	SentExtraTimeRequest,
 	RefreshCourseTable,
@@ -23,6 +23,6 @@ public enum MessageType {
 	TestBanksList, QuestionBankList, addQuestion, insertQuestionBank,
 	insertTestBank,
 
-	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, GetQCount, GetQBankID;
+	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, GetQCount, GetSubjectID;
 
 }

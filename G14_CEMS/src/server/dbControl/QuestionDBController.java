@@ -10,17 +10,14 @@ import java.util.ArrayList;
 import client.controllers.ClientUI;
 import entity.Question;
 import entity.QuestionBank;
+import entity.Subject;
 
-public class QuestionDBController implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class QuestionDBController {
 
-	public static ArrayList<String> getAllQuestionBanks() {
+	public static ArrayList<Subject> getAllSubjects() {
 
-		ArrayList<String> banks = new ArrayList<String>();
-		String sqlQuery = "select * from questionbank";
+		ArrayList<Subject> subjects = new ArrayList<Subject>();
+		String sqlQuery = "select * from subject";
 
 		try {
 			if (DBConnector.myConn != null) {
@@ -29,8 +26,9 @@ public class QuestionDBController implements Serializable {
 
 				while (rs.next()) {
 					// Gather Data
+					int id = Integer.parseInt(rs.getString(1));
 					String name = rs.getString(2);
-					banks.add(name);
+					subjects.add(new Subject(id, name));
 				}
 				rs.close();
 			} else
@@ -38,7 +36,7 @@ public class QuestionDBController implements Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return banks;
+		return subjects;
 	}
 
 	public static void addQuestion(Question q) {
@@ -97,8 +95,8 @@ public class QuestionDBController implements Serializable {
 
 	}
 	//get num of questions in question bank
-	public static int getQuestionCount(String bankID) {
-		String sqlQuery = "select count(*) from question where id like \"" + bankID + "%\";";
+	public static int getQuestionCount(String subjectID) {
+		String sqlQuery = "select count(*) from question where id like \"" + subjectID + "%\";";
 		try {
 			if (DBConnector.myConn != null) {
 				Statement st = DBConnector.myConn.createStatement();
@@ -114,9 +112,9 @@ public class QuestionDBController implements Serializable {
 		}
 		return -1;
 	}
-	//get bankID from bank name
-	public static String getQBankID(String bankName) {
-		String sqlQuery = "select * from questionbank;";
+	//get subjectID from bank name
+	public static String getSubjectID(String bankName) {
+		String sqlQuery = "select * from subject;";
 		try {
 			if (DBConnector.myConn != null) {
 				Statement st = DBConnector.myConn.createStatement();
