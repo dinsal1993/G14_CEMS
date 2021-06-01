@@ -29,6 +29,7 @@ public class TeacherTestController {
 	public static Course course = new Course();
     public static int currentQuestions = 0;
     public static int currentBanks = 0;
+    public static String testID;
 	
 	public static HashMap<String, TestBank> banksMap;
 	public static HashMap<String, Question> questionMap;
@@ -176,6 +177,14 @@ public class TeacherTestController {
 		ClientUI.accept(msg);
 		
 		return testMap;
+	}
+	
+	public static String getTestID(String code)
+	{
+		Message msg = new Message(MessageType.GetTestCode,code);
+		ClientUI.accept(msg);
+		
+		return testID;
 	}
 
 }

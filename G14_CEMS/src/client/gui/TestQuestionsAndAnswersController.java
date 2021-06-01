@@ -2,6 +2,7 @@ package client.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
@@ -56,8 +57,10 @@ public class TestQuestionsAndAnswersController {
 	    @FXML
 	    private Label option4;
 	    
+	    @FXML
+	    private Label points;
 	    
-	    public static ObservableList<Question> questionsList = OnlineTestController.getList();
+	    public static Test questionsList = OnlineTestController.test;
 	    public int i;
 	    
 	    
@@ -75,29 +78,30 @@ public class TestQuestionsAndAnswersController {
 	    	i = j;
 	    	i++;
 	    	
-	    	if(i == questionsList.size())
+	    	if(i == questionsList.getQuestions().size())
 	    		btnNext.setText("Submit");
 	    }
 	    
 	    public void setQuestionDescription(int i)
 	    {
-	    	qstDescription.setText(questionsList.get(i).getDescription());
-	    
+	    	
+	    	qstDescription.setText(questionsList.getQuestions().get(i).getDescription());
+	    	points.setText(questionsList.getPointsPerQuestion().get(i).toString().toString());
 	    }
 	    
 	    public void setQuestionOptions(int i)
 	    {		    		
-	    	option1.setText(questionsList.get(i).getAnswers().get(0));
-	    	option2.setText(questionsList.get(i).getAnswers().get(1));
-	    	option3.setText(questionsList.get(i).getAnswers().get(2));
-	    	option4.setText(questionsList.get(i).getAnswers().get(3));
+	    	option1.setText(questionsList.getQuestions().get(i).getAnswers().get(0));
+	    	option2.setText(questionsList.getQuestions().get(i).getAnswers().get(1));
+	    	option3.setText(questionsList.getQuestions().get(i).getAnswers().get(2));
+	    	option4.setText(questionsList.getQuestions().get(i).getAnswers().get(3));
 	    	
 	    }
 	    
 	    @FXML
 	    void click_Next(ActionEvent event) {
 	    	
-	    	if(i == questionsList.size())
+	    	if(i == questionsList.getQuestions().size())
 	    	{
 	    		ClientUI.display("Congratulaions! You have finished the test.");
 	    		return;

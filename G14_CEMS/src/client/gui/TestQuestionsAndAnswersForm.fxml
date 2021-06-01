@@ -26,7 +26,7 @@
       <Button fx:id="btnNext" layoutX="594.0" layoutY="466.0" mnemonicParsing="false" onAction="#click_Next" prefHeight="33.0" prefWidth="75.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em; -fx-border-radius: 5em;" text="Next" textFill="WHITE" />
       <TextArea fx:id="qstDescription" layoutX="14.0" layoutY="120.0" prefHeight="66.0" prefWidth="229.0" promptText="Question Description" />
       <Label layoutX="16.0" layoutY="94.0" style="-fx-text-fill: GREEN;" text="Points :" />
-      <Label layoutX="98.0" layoutY="94.0" />
+      <Label fx:id="points" layoutX="98.0" layoutY="94.0" />
       <RadioButton fx:id="answer3" layoutX="36.0" layoutY="299.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="13.0" />
       <RadioButton fx:id="answer4" layoutX="36.0" layoutY="335.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="13.0" />
       <RadioButton fx:id="answer1" layoutX="36.0" layoutY="220.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="11.0" />

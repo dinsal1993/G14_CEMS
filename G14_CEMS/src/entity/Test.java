@@ -45,7 +45,7 @@ public class Test implements Serializable {
 		this.duration = duration;
 		this.questions = questions;
 		this.pointsPerQuestion = pointsPerQuestion;
-		this.executionCode = executionCode;
+		this.executionCode = "1234";
 		this.teacherName = teacherName;
 	}
 	

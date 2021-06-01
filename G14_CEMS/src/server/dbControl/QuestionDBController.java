@@ -31,6 +31,55 @@ public class QuestionDBController implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static void main(String[] args) throws SQLException, IOException {
+		
+		ArrayList<Question> questions = new ArrayList<>();
+		ArrayList<String> answers = new ArrayList<>();
+		ArrayList<Integer> points = new ArrayList<>();
+		answers.add("81");
+		answers.add("100");
+		answers.add("72");
+		answers.add("66");
+		points.add(5);
+		questions.add(new Question(1, "9 * 9 = ", answers,1,"Rajih"));
+		/*answers = new ArrayList<>();
+		answers.add("21");
+		answers.add("31");
+		answers.add("25");
+		answers.add("36");
+		points.add(10);
+		questions.add(new Question(2, "5 * 5 = ", answers,3,"Rajih"));*/
+		Test test = new Test(1,180,questions,points,"1234","Rajih");
+		String sql = "insert into test values (?, ?, ?, ?, ?)";
+		DBConnector db = new DBConnector();
+		PreparedStatement ps = DBConnector.myConn.prepareStatement(sql);
+		ps.setString(1, "2");
+		ps.setString(2, "300");
+		
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
+		oos.writeObject(questions);
+		byte[] courseAsByte;
+		courseAsByte = baos.toByteArray();
+		Blob b = DBConnector.myConn.createBlob();
+		b.setBytes(1, courseAsByte);
+		ps.setBlob(3, b);
+		
+		ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+		ObjectOutputStream oos1 = new ObjectOutputStream(baos1);
+		oos1.writeObject(points);
+		byte[] courseAsByte1;
+		courseAsByte1 = baos1.toByteArray();
+		Blob b1 = DBConnector.myConn.createBlob();
+		b1.setBytes(1, courseAsByte1);
+		ps.setBlob(4, b1);
+		ps.setString(5,"Rajih");
+		ps.executeUpdate();
+
+	}
+	
+	
 	public static ArrayList<Question> getAllQuestions() {
 
 		ArrayList<Question> questions = new ArrayList<Question>();
@@ -57,7 +106,7 @@ public class QuestionDBController implements Serializable {
 					answers.add(option2);
 					answers.add(option3);
 					answers.add(option4);
-					questions.add(new Question(null,description,answers,correctAnswer,teacherName));
+					//questions.add(new Question(null,description,answers,correctAnswer,teacherName));
 				}
 				rs.close();
 			} else
@@ -151,6 +200,7 @@ public class QuestionDBController implements Serializable {
 	}		
 	
 	public static HashMap<String, Test> getTestQuestions() {
+	
 		String sqlQuery = "select * from test";
 		
 		Test temp;
@@ -163,7 +213,10 @@ public class QuestionDBController implements Serializable {
 				Statement st = DBConnector.myConn.createStatement();
 				ResultSet rs = st.executeQuery(sqlQuery);
 				while (rs.next()) {
-		
+					questions = new ArrayList<>();
+					points = new ArrayList<>();
+					temp = new Test();
+					
 					Blob questionsBlob = rs.getBlob(3);
 					BufferedInputStream bis = new BufferedInputStream(questionsBlob.getBinaryStream());
 					ObjectInputStream ois = new ObjectInputStream(bis);
@@ -176,16 +229,16 @@ public class QuestionDBController implements Serializable {
 					points = (ArrayList<Integer>) ois1.readObject();
 					
 					// construct current read test
-					temp = new Test();
+					
 					temp.setId(Integer.parseInt(rs.getString(1)));
 					temp.setDuration(Integer.parseInt(rs.getString(2)));
-					temp.setQuestions(null);
-					temp.setPointsPerQuestion(null);
+					temp.setQuestions(questions);
+					temp.setPointsPerQuestion(points);
 					temp.setTeacherName(rs.getString(5));
 			
 
 					// Add test to hashMap
-					testMap.put(temp.getExecutionCode(), temp);
+					testMap.put(rs.getString(1), temp);
 
 				}
 			}
@@ -199,9 +252,33 @@ public class QuestionDBController implements Serializable {
 			e.printStackTrace();
 		}
 		return testMap;
-
+	}
+	
+	public static String getTestID(String code)
+	{
+		String id = null;
+		String sqlQuery = "select id from pretest where executioncode = "+code+"";
+		
+				try {
+					if(DBConnector.myConn != null)
+					{
+						Statement st = DBConnector.myConn.createStatement();
+						ResultSet rs = st.executeQuery(sqlQuery);
+						while(rs.next())
+						{
+							id = rs.getString("id");
+						}
+					}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+			}
+				
+			return id;
+		
 
 	}
+	
 	
 
 }//End class

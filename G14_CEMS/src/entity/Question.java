@@ -39,9 +39,10 @@ public class Question implements Serializable {
 	 * @param correctAnswer The correct answer
 	 * @param teacherName The teacher who wrote the test
 	 */
-	public Question(AtomicInteger id, String description, ArrayList<String> answers,
+	public Question(int id, String description, ArrayList<String> answers,
 			int correctAnswer, String teacherName) {
-		this.id = CreateQuestionController.count.incrementAndGet();
+		//this.id = CreateQuestionController.count.incrementAndGet();
+		this.id = id;
 		this.description = description;
 		this.answers = answers;
 		this.correctAnswer = correctAnswer;

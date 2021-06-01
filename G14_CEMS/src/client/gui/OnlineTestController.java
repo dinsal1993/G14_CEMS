@@ -40,6 +40,7 @@ public class OnlineTestController {
     
     public static ObservableList<Question> testQuestionsList;
     public static Test test;
+    public static ObservableList<Test> tests;
     public static HashMap<String,Test> testMap;
     
     
@@ -69,10 +70,16 @@ public class OnlineTestController {
     		lblValidCode.setText("Its A Valid Code!");
     		lblValidCode.setTextFill(Color.GREEN);
     		testMap = TeacherTestController.getTestQuestions();
-    		System.out.println(testMap);
-    		//testQuestionsList = testMap.get(0).getQuestions();
-    		//System.out.println(testQuestionsList);
-    		/*testQuestionsList = TeacherTestController.getAllQuestions();
+    		String id = TeacherTestController.getTestID(getExecutionCode());
+    		
+    		for(int i = 0;i<testMap.size();i++)
+    		{
+    			if(testMap.containsKey(id))
+    				test = testMap.get(id);
+    		}
+    		
+    		
+    		
     		FXMLLoader loader = new FXMLLoader(getClass().getResource
     				("TestQuestionsAndAnswersForm.fxml"));
         	Parent root = null;
@@ -86,27 +93,13 @@ public class OnlineTestController {
     	    	ScreenControllers.duringTestControl.start(0);
     		} catch (IOException e) {
     			e.printStackTrace();
-    		}*/
+    		}
     		
     		//TO-DO:
     		//Need to start a timer before starting the exam 
-    		//open the right window
     		
-    		/*
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("OnlineTestForm.fxml"));
-    		Parent root;
-    		try {
-    			ScreenControllers.onlineTestControl = loader.getController();
-    			root = loader.load();
-    			Scene scene = new Scene(root);
-    			Stage onlineTest = new Stage();
-    			onlineTest.setScene(scene);
-    			UserController.currentStage.hide();
-    			UserController.currentStage =onlineTest;
-    			onlineTest.show();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}*/
+    		
+    		
 		}
     	else
     	{
@@ -132,9 +125,9 @@ public class OnlineTestController {
     
     }
     
-    public static ObservableList<Question> getList()
+    public static HashMap<String, Test> getList()
     {
-    	return testQuestionsList;
+    	return testMap;
     }
     
     

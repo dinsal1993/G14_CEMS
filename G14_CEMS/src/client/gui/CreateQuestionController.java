@@ -65,7 +65,7 @@ public class CreateQuestionController{
         
     
     public static int atomicCount = 0;
-    public static final AtomicInteger count = new AtomicInteger(TeacherTestController.currentQuestions);
+   // public static final AtomicInteger count = new AtomicInteger(TeacherTestController.currentQuestions);
     public void start() {
     	
 		txtAnswerA.setText("");
@@ -97,9 +97,9 @@ public class CreateQuestionController{
     	answers.add(txtAnswerC.getText());
     	answers.add(txtAnswerD.getText());
     	
-    	TeacherTestController.currentQuestions = TeacherTestController.getCurrentQuestionNum();
-    	atomicCount = TeacherTestController.currentQuestions;
-    	count.set(atomicCount);
+    	//TeacherTestController.currentQuestions = TeacherTestController.getCurrentQuestionNum();
+    	//atomicCount = TeacherTestController.currentQuestions;
+    	//count.set(atomicCount);
     	if(comboBank.getItems().isEmpty())
     		ClientUI.display("First Create question bank");
     	else if(txtAnswerA.getText().trim().isEmpty()||txtAnswerB.getText().trim().isEmpty()||txtAnswerC.getText().trim().isEmpty()||txtAnswerD.getText().trim().isEmpty())
@@ -108,7 +108,7 @@ public class CreateQuestionController{
     			ClientUI.display("Description field is empty!");
     		else 
     		{
-    			Question q  = new Question(count, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
+    			Question q  = new Question(1, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
     			TeacherTestController.addQuestion(q);
     			
     		}	
