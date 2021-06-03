@@ -1,8 +1,12 @@
 package server.controllers;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import java.sql.Blob;
 
 import client.controllers.ClientUI;
 import client.gui.CreateQuestionController;
@@ -97,11 +101,20 @@ public class ServerController extends AbstractServer {
 			TeacherTestDBController.deleteCourse((Course)message.getMessageData());
 			msgFromServer = new Message(MessageType.CourseDeleted,null);
 			break;
+		case execCode:
+			String id = TestDBController.FindTestIdAccordingToExecCode((String)message.getMessageData());
+			 msgFromServer = new Message(MessageType.execCode, id);
+			break;
+		case downloadManualTest:
+			byte[] byteManualTest = TestDBController.getTest((String)message.getMessageData()); // lo hayav, efshar she tamid nase ba func shel get test she yavi et a blob shel execcODE 0000 , LE SHEM HAVANA , OLAY NIMHAK
+			 msgFromServer = new Message(MessageType.downloadManualTest, byteManualTest); // mabey blob not object dont forgert
+			 break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}
+		
 		sendToAllClients(msgFromServer);
-
+	
 	}
 
 	private void getAllTestBanks() {

@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.BufferedInputStream;
 import java.io.Serializable;
 
 public class Message implements Serializable {
@@ -25,5 +26,6 @@ public class Message implements Serializable {
 	  public String toString() {
 	    return "MESSAGE";
 	  }
+
 
 }
