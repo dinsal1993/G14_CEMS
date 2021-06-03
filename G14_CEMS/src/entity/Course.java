@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class Course implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public int subjectID;
-	public int courseID;
+	public String subjectID;
+	public String courseID;
 	public String name;
 	
-	public Course(int subjectID, int courseID, String name) {
+	public Course(String subjectID, String courseID, String name) {
 		this.subjectID = subjectID;
 		this.courseID = courseID;
 		this.name = name;
@@ -22,19 +22,19 @@ public class Course implements Serializable {
 	
 
 
-	public int getSubjectID() {
+	public String getSubjectID() {
 		return subjectID;
 	}
 
-	public void setSubjectID(int subjectID) {
+	public void setSubjectID(String subjectID) {
 		this.subjectID = subjectID;
 	}
 
-	public int getCourseID() {
+	public String getCourseID() {
 		return courseID;
 	}
 
-	public void setCourseID(int courseID) {
+	public void setCourseID(String courseID) {
 		this.courseID = courseID;
 	}
 

@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import entity.Course;
 import entity.Message;
 import entity.MessageType;
+import entity.Question;
 import entity.Subject;
 import entity.Test;
 import entity.TestBank;
@@ -42,17 +43,33 @@ public class ClientController extends AbstractClient {
 		case GetAllSubjects:
 			TeacherTestController.subjects = (ArrayList<Subject>)message.getMessageData();
 			break;
+		case GetQuestionsBySubject:
+			TeacherTestController.questionsBySubject = (ArrayList<Question>)message.getMessageData();
+			break;
 		case SuccessUpdateTest:
 			ClientUI.display("Update succesful");
 			break;
 		case addQuestion:
 			ClientUI.display("Created question successfully");
 			break;
+		case AddTest:
+			System.out.println("inside clientController.AddTest");
+			ClientUI.display((String)message.getMessageData());
+			break;
 		case GetQCount:
 			TeacherTestController.qCountByBank = (int)message.getMessageData();
 			break;
+		case GetTCount:
+			TeacherTestController.tCountByBankAndCourse = (int)message.getMessageData();
+			break;
 		case GetSubjectID:
 			TeacherTestController.subjectID = (String)message.getMessageData();
+			break;
+		case GetCourseID:
+			TeacherTestController.courseID = (String)message.getMessageData();
+			break;
+		case getCoursesBySubject:
+			TeacherTestController.courseArr = (ArrayList<Course>)message.getMessageData();
 			break;
 		case insertQuestionBank:
 		ClientUI.display("Created question bank successfully");

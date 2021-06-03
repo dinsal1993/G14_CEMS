@@ -78,6 +78,8 @@
                   <Font size="16.0" />
                </font>
             </Button>
+            <Button fx:id="btnEdit" layoutX="500.0" layoutY="376.0" mnemonicParsing="false" onAction="#click_edit" styleClass="btn" text="Edit" />
+            <Button fx:id="btnDelete" layoutX="553.0" layoutY="376.0" mnemonicParsing="false" onAction="#click_delete" styleClass="btn" text="Delete" />
          </children></AnchorPane>
   </items>
 </SplitPane>

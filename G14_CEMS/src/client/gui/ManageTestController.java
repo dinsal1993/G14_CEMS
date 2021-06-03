@@ -88,13 +88,13 @@ public class ManageTestController {
 			//list = (tblTests.getItems());
 			TeacherTestController.getAllTest();
 			// get chosen test details
-			for (Test t : TeacherTestController.list) {
-				if (t.getId() == Integer.parseInt(txtTestID.getText())) {
-					test.setId(t.getId());
-					flag = 1;
-				}
+			//for (Test t : TeacherTestController.list) {
+			//	if (t.getId() == Integer.parseInt(txtTestID.getText())) {
+			//		test.setId(t.getId());
+			//		flag = 1;
+			//	}
 
-			}
+			//}
 			if(flag == 0)
 				ClientUI.display("Test doesnt exist!");
 			else
@@ -115,15 +115,15 @@ public class ManageTestController {
 			//list = (tblTests.getItems());
 			TeacherTestController.getAllTest();
 			// get chosen test details
-			for (Test t : TeacherTestController.list) 
-			{
-				if (t.getId() == Integer.parseInt(id)) 
-				{
-					tc.setTestID(t.getId());	
-					tc.setReasons(reasons);
-					TeacherTestController.requestExtraTime(tc);
-				}
-			}
+			//for (Test t : TeacherTestController.list) 
+			//{
+			//	if (t.getId() == Integer.parseInt(id)) 
+			//	{
+			//		tc.setTestID(t.getId());	
+			//		tc.setReasons(reasons);
+			//		TeacherTestController.requestExtraTime(tc);
+			//	}
+		//	}
 			
     	}
     	else //checkbox isnt selected

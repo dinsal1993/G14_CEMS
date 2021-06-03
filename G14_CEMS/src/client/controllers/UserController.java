@@ -41,6 +41,8 @@ public class UserController {
 	 */
 	public static Stage extraStage;
 	
+	public static Stage extraStage2;
+	
 	
 	/**
 	 *  send to the server the details about the login

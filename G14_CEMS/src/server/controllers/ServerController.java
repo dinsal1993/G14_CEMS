@@ -32,6 +32,7 @@ public class ServerController extends AbstractServer {
 	public String clientConnected = "Not Connected";
 	public static DBConnector dbConnector;
 	Message msgFromServer = null;
+	boolean specificMsg = false;
 
 	public ServerController(int port) {
 		super(port);
@@ -43,20 +44,30 @@ public class ServerController extends AbstractServer {
 		Message message = (Message) msg;
 
 		switch (message.getMessageType()) {
-		case GetAllTests:
-			ArrayList<Test> arr = TeacherTestDBController.getAllTests();
-			msgFromServer = new Message(MessageType.TestsList, arr);
+		case Hello:
+			client.setInfo("username",(String)message.getMessageData());
 			break;
 		case GetAllSubjects:
-			ArrayList<Subject> subjects = QuestionDBController.getAllSubjects();
+			ArrayList<Subject> subjects = QuestionDBController.getAllSubjects((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.GetAllSubjects, subjects);
 			break;
+		case getCoursesBySubject:
+			getCoursesBySubject((String)message.getMessageData());
+			break;
 		case GetQCount:
-			getQCount((String)message.getMessageData());
+			getQCount((ArrayList<String>)message.getMessageData());
+			break;
+		case GetTCount:
+			getTCount((ArrayList<String>)message.getMessageData());
 			break;
 		case addQuestion:
 			QuestionDBController.addQuestion((Question) message.getMessageData());
 			msgFromServer = new Message(MessageType.addQuestion, null);
+			break;
+		case AddTest:
+			System.out.println("inside serverController.AddTest");
+			String temp = TeacherTestDBController.addTest((Test)message.getMessageData());
+			msgFromServer = new Message(MessageType.AddTest, temp);
 			break;
 		case insertQuestionBank:
 			try {
@@ -80,10 +91,6 @@ public class ServerController extends AbstractServer {
 			System.out.println("in server controller. recieved msg");
 			getAllTestBanks();
 			break;
-		case UpdateTestDuration:
-			TeacherTestDBController.updateTestDuration((Test) message.getMessageData());
-			msgFromServer = new Message(MessageType.SuccessUpdateTest, null);
-			break;
 		case GetTestCount:
 			int countTest = TeacherTestDBController.getTestCount();
 			msgFromServer = new Message(MessageType.TestCount, countTest);
@@ -91,13 +98,20 @@ public class ServerController extends AbstractServer {
 		case GetSubjectID:
 			getSubjectID((String)message.getMessageData());
 			break;
+		case GetCourseID:
+			getCourseID((ArrayList<String>)message.getMessageData());
+			break;
+		case GetQuestionsBySubject:
+			getQuestionsBySubject((ArrayList<String>)message.getMessageData());
+			break;
 		case logIn:
 			String logInStatus = UserDBController.tryToConnect((User) message.getMessageData());
 			msgFromServer = new Message(MessageType.logIn, logInStatus);
 			break;
 		case LockTest:
-			TeacherTestDBController.lockTest((Test)message.getMessageData());
-			msgFromServer = new Message(MessageType.SuccessLockTest, null);
+			//TeacherTestDBController.lockTest((Test)message.getMessageData());
+			lockTest(TeacherTestDBController.lockTestDin((String)message.getMessageData()));
+			specificMsg = true;
 			break;
 		case RequestExtraTime:
 			TeacherTestDBController.requestExtraTime((testCopy)message.getMessageData());
@@ -130,8 +144,56 @@ public class ServerController extends AbstractServer {
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}
-		sendToAllClients(msgFromServer);
+		if(specificMsg == false)
+			sendToAllClients(msgFromServer);
+		else
+			specificMsg = false;
 
+	}
+
+	private void lockTest(ArrayList<String> usersList) {
+		Thread[] connections = super.getClientConnections();
+		Message msg = new Message(MessageType.LockTest, null);
+		for(String s : usersList) {
+			for(Thread t : connections) {
+				ConnectionToClient c = (ConnectionToClient)t;
+				try {
+					if(c.getInfo("username").equals(s))
+						c.sendToClient(msg);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+	}
+
+	private void getTCount(ArrayList<String> arr) {
+		int count = TeacherTestDBController.getTestCount(arr);
+		msgFromServer = new Message(MessageType.GetTCount, count);
+		
+	}
+
+	private void getCourseID(ArrayList<String> arr) {
+		String id = TeacherTestDBController.getCourseID(arr);
+		if(id == null)
+			msgFromServer = new Message(MessageType.Error, "no such course");
+		else
+			msgFromServer = new Message(MessageType.GetCourseID, id);
+		
+	}
+
+	private void getQuestionsBySubject(ArrayList<String> arr) {
+		ArrayList<Question> answer = TeacherTestDBController.getQuestionsBySubject(arr);
+		msgFromServer = new Message(MessageType.GetQuestionsBySubject, answer);
+	}
+
+	private void getCoursesBySubject(String subjectID) {
+		ArrayList<Course> arr = TeacherTestDBController.getCoursesBySubject(subjectID);
+		msgFromServer = new Message(MessageType.getCoursesBySubject, arr);
+		
 	}
 
 	private void getSubjectID(String bankName) {
@@ -141,8 +203,8 @@ public class ServerController extends AbstractServer {
 		msgFromServer = new Message(MessageType.GetSubjectID, id);
 	}
 
-	private void getQCount(String subjectID) {
-		int count = QuestionDBController.getQuestionCount(subjectID);
+	private void getQCount(ArrayList<String> arr) {
+		int count = QuestionDBController.getQuestionCount(arr);
 		msgFromServer = new Message(MessageType.GetQCount, count);
 		
 	}

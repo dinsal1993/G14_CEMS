@@ -111,8 +111,8 @@ public class EditCoursesController implements Initializable {
     @FXML
     public void click_Add()
     {
-    	Integer bankID = Integer.parseInt(txtBankID.getText());
-    	Integer courseID = Integer.parseInt(txtCourseID.getText());
+    	String bankID = txtBankID.getText();
+    	String courseID = txtCourseID.getText();
     	String name = txtName.getText();
     	Course c = new Course(bankID,courseID,name);
     	TeacherTestController.addCourse(c);
@@ -122,8 +122,8 @@ public class EditCoursesController implements Initializable {
     @FXML
     public void click_Delete()
     {
-    	Integer bankID = Integer.parseInt(txtBankID.getText());
-    	Integer courseID = Integer.parseInt(txtCourseID.getText());
+    	String bankID = txtBankID.getText();
+    	String courseID = txtCourseID.getText();
     	String name = txtName.getText();
     	Course c = new Course(bankID,courseID,name);
     	TeacherTestController.deleteCourse(c);
@@ -133,8 +133,8 @@ public class EditCoursesController implements Initializable {
     @FXML
     public void click_Edit()
     {
-    	Integer bankID = Integer.parseInt(txtBankID.getText());
-    	Integer courseID = Integer.parseInt(txtCourseID.getText());
+    	String bankID =txtBankID.getText();
+    	String courseID = txtCourseID.getText();
     	String name = txtName.getText();
     	Course c = new Course(bankID,courseID,name);
     	//TeacherTestController.deleteCourse(c);

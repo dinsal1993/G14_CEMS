@@ -5,20 +5,20 @@ import java.io.Serializable;
 public class Subject implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private String id;
 	private String name;
 	
-	public Subject(int id, String name) {
+	public Subject(String id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

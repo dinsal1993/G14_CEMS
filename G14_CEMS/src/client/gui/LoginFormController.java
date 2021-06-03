@@ -82,6 +82,8 @@ public class LoginFormController {
 				Scene scene = new Scene(root);
 				UserController.currentStage.setScene(scene);
 				ScreenControllers.teacherMenuController.start();
+				Message msg = new Message(MessageType.Hello, username);
+				ClientUI.accept(msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -99,6 +101,8 @@ public class LoginFormController {
 				Scene scene = new Scene(root1);
 				UserController.currentStage.setScene(scene);
 				ScreenControllers.studentMenuControl.start();
+				Message msg = new Message(MessageType.Hello, username);
+				ClientUI.accept(msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

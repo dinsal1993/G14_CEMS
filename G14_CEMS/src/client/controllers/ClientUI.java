@@ -32,6 +32,7 @@ public class ClientUI extends Application {
 		ScreenControllers.loginFormController = loader.getController();
 		UserController.currentStage = primaryStage;
 		UserController.extraStage = new Stage();
+		UserController.extraStage2 = new Stage();
 		ScreenControllers.loginFormController.start(primaryStage);
 	}
 

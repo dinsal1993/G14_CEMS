@@ -24,6 +24,8 @@ public class Question implements Serializable {
 	/** The teacher that wrote the question */
 	private String teacherName;
 	
+	private String teacherUsername;
+	
 	/**
 	 * @param id The unique question ID
 	 * @param description The text of the question
@@ -32,18 +34,26 @@ public class Question implements Serializable {
 	 * @param teacherName The teacher who wrote the test
 	 */
 	public Question(String id, String description, ArrayList<String> answers,
-			int correctAnswer, String teacherName) {
+			int correctAnswer, String teacherName, String teacherUsername) {
 		this.id = id;
 		this.description = description;
 		this.answers = answers;
 		this.correctAnswer = correctAnswer;
 		this.teacherName = teacherName;
+		this.teacherUsername = teacherUsername;
 	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getTeacherUsername() {
+		return teacherUsername;
+	}
+	public void setTeacherUsername(String teacherUsername) {
+		this.teacherUsername = teacherUsername;
 	}
 	public String getDescription() {
 		return description;
@@ -72,8 +82,9 @@ public class Question implements Serializable {
 	@Override
 	public String toString() {
 		return "Question [id=" + id + ", description=" + description + ", answers=" + answers + ", correctAnswer="
-				+ correctAnswer + ", teacherName=" + teacherName + "]";
+				+ correctAnswer + ", teacherName=" + teacherName + ", teacherUsername=" + teacherUsername + "]";
 	}
+	
 	
 	
 

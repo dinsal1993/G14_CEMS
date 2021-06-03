@@ -82,27 +82,23 @@ public class TeacherMenuController {
     
     @FXML
     void click_editQuestion(ActionEvent event) {		
-
-    }
-    
-   
-    
-    @FXML
-    void click_createQBank(ActionEvent event) {
-
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuestionBankForm.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("EditDeleteQuestionForm.fxml"));
 		Parent root;
 		try {
 		
 		root = loader.load();
-		ScreenControllers.createQBankControl = loader.getController();
+    ScreenControllers.editDeleteQuestionControl = loader.getController();
 		Scene scene = new Scene(root);
 		UserController.currentStage.setScene(scene);
-		ScreenControllers.createQBankControl.start();
+		ScreenControllers.editDeleteQuestionControl.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
     }
+    
+   
+    
+
     
     @FXML
     void click_CreateTest(ActionEvent event) {
@@ -137,43 +133,6 @@ public class TeacherMenuController {
 			UserController.currentStage = manage;
 			manage.show();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
-    @FXML
-    public void clickEditCourses(ActionEvent event) throws Exception
-    {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("EditCoursesForm.fxml"));
-		Parent root;
-		try {
-			ScreenControllers.editCoursesControl = loader.getController();
-			root = loader.load();
-			Scene scene = new Scene(root);
-			Stage editCourse = new Stage();
-			editCourse.setScene(scene);
-			UserController.currentStage.hide(); // close?
-			UserController.currentStage = editCourse;
-			editCourse.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
-    @FXML
-    void click_CreateTestBank(ActionEvent event)
-    {
-    	
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateTestBank.fxml"));
-    	Parent root = null;
-    	
-    	try {
-			root = loader.load();
-			ScreenControllers.createTestBankControl = loader.getController();
-	    	Scene scene = new Scene(root);
-
-	    	UserController.currentStage.setScene(scene);
-	    	ScreenControllers.createTestBankControl.start();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
