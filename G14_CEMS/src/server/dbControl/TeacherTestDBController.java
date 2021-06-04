@@ -39,8 +39,9 @@ public class TeacherTestDBController implements Serializable {
 		 * b); ps.executeUpdate();
 		 */
 		// Shahar- input- MIVHAN YADANI LEDOGMA -id-0000.
-		 writeBlob();
+		 //writeBlob();
 		//readBlob("0000","a");
+
 	}
 
 	/**

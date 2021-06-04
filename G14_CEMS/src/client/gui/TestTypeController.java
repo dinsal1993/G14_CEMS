@@ -56,7 +56,6 @@ public class TestTypeController {
 				root = loader.load();
 				Scene scene = new Scene(root);
 				UserController.extraStage = UserController.currentStage; // save the current stage
-
 				UserController.currentStage.setScene(scene);
 			} catch (IOException e) {
 				e.printStackTrace();

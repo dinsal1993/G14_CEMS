@@ -22,6 +22,6 @@ public enum MessageType {
 	CourseDeleted,
 	TestBanksList, QuestionBankList, addQuestion, insertQuestionBank,
 
-	logIn, execCode, execCodeManual, downloadManualTest;
+	logIn, execCode, execCodeManual, downloadManualTest, submitManualTest;
 
 }

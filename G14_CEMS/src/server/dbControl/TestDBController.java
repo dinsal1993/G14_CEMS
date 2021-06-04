@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -59,6 +60,7 @@ public class TestDBController implements Serializable{
 	 * 
 	 * return the buffered input stream of the blob of the manual test
 	 * @throws IOException 
+	 * @return the byte array of the manual test blob
 	 */
 
 	public static byte[] getTest(String executionCode) { 
@@ -82,5 +84,36 @@ public class TestDBController implements Serializable{
 			e.printStackTrace();
 		}
 		return byteManualTest;
+	}
+
+	
+	// zarih lishloh le po et ha -> TEST ID,YEAR,MONTH,DAY,StudentID -(olay bimkom username) -> efshar lasot rak ahri she yesh lano kvar mng test, she sham samim arahim?
+	/**
+	 * save the manual test word document file in data base
+	 * @param arrByteManualTestUpload array byte of the manual test word document file
+	 * @return true in case that the manual test is saved in data base
+	 */
+	public static boolean SaveManualTest(byte[] arrByteManualTestUpload) {
+		
+		String updateSQL = "UPDATE testcopy " + "SET studentAnswersManual = ? " + "WHERE id=?";
+		try {
+			PreparedStatement ps = DBConnector.myConn.prepareStatement(updateSQL);
+
+			Blob blobManualTest = DBConnector.myConn.createBlob();
+		
+			// fill blob object with byte array
+			blobManualTest.setBytes(1,arrByteManualTestUpload);
+
+			// attach blob object to sql query
+			ps.setBlob(1, blobManualTest);
+			ps.setString(2, "010101");
+
+			// activate sql query
+			ps.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			System.out.println("Error send (Files)msg) to Server");
+		}
+		return false;
 	}
 }

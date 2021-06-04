@@ -100,6 +100,16 @@ public class ClientController extends AbstractClient {
 		case downloadManualTest:
 			UserController.byteManualTest = (byte[])message.getMessageData();
 			break;
+		case submitManualTest:
+			
+			if( ((String)message.getMessageData()).equals("Successfully submitted")) {
+				UserController.flagForSubmittedTestSuccessfully = true; }
+			//ClientUI.display((String)message.getMessageData());	
+			
+	
+			
+			break;
+			
 			default:
 				ClientUI.display("cant read message from server");
 		}

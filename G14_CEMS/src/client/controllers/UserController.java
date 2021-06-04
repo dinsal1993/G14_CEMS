@@ -53,7 +53,11 @@ public class UserController {
 	 * current byte[] of the manual test.
 	 */
 	public static byte[] byteManualTest;
-
+	
+	/**
+	 * flag For Submitted Test Successfully
+	 */
+	public static boolean flagForSubmittedTestSuccessfully=false;
 	/**
 	 * send to the server the details about the login
 	 * 

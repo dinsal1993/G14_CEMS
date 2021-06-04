@@ -109,6 +109,11 @@ public class ServerController extends AbstractServer {
 			byte[] byteManualTest = TestDBController.getTest((String)message.getMessageData()); // lo hayav, efshar she tamid nase ba func shel get test she yavi et a blob shel execcODE 0000 , LE SHEM HAVANA , OLAY NIMHAK
 			 msgFromServer = new Message(MessageType.downloadManualTest, byteManualTest); // mabey blob not object dont forgert
 			 break;
+		case submitManualTest:
+			boolean saveTestInDB = TestDBController.SaveManualTest((byte[])message.getMessageData());
+			if(saveTestInDB) { msgFromServer = new Message(MessageType.submitManualTest, "Successfully submitted");}
+			else { msgFromServer = new Message(MessageType.submitManualTest, "Error in submit the test in to the database");}
+			break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}

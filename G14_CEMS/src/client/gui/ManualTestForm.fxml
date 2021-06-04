@@ -16,9 +16,9 @@
          <children>
             <Button fx:id="btnBack" layoutX="24.0" layoutY="240.0" mnemonicParsing="false" onAction="#back" prefHeight="32.0" prefWidth="88.0" styleClass="btn" text="Back" textFill="WHITE" />
             <Button fx:id="btnDownloadTest" layoutX="93.0" layoutY="52.0" mnemonicParsing="false" onAction="#clickDownloadTest" text="Download Test" />
-            <Button fx:id="btnUploadTest" layoutX="93.0" layoutY="112.0" mnemonicParsing="false" onAction="#uploadTest" text="Upload Test" />
-            <Button layoutX="242.0" layoutY="225.0" mnemonicParsing="false" text="Edit the submission" />
-            <Button layoutX="477.0" layoutY="225.0" mnemonicParsing="false" text="Submit" />
+            <Button fx:id="btnUploadTest" layoutX="93.0" layoutY="112.0" mnemonicParsing="false" onAction="#clickUploadTest" text="Upload Test" />
+            <Button layoutX="242.0" layoutY="225.0" mnemonicParsing="false" onAction="#clickEditTheSubmission" text="Edit the submission" />
+            <Button layoutX="477.0" layoutY="225.0" mnemonicParsing="false" onAction="#clickSubmit" text="Submit" />
          </children></AnchorPane>
   </items>
 </SplitPane>
