@@ -202,7 +202,7 @@ public class CreateQuestionController implements Initializable {
 		if(valid.equals("valid")) {
 			questionForEdit.setCorrectAnswer(Integer.parseInt(correctAnswer));
 			Message msg = new Message(MessageType.UpdateQuestion, questionForEdit);
-			//Send message !
+			//Send message !)
 		}
 		
 		//Question q = new Question(id, description, answers, correctAnswer, teacherName, teacherUsername);
