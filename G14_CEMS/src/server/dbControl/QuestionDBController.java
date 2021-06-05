@@ -148,4 +148,33 @@ public class QuestionDBController {
 		return null;
 	}
 
+	public static Question getQuestionByID(ArrayList<String> arr) {
+		String sqlQuery = "select * from question where id = \"" + 
+				arr.get(0) + "\" and teacherUsername = \"" + arr.get(1) + "\";";
+		try {
+			if (DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				rs.next();
+				
+				String id = rs.getString(1);
+				String description = rs.getString(2);
+				int correctAnswer = Integer.parseInt(rs.getString(3));
+				String teacherName = rs.getString(4);
+				ArrayList<String> answers = new ArrayList<>();
+				answers.add(rs.getString(5));
+				answers.add(rs.getString(6));
+				answers.add(rs.getString(7));
+				answers.add(rs.getString(8));
+				String teacherUsername = rs.getString(9);
+				
+				return new Question(id, description, answers, correctAnswer, teacherName, teacherUsername);		
+			} else
+				System.out.println("myConn is NULL !");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

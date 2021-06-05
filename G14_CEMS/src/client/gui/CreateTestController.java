@@ -95,6 +95,7 @@ public class CreateTestController {
 	private ArrayList<Question> testQuestions;
 	private ArrayList<Integer> pointsPerQuestion;
 	private boolean questionsAdded;
+	
 
 
 	@FXML
@@ -146,9 +147,10 @@ public class CreateTestController {
 		String course = cmbCourseName.getSelectionModel().getSelectedItem();
 		String courseID = TeacherTestController.getCourseID(subjectID, course);
 
+		String teacherUsername = ScreenControllers.loginFormController.getUsername();
 		// set test ID
 		// get num of tests in specific subject and course
-		int testCount = TeacherTestController.getTCount(subjectID, courseID);
+		int testCount = TeacherTestController.getTCount(subjectID, courseID, teacherUsername);
 		testCount++;
 		String testID = null;
 		if (testCount < 10)
@@ -162,7 +164,7 @@ public class CreateTestController {
 
 		int duration = Integer.parseInt(txtDuration.getText());
 		String teacherName = "setName";
-		String teacherUsername = ScreenControllers.loginFormController.getUsername();
+		
 		String teacherNotes = txtTeacherNotes.getText();
 		String studentNotes = txtStudentNotes.getText();
 		Test t = new Test(testID, duration, testQuestions, pointsPerQuestion, teacherName, teacherUsername,
@@ -236,8 +238,5 @@ public class CreateTestController {
 		questionsAdded = value;
 	}
 
-	public void startFromNewBank(String newBankName, String firstCourse) {
-		// TODO:
-		// initialize BankName and Course from the NewBank Form
-	}
+	
 }

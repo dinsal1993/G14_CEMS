@@ -34,35 +34,7 @@ public class TeacherTestController {
 	public static ArrayList<Question> questionsBySubject;
 	public static String courseID;
 	public static int tCountByBankAndCourse;
-
-	public static boolean updateTestValidFields(String testID, String newDuration) {
-		int id, duration;
-		try {
-			id = Integer.parseInt(testID);
-			duration = Integer.parseInt(newDuration);
-		} catch (Exception e) {
-			return false;
-		}
-
-		if (id < 1 || id > getTestCount())
-			return false;
-		if (duration <= 0 || duration > MAX_TEST_TIME)
-			return false;
-		return true;
-
-	}
-
-	private static int getTestCount() {
-		Message msg = new Message(MessageType.GetTestCount, null);
-		ClientUI.accept(msg);
-		return testCount;
-	}
-
-	public static void updateTestDuration(Test test) {
-		Message msg = new Message(MessageType.UpdateTestDuration, test);
-		ClientUI.accept(msg);
-
-	}
+	public static Question specificQ;
 
 	public static void getAllTest() {
 		Message msg = new Message(MessageType.GetAllTests, null);
@@ -72,14 +44,6 @@ public class TeacherTestController {
 			list.remove(t);
 		for (Test t : testArr)
 			list.add(t);
-	}
-
-	public static ObservableList<String> getAllTestBanks() {
-		Message msg = new Message(MessageType.GetAllTestBanks, null);
-		ClientUI.accept(msg);
-
-		ObservableList<String> arr = FXCollections.observableArrayList(banksMap.keySet());
-		return arr;
 	}
 
 	public static ObservableList<String> getCourseList(String subjectName) {
@@ -184,38 +148,39 @@ public class TeacherTestController {
 
 	}
 
-	// before add question to question list check if question exist and
+	// before add question to question list in test check if question exist and
 	// teacher input valid score
-	public static String checkValidQuestionID(String questionID, String score,int currentSum, ObservableList<String> questionsInTest) {
+	public static String checkValidQuestionID(String questionID, String score, int currentSum,
+			ObservableList<String> questionsInTest) {
 		boolean questionExist = false, scoreValid = false;
 		int scoreNum = 0;
-		//check that teacher input a valid questionID from the list of
-		//possible questions
-		for(Question q : questionsBySubject) {
-			if(q.getId().equals(questionID))
+		// check that teacher input a valid questionID from the list of
+		// possible questions
+		for (Question q : questionsBySubject) {
+			if (q.getId().equals(questionID))
 				questionExist = true;
 		}
-		//check if question already added to test
-		for(String s : questionsInTest) {
-			if(s.equals(questionID))
+		// check if question already added to test
+		for (String s : questionsInTest) {
+			if (s.equals(questionID))
 				return "question already in test";
 		}
-		//check score input is a number
+		// check score input is a number
 		try {
 			scoreNum = Integer.parseInt(score);
-		}catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			e.getStackTrace();
 			return "Score must be a number";
 		}
-		//check total sum not over 100
-		if(currentSum + scoreNum > 100)
+		// check total sum not over 100
+		if (currentSum + scoreNum > 100)
 			return "total points sum > 100";
-		//check score is between 1 and 100
+		// check score is between 1 and 100
 		else if (scoreNum < 1 || scoreNum > 100)
 			return "Score must be between 1 and 100";
 		else
 			scoreValid = true;
-		if(scoreValid && questionExist)
+		if (scoreValid && questionExist)
 			return "valid";
 		return "not valid";
 	}
@@ -229,13 +194,50 @@ public class TeacherTestController {
 		return courseID;
 	}
 
-	public static int getTCount(String subjectID, String courseID) {
+	public static int getTCount(String subjectID, String courseID, String username) {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(subjectID);
 		arr.add(courseID);
+		arr.add(username);
 		Message msg = new Message(MessageType.GetTCount, arr);
 		ClientUI.accept(msg);
 		return tCountByBankAndCourse;
 	}
 
+	public static Question getQuestionByID(String id, String username) {
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add(id);
+		arr.add(username);
+		Message msg = new Message(MessageType.GetQuestionByID, arr);
+		ClientUI.accept(msg);
+		return specificQ;
+	}
+
+	public static String isValidFieldsCreateQuestion(Question q, String subject, String correctAnswer) {
+		if (subject == null)
+			return "please choose subject";
+		else if (q.getAnswers().get(0).equals("") || q.getAnswers().get(1).equals("")
+				|| q.getAnswers().get(2).equals("") || q.getAnswers().get(3).equals(""))
+			return "please write answers";
+		else if (correctAnswer == null)
+			return "please choose correct answer";
+		else if (q.getDescription().equals(""))
+			return "please enter description";
+		return "valid";
+	}
+
+	public static String getNextQuestionID(String teacherUsername, String subject) {
+		String subjectID = getSubjectID(subject);
+		int questionCount = getQCount(subjectID, teacherUsername);
+		questionCount++;
+		if (questionCount < 10)
+			return (subjectID + "00" + questionCount);
+		else if (questionCount <= 99)
+			return (subjectID + "0" + questionCount);
+		else if (questionCount <= 999)
+			return (subjectID + questionCount);
+		else {
+			return "error";
+		}
+	}
 }

@@ -64,8 +64,11 @@ public class ServerController extends AbstractServer {
 			QuestionDBController.addQuestion((Question) message.getMessageData());
 			msgFromServer = new Message(MessageType.addQuestion, null);
 			break;
+		case GetQuestionByID:
+			Question q = QuestionDBController.getQuestionByID((ArrayList<String>)message.getMessageData());
+			msgFromServer = new Message(MessageType.GetQuestionByID, q);
+			break;
 		case AddTest:
-			System.out.println("inside serverController.AddTest");
 			String temp = TeacherTestDBController.addTest((Test)message.getMessageData());
 			msgFromServer = new Message(MessageType.AddTest, temp);
 			break;

@@ -11,6 +11,8 @@ import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
 import client.controllers.TeacherTestController;
 import client.controllers.UserController;
+import entity.Message;
+import entity.MessageType;
 import entity.Question;
 import entity.Subject;
 import javafx.collections.FXCollections;
@@ -65,17 +67,22 @@ public class CreateQuestionController implements Initializable {
 
 	@FXML
 	private Button btnCreateQuestion;
-	
-    @FXML
-    private Button btnEdit;
 
-    @FXML
-    private Button btnDelete;
+	@FXML
+	private Button btnEdit;
+
+	@FXML
+	private Button btnDelete;
 
 	private boolean fromAddQuestion;
 
+	private boolean fromEdit;
+
+	private Question questionForEdit;
+
 	public void start() {
 		fromAddQuestion = false;
+		fromEdit = false;
 		txtAnswerA.setText("");
 		txtAnswerB.setText("");
 		txtAnswerC.setText("");
@@ -123,44 +130,47 @@ public class CreateQuestionController implements Initializable {
 		answers.add(txtAnswerB.getText());
 		answers.add(txtAnswerC.getText());
 		answers.add(txtAnswerD.getText());
+		
 		String teacherUsername = ScreenControllers.loginFormController.getUsername();
-
-		if (comboBank.getItems().isEmpty())
-			ClientUI.display("First Create question bank");
-		else if (txtAnswerA.getText().trim().isEmpty() || txtAnswerB.getText().trim().isEmpty()
-				|| txtAnswerC.getText().trim().isEmpty() || txtAnswerD.getText().trim().isEmpty())
-			ClientUI.display("Please first insert the answers");
-		else {
-			if (txtDescription.getText().trim().isEmpty())
-				ClientUI.display("Description field is empty!");
-			else {
-				String subject = comboBank.getSelectionModel().getSelectedItem();
-				String subjectID = TeacherTestController.getSubjectID(subject);
-				int questionCount = TeacherTestController.getQCount(subjectID, teacherUsername);
-				String qID = null;
-				questionCount++;
-				if (questionCount < 10)
-					qID = subjectID + "00" + questionCount;
-				else if (questionCount <= 99)
-					qID = subjectID + "0" + questionCount;
-				else if (questionCount <=999)
-					qID = subjectID + questionCount;
-				else {
-					ClientUI.display("maximum number of questions in bank reached");
-					return;
-				}
-				Question q = new Question(qID, txtDescription.getText(), answers,
-						Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText(),teacherUsername);
-				TeacherTestController.addQuestion(q);
-
-			}
+		String subject = comboBank.getSelectionModel().getSelectedItem();
+		String qID = TeacherTestController.getNextQuestionID(teacherUsername, subject);
+		
+		if(qID.equals("error")) {
+			ClientUI.display("maximum number of questions reached");
+			return;
 		}
-
+		String correctAnswer = comboCorrectAnswer.getSelectionModel().getSelectedItem();
+		Question q = new Question(qID, txtDescription.getText(), answers,
+				-1, txtTeacherName.getText(), teacherUsername);
+		String valid = TeacherTestController.isValidFieldsCreateQuestion(q, subject, correctAnswer);
+		if(valid.equals("valid")) {
+			q.setCorrectAnswer(Integer.parseInt(correctAnswer));
+			TeacherTestController.addQuestion(q);
+		}else
+			ClientUI.display(valid);
 	}
 
 	@FXML
 	void Click_Back(ActionEvent event) {
-		if (fromAddQuestion == false) {
+		if (fromAddQuestion) {
+			UserController.extraStage2.close();
+			UserController.extraStage.show();
+		} else if (fromEdit) {
+
+			fromEdit = false;
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("EditDeleteQuestionForm.fxml"));
+			Parent root = null;
+			try {
+				root = loader.load();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ScreenControllers.editDeleteQuestionControl = loader.getController();
+			Scene scene = new Scene(root);
+			UserController.currentStage.setScene(scene);
+			ScreenControllers.editDeleteQuestionControl.start();
+		} else {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml"));
 			Parent root = null;
 			try {
@@ -172,22 +182,35 @@ public class CreateQuestionController implements Initializable {
 			Scene scene = new Scene(root);
 			UserController.currentStage.setScene(scene);
 			ScreenControllers.teacherMenuController.start();
-		}else {
-			UserController.extraStage2.close();
-			UserController.extraStage.hide();
-			UserController.extraStage.show();
-			
 		}
 	}
-	
+
 	@FXML
 	void click_edit(ActionEvent event) {
+		ArrayList<String> answers = new ArrayList<String>();
+		answers.add(txtAnswerA.getText());
+		answers.add(txtAnswerB.getText());
+		answers.add(txtAnswerC.getText());
+		answers.add(txtAnswerD.getText());
+		String correctAnswer = comboCorrectAnswer.getSelectionModel().getSelectedItem();
+		String subject = comboBank.getSelectionModel().getSelectedItem();
 		
+		questionForEdit.setDescription(txtDescription.getText());
+		questionForEdit.setAnswers(answers);
+
+		String valid = TeacherTestController.isValidFieldsCreateQuestion(questionForEdit, subject, correctAnswer);
+		if(valid.equals("valid")) {
+			questionForEdit.setCorrectAnswer(Integer.parseInt(correctAnswer));
+			Message msg = new Message(MessageType.UpdateQuestion, questionForEdit);
+			//Send message !
+		}
+		
+		//Question q = new Question(id, description, answers, correctAnswer, teacherName, teacherUsername);
 	}
-	
+
 	@FXML
 	void click_delete(ActionEvent event) {
-		
+
 	}
 
 	@Override
@@ -197,38 +220,73 @@ public class CreateQuestionController implements Initializable {
 
 	}
 
-	public void startFromAddQuestion(Question chosenQuestion) {
+	private String getsubjectFromID(Question q) {
 		String subject = null;
-		String idChosen = chosenQuestion.getId().substring(0, 2);
-		System.out.println("idChosen: " + idChosen);
+		String idChosen = q.getId().substring(0, 2);
+
 		String username = ScreenControllers.loginFormController.getUsername();
 		TeacherTestController.getAllSubjects(username);
 		for (Subject s : TeacherTestController.subjects) {
 			if (s.getId().equals(idChosen))
 				subject = s.getName();
 		}
-		System.out.println("subject: " + subject);
+		return subject;
+	}
+
+	public void startFromAddQuestion(Question chosenQuestion) {
+		String subject = getsubjectFromID(chosenQuestion);
+
 		comboBank.getItems().clear();
 		comboBank.getItems().add(subject);
 		comboBank.getSelectionModel().select(0);
+		disableUI(chosenQuestion);
+		fromAddQuestion = true;
+	}
+
+	public void startEdit() {
+		fromEdit = true;
+
+		String subject = getsubjectFromID(questionForEdit);
+
+		comboBank.getItems().clear();
+		comboBank.getItems().add(subject);
+		comboBank.getSelectionModel().select(0);
+		disableUI(questionForEdit);
+
+		btnDelete.setVisible(true);
+		btnDelete.setDisable(false);
+		btnEdit.setVisible(true);
+		btnEdit.setDisable(false);
+	}
+
+	private void disableUI(Question q) {
 		comboBank.setDisable(true);
-		txtDescription.setText(chosenQuestion.getDescription());
+		txtDescription.setText(q.getDescription());
 		txtDescription.setDisable(true);
-		txtAnswerA.setText(chosenQuestion.getAnswers().get(0));
+		txtAnswerA.setText(q.getAnswers().get(0));
 		txtAnswerA.setDisable(true);
-		txtAnswerB.setText(chosenQuestion.getAnswers().get(1));
+		txtAnswerB.setText(q.getAnswers().get(1));
 		txtAnswerB.setDisable(true);
-		txtAnswerC.setText(chosenQuestion.getAnswers().get(2));
+		txtAnswerC.setText(q.getAnswers().get(2));
 		txtAnswerC.setDisable(true);
-		txtAnswerD.setText(chosenQuestion.getAnswers().get(3));
+		txtAnswerD.setText(q.getAnswers().get(3));
 		txtAnswerD.setDisable(true);
-		txtTeacherName.setText(chosenQuestion.getTeacherName());
+		txtTeacherName.setText(q.getTeacherName());
 		txtTeacherName.setDisable(true);
 		comboCorrectAnswer.getItems().clear();
-		comboCorrectAnswer.getItems().add(String.valueOf(chosenQuestion.getCorrectAnswer()));
+		comboCorrectAnswer.getItems().add(String.valueOf(q.getCorrectAnswer()));
 		comboCorrectAnswer.setDisable(true);
 		comboCorrectAnswer.getSelectionModel().select(0);
 		btnCreateQuestion.setDisable(true);
-		fromAddQuestion = true;
+
+	}
+
+	public void setQuestionForEdit(Question q) {
+		questionForEdit = q;
+	}
+
+	public void setFromEdit(boolean value) {
+		fromEdit = value;
+
 	}
 }

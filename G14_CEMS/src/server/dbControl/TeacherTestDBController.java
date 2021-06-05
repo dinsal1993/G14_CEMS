@@ -308,7 +308,7 @@ public class TeacherTestDBController {
 
 	public static int getTestCount(ArrayList<String> arr) {
 		String sqlQuery = "select count(*) from test where id like"
-				+ " \"" + arr.get(0) + arr.get(1) + "%\";";
+				+ " \"" + arr.get(0) + arr.get(1) + "%\" and teacherUsername = \"" + arr.get(2) + "\";";
 		try {
 			if (DBConnector.myConn != null) {
 				Statement st = DBConnector.myConn.createStatement();

@@ -52,6 +52,9 @@ public class ClientController extends AbstractClient {
 		case addQuestion:
 			ClientUI.display("Created question successfully");
 			break;
+		case GetQuestionByID:
+			TeacherTestController.specificQ = (Question)message.getMessageData();
+			break;
 		case AddTest:
 			System.out.println("inside clientController.AddTest");
 			ClientUI.display((String)message.getMessageData());
