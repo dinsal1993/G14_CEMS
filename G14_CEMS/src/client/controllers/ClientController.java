@@ -1,10 +1,12 @@
 package client.controllers;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import entity.Course;
 import entity.Message;
@@ -33,9 +35,11 @@ public class ClientController extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		awaitResponse = false; // zarih liot be sof a kod????
+	
+		awaitResponse = false; 
 		Message message = (Message)msg;
-		
+
+		System.out.println(message.getMessageType());
 		switch(message.getMessageType()) {
 		case TestsList :
 			TeacherTestController.testArr = (ArrayList<Test>)message.getMessageData();
@@ -116,9 +120,10 @@ public class ClientController extends AbstractClient {
 		case DeleteCourse:
 			TeacherTestController.deleteCourse((Course)message.getMessageData());
 			break;
-		case CourseDeleted:
+		case CourseDeleted:		
 			ClientUI.display("Course Has Been Deleted!");
 			break;
+
 		case CheckTest:
 			StudentController.isTestExist((String)message.getMessageData());
 			break;
@@ -146,11 +151,27 @@ public class ClientController extends AbstractClient {
 			else
 				StudentController.validCode = true;
 			break;
+
+		case execCode:
+			if(message.getMessageData() == null) ClientUI.display("execution code invalid");
+			else { UserController.CurrentTestID = (String)message.getMessageData();}
+			break;
+			
+		case downloadManualTest:
+			UserController.byteManualTest = (byte[])message.getMessageData();
+			break;
+		case submitManualTest:
+			
+			if( ((String)message.getMessageData()).equals("Successfully submitted")) {
+				UserController.flagForSubmittedTestSuccessfully = true; }
+			//ClientUI.display((String)message.getMessageData());			
+			break;
 			default:
 				ClientUI.display("cant read message from server");
 		}
 		
 	}
+	
 
 	public void handleMessageFromClientUI(Object msg) {
 		try {

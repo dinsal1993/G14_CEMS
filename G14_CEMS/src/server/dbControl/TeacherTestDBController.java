@@ -1,12 +1,6 @@
 package server.dbControl;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,11 +20,100 @@ import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 public class TeacherTestDBController {
+
+	/**
+	 * get the test
+	 * @param idTest id of the test 
+	 * @param TestType Manual or computerized
+	 * @throws ClassNotFoundException
+	 */
+	private static void readBlob(String idTest,String TestType) throws ClassNotFoundException {
+		DBConnector db = new DBConnector();
+		// update sql
+		String selectSQL = "SELECT questions FROM test WHERE id=?";
+		ResultSet rs = null;
+		System.out.println("lifni try");
+		try {
+			PreparedStatement pstmt = DBConnector.myConn.prepareStatement(selectSQL);
+			// set parameter;
+			pstmt.setString(1, idTest);
+			rs = pstmt.executeQuery();
+
+			
+			rs.first();
+			BufferedInputStream bis = new BufferedInputStream(rs.getBlob(1).getBinaryStream());
+			byte[] blobByte = new byte[1024];
+			File manualTest = new File("manualTest2.docx");
+
+		      FileOutputStream fos = new FileOutputStream(manualTest);
+
+		      BufferedOutputStream bos = new BufferedOutputStream(fos);
+		      int a;
+			while(( a = bis.read(blobByte))!= -1) {
+				 bos.write(blobByte,0,a);
+			      bos.flush();
+			      fos.flush();}
+		} catch (SQLException |
+
+				IOException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+
+
+
+	/**
+	 * insert the TEST_YADANI to db with ID 0000
+	 */
+	public static void writeBlob() {
+
+
+		DBConnector db = new DBConnector();
+		String updateSQL = "UPDATE test " + "SET questions = ? " + "WHERE id=?";
+		try {
+			PreparedStatement ps = DBConnector.myConn.prepareStatement(updateSQL);
+
+			File newFile = new File("exam.docx");
+			byte[] mybytearray = new byte[(int) newFile.length()];
+			FileInputStream fis = new FileInputStream(newFile);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+
+			bis.read(mybytearray, 0, mybytearray.length);
+			Blob b = DBConnector.myConn.createBlob();
+
+			// fill blob objct with byte array
+			b.setBytes(1, mybytearray);
+
+			// attach blob object to sql query
+			ps.setBlob(1, b);
+			ps.setString(2, "000000");
+
+			// activate sql query
+			ps.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("Error send (Files)msg) to Server");
+		}
+		System.out.println("done");
+	}
+
+
+
+
 
 	public static int getTestCount() {
 		String sqlQuery = "select count(*) from test";
@@ -47,51 +130,8 @@ public class TeacherTestDBController {
 		return -1;
 	}
 
-	public static HashMap<String, TestBank> getAllTestBanks() {
-		String sqlQuery = "select * from testbank";
-
-		// save test Banks in HashMap for later use without accessing DB
-		// every time - better performance.
-		TestBank temp;
-		ArrayList<Course> courses;
-
-		// hashMap of testBanks for faster access
-		HashMap<String, TestBank> testBankMap = new HashMap<String, TestBank>();
-		try {
-			if (DBConnector.myConn != null) {
-				Statement st = DBConnector.myConn.createStatement();
-				ResultSet rs = st.executeQuery(sqlQuery);
-				while (rs.next()) {
-
-					Blob coursesBlob = rs.getBlob(3);
-					BufferedInputStream bis = new BufferedInputStream(coursesBlob.getBinaryStream());
-					ObjectInputStream ois = new ObjectInputStream(bis);
-					courses = (ArrayList<Course>) ois.readObject();
-
-					// construct current read testBank
-					temp = new TestBank();
-					temp.setId(Integer.parseInt(rs.getString(1)));
-					temp.setName(rs.getString(2));
-					temp.setCourses(courses);
-
-					// Add testBank to hashMap
-					testBankMap.put(temp.getName(), temp);
-
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return testBankMap;
-	}
-
 	public static void lockTest(Test t) {
+
 
 		/*
 		 * DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -105,7 +145,8 @@ public class TeacherTestDBController {
 		 * System.out.println(date); System.out.println(hour);
 		 * System.out.println(minutes);
 		 */
-		String sqlQuery = "update pretest set isgoing = ? where id = ?;";
+
+		String sqlQuery = "update test set isLocked = ? where id = ?;";
 		try {
 			if (DBConnector.myConn != null) {
 				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
@@ -116,8 +157,7 @@ public class TeacherTestDBController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
+	}	
 	public static ArrayList<String> lockTestDin(String executionCode) {
 		ArrayList<String> arr = new ArrayList<>();
 		String sqlQuery = "select * from ongoing where execution code ="
@@ -139,6 +179,9 @@ public class TeacherTestDBController {
 	}
 
 	// has to be edited
+
+
+
 	public static void requestExtraTime(testCopy tc) {
 
 		String sqlQuery = "update testcopy set requestExtraTime = ? ,reasons = ? where id = ?;";
@@ -155,7 +198,7 @@ public class TeacherTestDBController {
 		}
 
 	}
-
+/*
 	public static ArrayList<Course> refreshCourseTable() {
 
 		ArrayList<Course> list = new ArrayList<>();
@@ -166,8 +209,13 @@ public class TeacherTestDBController {
 				Statement st = DBConnector.myConn.createStatement();
 				ResultSet rs = st.executeQuery(sqlQuery);
 				while (rs.next()) {
+
 					list.add(new Course(rs.getString("bankID"),
 							rs.getString("courseID"), rs.getString("name")));
+
+					list.add(new Course(Integer.parseInt(rs.getString("bankID")),
+							Integer.parseInt(rs.getString("courseID")), rs.getString("name")));
+
 				}
 			}
 
@@ -177,6 +225,7 @@ public class TeacherTestDBController {
 
 		return list;
 	}
+	*/
 
 	public static void addCourse(Course c) {
 		String sqlQuery = "insert into courses (bankID ,courseID, name) values (?,?,?)";
@@ -208,40 +257,6 @@ public class TeacherTestDBController {
 
 	}
 
-	public static void insertTestBank(TestBank TB) throws IOException {
-
-		ArrayList<Course> courses = new ArrayList<Course>();
-		String sqlQuery = "insert into cems.testbank (id,name,courses) values (?,?,?)";
-
-		PreparedStatement pst = null;
-		try {
-
-			if (DBConnector.myConn != null) {
-				pst = DBConnector.myConn.prepareStatement(sqlQuery);
-				// serialize object
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				ObjectOutputStream oos = new ObjectOutputStream(baos);
-				oos.writeObject(courses);
-				// store in byte array
-				byte[] empAsByte;
-				empAsByte = baos.toByteArray();
-				// create blob object
-				Blob b = DBConnector.myConn.createBlob();
-
-				// fill blob object with byte array
-
-				pst.setString(1, String.valueOf(TB.getId()));
-				pst.setString(2, TB.getName());
-				b.setBytes(1, empAsByte);
-				pst.setBlob(3, b);
-
-				pst.executeUpdate();
-			} else
-				System.out.println("myConn is NULL !");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static ArrayList<Course> getCoursesBySubject(String subjectID) {
 		ArrayList<Course> arr = new ArrayList<>();

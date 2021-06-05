@@ -78,7 +78,7 @@ public class UserDBController {
 	 * @param username name of the user account
 	 */
 	private static void addUserToUsersConnectedArrayList(String username) {
-		usersConnected.add(username);
+		//usersConnected.add(username);---------L----------------
 	}
 
 	/**
@@ -99,6 +99,7 @@ public class UserDBController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return false;
 	}
 

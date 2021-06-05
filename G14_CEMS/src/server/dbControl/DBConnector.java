@@ -8,7 +8,7 @@ public class DBConnector {
 	
 	private String url = "jdbc:mysql://localhost:3306/cems?serverTimezone=IST";
 	private String username = "root";
-	private String password = "475683taqkzt";
+	private String password = "Shahar13";
 	
 	public static Connection myConn;
 	

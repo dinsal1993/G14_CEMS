@@ -42,7 +42,7 @@ public class LoginFormController {
 
 	@FXML
 	private PasswordField txtPassword;
-	
+
 	public static String username;
 
 	public String getUsername() {
@@ -74,20 +74,24 @@ public class LoginFormController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource
 					("TeacherMenuForm.fxml"));
 			Parent root;
-			try {
-				
+			try {	
 				root = loader.load();
 				ScreenControllers.teacherMenuController = 
 						loader.getController();
 				Scene scene = new Scene(root);
 				UserController.currentStage.setScene(scene);
+
 				ScreenControllers.teacherMenuController.start();
 				Message msg = new Message(MessageType.Hello, username);
 				ClientUI.accept(msg);
+
+			//	ScreenControllers.teacherMenuController.start();
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
+			
 		case "student": // openStudentMenuForm();
 			username = getUsername();
 			FXMLLoader loader1 = new FXMLLoader(getClass().getResource
@@ -103,14 +107,13 @@ public class LoginFormController {
 				ScreenControllers.studentMenuControl.start();
 				Message msg = new Message(MessageType.Hello, username);
 				ClientUI.accept(msg);
-			} catch (IOException e) {
+			}catch (IOException e) {
 				e.printStackTrace();
 			}
-			break;
 		default:
 			ClientUI.display("cant read message from server");
 		}
-
+	
 	}
 
 }

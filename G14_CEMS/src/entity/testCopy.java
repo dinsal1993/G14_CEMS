@@ -7,7 +7,6 @@ public class testCopy  implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	
 	private int testID;
 	private int year;
 	private int semester;

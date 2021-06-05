@@ -19,15 +19,13 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <TextField fx:id="txtStudentID" layoutX="123.0" layoutY="46.0" promptText="Enter Your ID" />
-            <Label layoutX="39.0" layoutY="50.0" text="Sudent ID :" />
-            <Label layoutX="39.0" layoutY="117.0" text="Test ID:" />
-            <TextField fx:id="txtTestID" layoutX="123.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" promptText="Enter Test ID" />
-            <Button fx:id="btnBack" layoutX="39.0" layoutY="248.0" mnemonicParsing="false" onAction="#clickBack" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" text="Back" textFill="WHITE" />
-            <Button fx:id="btnOnlineTest" layoutX="411.0" layoutY="171.0" mnemonicParsing="false" onAction="#clickOnlineTest" prefHeight="32.0" prefWidth="108.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" text="Online Test" textFill="WHITE" />
-            <Button fx:id="btnManualTest" layoutX="240.0" layoutY="171.0" mnemonicParsing="false" onAction="#clickManualTest" prefHeight="32.0" prefWidth="108.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" text="Manual Test" textFill="WHITE" />
-            <Label fx:id="lblisTestIDValid" layoutX="306.0" layoutY="117.0" prefHeight="17.0" prefWidth="180.0" />
-            <Label fx:id="lblisStudentIDValid" layoutX="306.0" layoutY="50.0" prefHeight="17.0" prefWidth="180.0" />
+
+            <TextField fx:id="txtExecCode" layoutX="175.0" layoutY="60.0" />
+            <Label layoutX="32.0" layoutY="65.0" text="Execution Code :" />
+            <Button fx:id="btnBack" layoutX="39.0" layoutY="248.0" mnemonicParsing="false"  onAction="#back" prefHeight="32.0" prefWidth="88.0" styleClass="btn" text="Back" textFill="WHITE" />
+            <Button fx:id="btnOnlineTest" layoutX="412.0" layoutY="170.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="108.0" styleClass="btn" text="Online Test" textFill="WHITE" />
+            <Button fx:id="btnManualTest" layoutX="230.0" layoutY="170.0" mnemonicParsing="false" onAction="#clickManualTest" prefHeight="32.0" prefWidth="108.0" styleClass="btn" text="Manual Test" textFill="WHITE" />
+
          </children></AnchorPane>
   </items>
 </SplitPane>

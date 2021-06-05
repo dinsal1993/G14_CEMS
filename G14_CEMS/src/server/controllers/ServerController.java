@@ -1,9 +1,14 @@
 package server.controllers;
 
+
+import java.io.BufferedInputStream;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import java.sql.Blob;
 
 import client.controllers.ClientUI;
 import client.controllers.StudentController;
@@ -72,28 +77,9 @@ public class ServerController extends AbstractServer {
 			String temp = TeacherTestDBController.addTest((Test)message.getMessageData());
 			msgFromServer = new Message(MessageType.AddTest, temp);
 			break;
-		case insertQuestionBank:
-			try {
-				QuestionDBController.insertQuestionBank((QuestionBank) message.getMessageData());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			msgFromServer = new Message(MessageType.insertQuestionBank, null);
-			break;
-		case insertTestBank:
-			try {
-				TeacherTestDBController.insertTestBank((TestBank) message.getMessageData());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			msgFromServer = new Message(MessageType.insertTestBank, null);
-			break;
-		case GetAllTestBanks:
-			System.out.println("in server controller. recieved msg");
-			getAllTestBanks();
-			break;
+
+
+
 		case GetTestCount:
 			int countTest = TeacherTestDBController.getTestCount();
 			msgFromServer = new Message(MessageType.TestCount, countTest);
@@ -120,10 +106,10 @@ public class ServerController extends AbstractServer {
 			TeacherTestDBController.requestExtraTime((testCopy)message.getMessageData());
 			msgFromServer = new Message(MessageType.SentExtraTimeRequest, null);
 			break;
-		case RefreshCourseTable:
-			ArrayList<Course> list = TeacherTestDBController.refreshCourseTable();
-			msgFromServer = new Message(MessageType.CourseList, list);
-			break;
+		//case RefreshCourseTable:
+		//	ArrayList<Course> list = TeacherTestDBController.refreshCourseTable();
+		//	msgFromServer = new Message(MessageType.CourseList, list);
+		//	break;
 		case AddCourse:
 			TeacherTestDBController.addCourse((Course)message.getMessageData());
 			msgFromServer = new Message(MessageType.CourseAdded,null);
@@ -132,6 +118,7 @@ public class ServerController extends AbstractServer {
 			TeacherTestDBController.deleteCourse((Course)message.getMessageData());
 			msgFromServer = new Message(MessageType.CourseDeleted,null);
 			break;
+
 		case CheckTest:
 			boolean flag = StudentDBController.checkTest((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.CheckedTest,flag);
@@ -143,10 +130,25 @@ public class ServerController extends AbstractServer {
 		case CheckValidCode:
 			boolean isCodeExist = StudentDBController.checkValidCode((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.CheckedCode,isCodeExist);
+
+		case execCode:
+			String id = TestDBController.FindTestIdAccordingToExecCode((String)message.getMessageData());
+			 msgFromServer = new Message(MessageType.execCode, id);
+			break;
+		case downloadManualTest:
+			byte[] byteManualTest = TestDBController.getTest((String)message.getMessageData()); // lo hayav, efshar she tamid nase ba func shel get test she yavi et a blob shel execcODE 0000 , LE SHEM HAVANA , OLAY NIMHAK
+			 msgFromServer = new Message(MessageType.downloadManualTest, byteManualTest); // mabey blob not object dont forgert
+			 break;
+		case submitManualTest:
+			boolean saveTestInDB = TestDBController.SaveManualTest((byte[])message.getMessageData());
+			if(saveTestInDB) { msgFromServer = new Message(MessageType.submitManualTest, "Successfully submitted");}
+			else { msgFromServer = new Message(MessageType.submitManualTest, "Error in submit the test in to the database");}
+
 			break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}
+
 		if(specificMsg == false)
 			sendToAllClients(msgFromServer);
 		else
@@ -212,12 +214,7 @@ public class ServerController extends AbstractServer {
 		
 	}
 
-	private void getAllTestBanks() {
 
-		HashMap<String, TestBank> testBankMap = TeacherTestDBController.getAllTestBanks();
-		msgFromServer = new Message(MessageType.TestBanksList, testBankMap);
-
-	}
 
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
