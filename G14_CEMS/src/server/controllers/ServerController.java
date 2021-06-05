@@ -47,7 +47,7 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message) msg;
-
+		boolean check;
 		switch (message.getMessageType()) {
 		case Hello:
 			client.setInfo("username",(String)message.getMessageData());
@@ -59,16 +59,19 @@ public class ServerController extends AbstractServer {
 		case getCoursesBySubject:
 			getCoursesBySubject((String)message.getMessageData());
 			break;
-		case GetQCount:
-			getQCount((ArrayList<String>)message.getMessageData());
+		case GetNextQID:
+			getNextQID((ArrayList<String>)message.getMessageData());
 			break;
 		case GetTCount:
 			getTCount((ArrayList<String>)message.getMessageData());
 			break;
 		case addQuestion:
-			QuestionDBController.addQuestion((Question) message.getMessageData());
-			msgFromServer = new Message(MessageType.addQuestion, null);
+			check = QuestionDBController.addQuestion((Question) message.getMessageData());
+			msgFromServer = new Message(MessageType.addQuestion, check);
 			break;
+		case DeleteQuestion:
+			check = QuestionDBController.deleteQuestion((Question)message.getMessageData());
+			msgFromServer = new Message(MessageType.DeleteQuestion, check);
 		case GetQuestionByID:
 			Question q = QuestionDBController.getQuestionByID((ArrayList<String>)message.getMessageData());
 			msgFromServer = new Message(MessageType.GetQuestionByID, q);
@@ -77,8 +80,10 @@ public class ServerController extends AbstractServer {
 			String temp = TeacherTestDBController.addTest((Test)message.getMessageData());
 			msgFromServer = new Message(MessageType.AddTest, temp);
 			break;
-
-
+		case UpdateQuestion:
+			check = QuestionDBController.updateQuestion((Question)message.getMessageData());
+			msgFromServer = new Message(MessageType.UpdateQuestion, check);
+			break;
 
 		case GetTestCount:
 			int countTest = TeacherTestDBController.getTestCount();
@@ -151,8 +156,10 @@ public class ServerController extends AbstractServer {
 
 		if(specificMsg == false)
 			sendToAllClients(msgFromServer);
-		else
+		else {
 			specificMsg = false;
+			//send to specific clients
+		}
 
 	}
 
@@ -208,9 +215,9 @@ public class ServerController extends AbstractServer {
 		msgFromServer = new Message(MessageType.GetSubjectID, id);
 	}
 
-	private void getQCount(ArrayList<String> arr) {
-		int count = QuestionDBController.getQuestionCount(arr);
-		msgFromServer = new Message(MessageType.GetQCount, count);
+	private void getNextQID(ArrayList<String> arr) {
+		int count = QuestionDBController.getNextQID(arr);
+		msgFromServer = new Message(MessageType.GetNextQID, count);
 		
 	}
 

@@ -52,8 +52,8 @@ public class QuestionDBController {
 		return subjects;
 	}
 
-	public static void addQuestion(Question q) {
-		System.out.println("in db: q:" + q);
+	public static boolean addQuestion(Question q) {
+
 		String sqlQuery = "insert into question (id,description,correctAnswer,teacherName,A1,A2,A3,A4,teacherUsername) values (?,?,?,?,?,?,?,?,?)";
 
 		PreparedStatement pst = null;
@@ -70,16 +70,50 @@ public class QuestionDBController {
 				pst.setString(8, q.getAnswers().get(3));
 				pst.setString(9, q.getTeacherUsername());
 				pst.executeUpdate();
+				
 
 				// DBConnector.myConn.close();
 				pst.close();
-
+				return true;
 			} else
 				System.out.println("myConn is NULL !");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
 		}
+		return false;
+	}
+	
+	public static boolean updateQuestion(Question q) {
+		String sqlQuery = "update question set description = ?,"
+				+ " correctAnswer = ?, A1 = ?,A2 = ?," + " A3 = ?, A4 = ? "
+						+ "where id = ? and teacherUsername = ?;";
 
+		PreparedStatement pst = null;
+		try {
+			if (DBConnector.myConn != null) {
+				pst = DBConnector.myConn.prepareStatement(sqlQuery);
+				pst.setString(1, q.getDescription());
+				pst.setString(2, String.valueOf(q.getCorrectAnswer()));
+				pst.setString(3, q.getAnswers().get(0));
+				pst.setString(4, q.getAnswers().get(1));
+				pst.setString(5, q.getAnswers().get(2));
+				pst.setString(6, q.getAnswers().get(3));
+				pst.setString(7, q.getId());
+				pst.setString(8, q.getTeacherUsername());
+				pst.executeUpdate();
+				
+
+				// DBConnector.myConn.close();
+				pst.close();
+				return true;
+			} else
+				System.out.println("myConn is NULL !");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+		return false;
 	}
 
 	public static void insertQuestionBank(QuestionBank QB) throws SQLException {
@@ -109,23 +143,29 @@ public class QuestionDBController {
 
 	}
 	//get num of questions in question bank
-	public static int getQuestionCount(ArrayList<String> arr) {
-		String sqlQuery = "select count(*) from question where id like \"" + arr.get(0) + "%\" and"
+	public static int getNextQID(ArrayList<String> arr) {
+		String sqlQuery = "select * from question where id like \"" + arr.get(0) + "%\" and"
 				+ " teacherUsername = \"" + arr.get(1) + "\";";
+		int place = 1;
 		try {
 			if (DBConnector.myConn != null) {
 				Statement st = DBConnector.myConn.createStatement();
 				ResultSet rs = st.executeQuery(sqlQuery);
-				rs.next();
-				int answer = Integer.parseInt(rs.getString(1));
-				System.out.println("num of questions: " + answer);
+
+				while(rs.next()) {
+				int rowIDNum = Integer.parseInt(rs.getString(1).substring(2));
+				if(place < rowIDNum)
+					return place;
+				else
+					while(place <= rowIDNum)
+						place++;
+				}
 				st.close();
-				return answer;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return -1;
+		return place;
 	}
 	//get subjectID from bank name
 	public static String getSubjectID(String bankName) {
@@ -177,4 +217,20 @@ public class QuestionDBController {
 		return null;
 	}
 
+	public static boolean deleteQuestion(Question q) {
+		String sqlQuery = "delete from question where id = ? and teacherUsername = ?;";
+		try {
+			if (DBConnector.myConn != null) {
+				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
+				ps.setString(1, q.getId());
+				ps.setString(2, q.getTeacherUsername());
+				ps.executeUpdate();
+				return true;
+			} else
+				System.out.println("myConn is NULL !");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

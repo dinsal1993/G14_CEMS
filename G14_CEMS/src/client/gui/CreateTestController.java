@@ -95,6 +95,8 @@ public class CreateTestController {
 	private ArrayList<Question> testQuestions;
 	private ArrayList<Integer> pointsPerQuestion;
 	private boolean questionsAdded;
+
+	private int countListener = 0;
 	
 
 
@@ -179,7 +181,10 @@ public class CreateTestController {
 
 	public void start() {
 		initUI();
-		bankListener();
+		if(countListener == 0) {
+			bankListener();
+			countListener++;
+		}
 	}
 
 	private void bankListener() {
@@ -189,7 +194,7 @@ public class CreateTestController {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				try {
-					if (newValue != null || !newValue.equals("")) {
+					if (newValue != null) {
 						cmbCourseName.getItems().clear();
 						courseList = TeacherTestController.getCourseList(newValue);
 						cmbCourseName.getItems().addAll(courseList);

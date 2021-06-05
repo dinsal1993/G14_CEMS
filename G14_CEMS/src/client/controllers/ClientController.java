@@ -50,21 +50,26 @@ public class ClientController extends AbstractClient {
 		case GetQuestionsBySubject:
 			TeacherTestController.questionsBySubject = (ArrayList<Question>)message.getMessageData();
 			break;
-		case SuccessUpdateTest:
-			ClientUI.display("Update succesful");
+		case UpdateQuestion:
+			if((boolean)message.getMessageData())
+				ClientUI.display("edit question succesfully");
+			else
+				ClientUI.display("error editing question");
 			break;
 		case addQuestion:
-			ClientUI.display("Created question successfully");
+			if((boolean)message.getMessageData())
+				ClientUI.display("Created question successfully");
+			else
+				ClientUI.display("error creating question");
 			break;
 		case GetQuestionByID:
 			TeacherTestController.specificQ = (Question)message.getMessageData();
 			break;
 		case AddTest:
-			System.out.println("inside clientController.AddTest");
 			ClientUI.display((String)message.getMessageData());
 			break;
-		case GetQCount:
-			TeacherTestController.qCountByBank = (int)message.getMessageData();
+		case GetNextQID:
+			TeacherTestController.nextQID = (int)message.getMessageData();
 			break;
 		case GetTCount:
 			TeacherTestController.tCountByBankAndCourse = (int)message.getMessageData();

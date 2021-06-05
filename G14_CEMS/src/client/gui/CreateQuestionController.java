@@ -36,7 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import server.dbControl.QuestionDBController;
 ////////////////change
 
-public class CreateQuestionController implements Initializable {
+public class CreateQuestionController {
 
 	@FXML
 	private ComboBox<String> comboBank;
@@ -96,15 +96,7 @@ public class CreateQuestionController implements Initializable {
 		comboBank.getItems().clear();
 		String username = ScreenControllers.loginFormController.getUsername();
 		comboBank.setItems(TeacherTestController.getAllSubjects(username));
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("1");
-		list.add("2");
-		list.add("3");
-		list.add("4");
-
-		comboCorrectAnswer.getItems().clear();
-		comboCorrectAnswer.setItems(FXCollections.observableArrayList(list));
-		comboCorrectAnswer.setEditable(false);
+		fillCorrectAnswer();
 
 		txtDescription.setDisable(false);
 		txtAnswerA.setDisable(false);
@@ -114,12 +106,24 @@ public class CreateQuestionController implements Initializable {
 		txtTeacherName.setDisable(false);
 		comboCorrectAnswer.setDisable(false);
 		btnCreateQuestion.setDisable(false);
-		fromAddQuestion = false;
 		btnDelete.setVisible(false);
 		btnDelete.setDisable(true);
 		btnEdit.setVisible(false);
 		btnEdit.setDisable(true);
 
+	}
+
+	private void fillCorrectAnswer() {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("1");
+		list.add("2");
+		list.add("3");
+		list.add("4");
+
+		comboCorrectAnswer.getItems().clear();
+		comboCorrectAnswer.setItems(FXCollections.observableArrayList(list));
+		comboCorrectAnswer.setEditable(false);
+		
 	}
 
 	@FXML
@@ -155,6 +159,7 @@ public class CreateQuestionController implements Initializable {
 		if (fromAddQuestion) {
 			UserController.extraStage2.close();
 			UserController.extraStage.show();
+			fromAddQuestion = false;
 		} else if (fromEdit) {
 
 			fromEdit = false;
@@ -202,22 +207,15 @@ public class CreateQuestionController implements Initializable {
 		if(valid.equals("valid")) {
 			questionForEdit.setCorrectAnswer(Integer.parseInt(correctAnswer));
 			Message msg = new Message(MessageType.UpdateQuestion, questionForEdit);
-			//Send message !)
+			ClientUI.accept(msg);
 		}
 		
-		//Question q = new Question(id, description, answers, correctAnswer, teacherName, teacherUsername);
 	}
 
 	@FXML
 	void click_delete(ActionEvent event) {
-
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		start();
-
+		Message msg = new Message(MessageType.DeleteQuestion, questionForEdit);
+		ClientUI.accept(msg);
 	}
 
 	private String getsubjectFromID(Question q) {
@@ -243,22 +241,6 @@ public class CreateQuestionController implements Initializable {
 		fromAddQuestion = true;
 	}
 
-	public void startEdit() {
-		fromEdit = true;
-
-		String subject = getsubjectFromID(questionForEdit);
-
-		comboBank.getItems().clear();
-		comboBank.getItems().add(subject);
-		comboBank.getSelectionModel().select(0);
-		disableUI(questionForEdit);
-
-		btnDelete.setVisible(true);
-		btnDelete.setDisable(false);
-		btnEdit.setVisible(true);
-		btnEdit.setDisable(false);
-	}
-
 	private void disableUI(Question q) {
 		comboBank.setDisable(true);
 		txtDescription.setText(q.getDescription());
@@ -273,11 +255,52 @@ public class CreateQuestionController implements Initializable {
 		txtAnswerD.setDisable(true);
 		txtTeacherName.setText(q.getTeacherName());
 		txtTeacherName.setDisable(true);
-		comboCorrectAnswer.getItems().clear();
-		comboCorrectAnswer.getItems().add(String.valueOf(q.getCorrectAnswer()));
+		fillCorrectAnswer();
+		comboCorrectAnswer.getSelectionModel().select(q.getCorrectAnswer()-1);
 		comboCorrectAnswer.setDisable(true);
-		comboCorrectAnswer.getSelectionModel().select(0);
 		btnCreateQuestion.setDisable(true);
+		btnDelete.setVisible(false);
+		btnDelete.setDisable(true);
+		btnEdit.setVisible(false);
+		btnEdit.setDisable(true);
+		
+	}
+
+	public void startEdit() {
+		fromEdit = true;
+
+		String subject = getsubjectFromID(questionForEdit);
+
+		comboBank.getItems().clear();
+		comboBank.getItems().add(subject);
+		comboBank.getSelectionModel().select(0);
+		fromEditSetUI(questionForEdit);
+
+		
+	}
+
+	private void fromEditSetUI(Question q) {
+		comboBank.setDisable(true);
+		txtDescription.setText(q.getDescription());
+
+		txtAnswerA.setText(q.getAnswers().get(0));
+
+		txtAnswerB.setText(q.getAnswers().get(1));
+
+		txtAnswerC.setText(q.getAnswers().get(2));
+
+		txtAnswerD.setText(q.getAnswers().get(3));
+
+		txtTeacherName.setText(q.getTeacherName());
+		txtTeacherName.setDisable(true);
+		
+		fillCorrectAnswer();
+		comboCorrectAnswer.getSelectionModel().select(q.getCorrectAnswer()-1);
+		btnCreateQuestion.setDisable(true);
+		btnDelete.setVisible(true);
+		btnDelete.setDisable(false);
+		btnEdit.setVisible(true);
+		btnEdit.setDisable(false);
 
 	}
 

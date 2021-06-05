@@ -24,9 +24,9 @@ public enum MessageType {
 	insertTestBank,
 
 
-	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, GetQCount, GetSubjectID, getCoursesBySubject, GetQuestionsBySubject, GetCourseID, GetTCount, AddTest, Hello, GetQuestionByID, UpdateQuestion,
+	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, GetNextQID, GetSubjectID, getCoursesBySubject, GetQuestionsBySubject, GetCourseID, GetTCount, AddTest, Hello, GetQuestionByID, UpdateQuestion,
 
-	 execCode, execCodeManual, downloadManualTest, submitManualTest;
+	 execCode, execCodeManual, downloadManualTest, submitManualTest, DeleteQuestion;
 
 
 }

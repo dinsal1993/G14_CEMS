@@ -29,7 +29,7 @@ public class TeacherTestController {
 
 	public static HashMap<String, TestBank> banksMap;
 	public static ArrayList<Subject> subjects;
-	public static int qCountByBank;
+	public static int nextQID;
 	public static String subjectID;
 	public static ArrayList<Question> questionsBySubject;
 	public static String courseID;
@@ -120,13 +120,13 @@ public class TeacherTestController {
 	}
 
 	// get count of questions in bank
-	public static int getQCount(String subjectID, String username) {
+	public static int getNextQID(String subjectID, String username) {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(subjectID);
 		arr.add(username);
-		Message msg = new Message(MessageType.GetQCount, arr);
+		Message msg = new Message(MessageType.GetNextQID, arr);
 		ClientUI.accept(msg);
-		return qCountByBank;
+		return nextQID;
 	}
 
 	public static String getSubjectID(String bankName) {
@@ -228,14 +228,13 @@ public class TeacherTestController {
 
 	public static String getNextQuestionID(String teacherUsername, String subject) {
 		String subjectID = getSubjectID(subject);
-		int questionCount = getQCount(subjectID, teacherUsername);
-		questionCount++;
-		if (questionCount < 10)
-			return (subjectID + "00" + questionCount);
-		else if (questionCount <= 99)
-			return (subjectID + "0" + questionCount);
-		else if (questionCount <= 999)
-			return (subjectID + questionCount);
+		int nextID = getNextQID(subjectID, teacherUsername);
+		if (nextID < 10)
+			return (subjectID + "00" + nextID);
+		else if (nextID <= 99)
+			return (subjectID + "0" + nextID);
+		else if (nextID <= 999)
+			return (subjectID + nextID);
 		else {
 			return "error";
 		}
