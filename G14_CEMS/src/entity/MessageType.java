@@ -22,6 +22,10 @@ public enum MessageType {
 	CourseDeleted,
 	TestBanksList, QuestionBankList, addQuestion, insertQuestionBank,
 
-	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, GetQuestionsNumber, CountedQuestions, GetQuestionBankNumber, CountedBankQuestions, GetAllQuestions, QuestionsList, GetTestQuestions, TestQuestions, GetTestCode, GotTestCode;
+	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest
+	, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, 
+	GetQuestionsNumber, CountedQuestions, GetQuestionBankNumber, CountedBankQuestions
+	, GetAllQuestions, QuestionsList, GetTestQuestions, TestQuestions, GetTestCode, GotTestCode
+	, SubmitTest, SubmittedTest, AddStudentToOnGoing, RemoveStudentFromOnGoing;
 
 }

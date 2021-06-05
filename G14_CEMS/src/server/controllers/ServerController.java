@@ -41,27 +41,19 @@ public class ServerController extends AbstractServer {
 		Message message = (Message) msg;
 
 		switch (message.getMessageType()) {
-		case GetAllTests:
+		/*case GetAllTests:
 			ArrayList<Test> arr = TeacherTestDBController.getAllTests();
 			msgFromServer = new Message(MessageType.TestsList, arr);
-			break;
-		case GetAllQuestionBank:
+			break;*/
+		/*case GetAllQuestionBank:
 			ArrayList<String> arrQ = QuestionDBController.getAllQuestionBanks();
 			msgFromServer = new Message(MessageType.QuestionBankList, arrQ);
-			break;
+			break;*/
 		case addQuestion:
 			QuestionDBController.addQuestion((Question) message.getMessageData());
 			msgFromServer = new Message(MessageType.addQuestion, null);
 			break;
-		case insertQuestionBank:
-			try {
-				QuestionDBController.insertQuestionBank((QuestionBank) message.getMessageData());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			msgFromServer = new Message(MessageType.insertQuestionBank, null);
-			break;
+		
 		case GetAllTestBanks:
 			System.out.println("in server controller. recieved msg");
 			getAllTestBanks();
@@ -107,8 +99,8 @@ public class ServerController extends AbstractServer {
 			msgFromServer = new Message(MessageType.CheckedStudentID,isStudentIDExist);
 			break;
 		case CheckValidCode:
-			boolean isCodeExist = StudentDBController.checkValidCode((String)message.getMessageData());
-			msgFromServer = new Message(MessageType.CheckedCode,isCodeExist);
+			String testId = StudentDBController.checkValidCode((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.CheckedCode,testId);
 			break;
 		case GetQuestionsNumber:
 			int count = TeacherTestDBController.getQuestionNumber();
@@ -123,13 +115,23 @@ public class ServerController extends AbstractServer {
 			msgFromServer = new Message(MessageType.QuestionsList, arrQuestions);
 			break;*/
 		case GetTestQuestions:
-			HashMap<String, Test> testMap = QuestionDBController.getTestQuestions();
-			msgFromServer = new Message(MessageType.TestQuestions, testMap);
+			Test test = QuestionDBController.getTestQuestions((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.TestQuestions, test);
 			break;
-		case GetTestCode:
+		case SubmitTest:
+			StudentDBController.submitTest((testCopy)message.getMessageData());
+			msgFromServer = new Message(MessageType.SubmittedTest, null);
+			break;
+		case AddStudentToOnGoing:
+			StudentDBController.addStudentToOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+		case RemoveStudentFromOnGoing:
+			StudentDBController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+	/*	case GetTestCode:
 			String id = QuestionDBController.getTestID((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.GotTestCode,id);
-			break;
+			break;*/
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}

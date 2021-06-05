@@ -9,7 +9,7 @@ public class Test implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	/** Test id */
-	private int id;
+	private String id;
 	
 	/** Test duration in minutes */
 	private int duration;
@@ -26,6 +26,12 @@ public class Test implements Serializable {
 	
 	/** the author of the test */
 	private String teacherName;
+	
+	private String teacherUsername;
+	
+	private String teacherNotes;
+	
+	private String studentNotes;
 
 	
 	/**
@@ -38,15 +44,18 @@ public class Test implements Serializable {
 	 * @param executionCode Used by students to take the test
 	 * @param teacherName the teacher that wrote the test
 	 */
-	public Test(int id, int duration, ArrayList<Question> questions, 
-				ArrayList<Integer> pointsPerQuestion,String executionCode,
-				String teacherName) {
+	public Test(String id, int duration, ArrayList<Question> questions, 
+				ArrayList<Integer> pointsPerQuestion,
+				String teacherName, String teacherUsername, 
+				String teacherNotes, String studentNotes) {
 		this.id = id;
 		this.duration = duration;
 		this.questions = questions;
 		this.pointsPerQuestion = pointsPerQuestion;
-		this.executionCode = "1234";
 		this.teacherName = teacherName;
+		this.teacherUsername = teacherUsername;
+		this.teacherNotes = teacherNotes;
+		this.studentNotes = studentNotes;
 	}
 	
 	/**
@@ -54,10 +63,10 @@ public class Test implements Serializable {
 	public Test() {
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public int getDuration() {
@@ -66,6 +75,23 @@ public class Test implements Serializable {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+	
+	public String getTeacherNotes() {
+		return teacherNotes;
+	}
+
+	public void setTeacherNotes(String teacherNotes) {
+		this.teacherNotes = teacherNotes;
+	}
+
+	public String getStudentNotes() {
+		return studentNotes;
+	}
+
+	public void setStudentNotes(String studentNotes) {
+		this.studentNotes = studentNotes;
+	}
+
 	public ArrayList<Question> getQuestions() {
 		return questions;
 	}
@@ -90,13 +116,26 @@ public class Test implements Serializable {
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
 	}
+	
 
 	
+	public String getTeacherUsername() {
+		return teacherUsername;
+	}
+
+	public void setTeacherUsername(String teacherUsername) {
+		this.teacherUsername = teacherUsername;
+	}
+
 	@Override
 	public String toString() {
 		return "Test [id=" + id + ", duration=" + duration + ", questions=" + questions + ", pointsPerQuestion="
-				+ pointsPerQuestion + ", executionCode=" + executionCode + ", teacherName=" + teacherName + "]";
+				+ pointsPerQuestion + ", executionCode=" + executionCode + ", teacherName=" + teacherName
+				+ ", teacherUsername=" + teacherUsername + ", teacherNotes=" + teacherNotes + ", studentNotes="
+				+ studentNotes + "]";
 	}
+
+	
 	
 	
 	

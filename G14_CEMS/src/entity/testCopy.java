@@ -7,20 +7,19 @@ public class testCopy  implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	
-	private int testID;
-	private int year;
-	private int semester;
+	private String testID;
+	private String year;
+	private String semester;
 	private ArrayList<Integer> studentAnswers;
 	private int finalScore;
-	private int actualTime;
-	private int studentID;
+	private long actualTime;
+	private String studentID;
 	private boolean scoreApproved;
 	private String reasons;
 	
-	public testCopy(int testID, int year, int semester, 
+	public testCopy(String testID, String year, String semester, 
 			ArrayList<Integer> studentAnswers, int finalScore,
-			int actualTime, int studentID, boolean scoreApproved) {
+			long actualTime, String studentID, boolean scoreApproved) {
 		this.testID = testID;
 		this.year = year;
 		this.semester = semester;
@@ -35,22 +34,22 @@ public class testCopy  implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public int getTestID() {
+	public String getTestID() {
 		return testID;
 	}
-	public void setTestID(int testID) {
-		this.testID = testID;
+	public void setTestID(String string) {
+		this.testID = string;
 	}
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
-	public int getSemester() {
+	public String getSemester() {
 		return semester;
 	}
-	public void setSemester(int semester) {
+	public void setSemester(String semester) {
 		this.semester = semester;
 	}
 	public ArrayList<Integer> getStudentAnswers() {
@@ -65,16 +64,16 @@ public class testCopy  implements Serializable{
 	public void setFinalScore(int finalScore) {
 		this.finalScore = finalScore;
 	}
-	public int getActualTime() {
+	public long getActualTime() {
 		return actualTime;
 	}
-	public void setActualTime(int actualTime) {
+	public void setActualTime(long actualTime) {
 		this.actualTime = actualTime;
 	}
-	public int getStudentID() {
+	public String getStudentID() {
 		return studentID;
 	}
-	public void setStudentID(int studentID) {
+	public void setStudentID(String studentID) {
 		this.studentID = studentID;
 	}
 	public boolean isScoreApproved() {

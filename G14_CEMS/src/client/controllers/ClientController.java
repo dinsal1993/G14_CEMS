@@ -116,7 +116,7 @@ public class ClientController extends AbstractClient {
 			StudentController.isExecutionCodeValid((String)message.getMessageData());
 			break;
 		case CheckedCode:
-			if(!(boolean)message.getMessageData())
+			if((String)message.getMessageData() == null)
 				StudentController.validCode = false;
 			else
 				StudentController.validCode = true;
@@ -140,16 +140,28 @@ public class ClientController extends AbstractClient {
 			TeacherTestController.QuestionList = (ArrayList<Question>)message.getMessageData();
 			break;*/
 		case GetTestQuestions:
-			TeacherTestController.getTestQuestions();
+			TeacherTestController.getTestQuestions((String)message.getMessageData());
 			break;
 		case TestQuestions:
-			TeacherTestController.testMap = (HashMap<String,Test>)message.getMessageData();
+			TeacherTestController.currentTest = (Test)message.getMessageData();
 			break;
 		case GetTestCode:
 			TeacherTestController.getTestID((String)message.getMessageData());
 			break;
 		case GotTestCode:
 			TeacherTestController.testID = (String)message.getMessageData();
+			break;
+		case SubmitTest:
+			StudentController.submitTest((testCopy)message.getMessageData());
+			break;
+		case SubmittedTest:
+			ClientUI.display("Test has been submitted successfully!");
+			break;
+		case AddStudentToOnGoing:
+			StudentController.AddStudentToOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+		case RemoveStudentFromOnGoing:
+			StudentController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
 			break;
 			default:
 				ClientUI.display("cant read message from server");

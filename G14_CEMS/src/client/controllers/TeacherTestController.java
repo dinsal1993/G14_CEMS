@@ -33,7 +33,7 @@ public class TeacherTestController {
 	
 	public static HashMap<String, TestBank> banksMap;
 	public static HashMap<String, Question> questionMap;
-	public static HashMap<String, Test> testMap;
+	public static Test currentTest;
 	public static ArrayList<String> QuestionArr;
 	public static ArrayList<Question> QuestionList;
 	
@@ -171,12 +171,12 @@ public class TeacherTestController {
 		return FXCollections.<Question>observableArrayList(QuestionList);
 	}*/
 	
-	public static HashMap<String, Test> getTestQuestions() {		
+	public static Test getTestQuestions(String code) {		
 	
-		Message msg = new Message(MessageType.GetTestQuestions, null);
+		Message msg = new Message(MessageType.GetTestQuestions, code);
 		ClientUI.accept(msg);
 		
-		return testMap;
+		return currentTest;
 	}
 	
 	public static String getTestID(String code)

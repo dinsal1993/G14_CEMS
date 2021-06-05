@@ -1,7 +1,10 @@
 package client.controllers;
 
+import java.util.ArrayList;
+
 import entity.Message;
 import entity.MessageType;
+import entity.testCopy;
 import server.dbControl.StudentDBController;
 
 public class StudentController {
@@ -24,11 +27,34 @@ public class StudentController {
 		return studentIDExist;
 	}
 
-	public static boolean isExecutionCodeValid(String executionCode) {
+	public static boolean isExecutionCodeValid(String code) {
 		
-		Message msg = new Message(MessageType.CheckValidCode, executionCode);
+		Message msg = new Message(MessageType.CheckValidCode, code);
 		ClientUI.accept(msg);
 		return validCode;
+	}
+
+	public static void submitTest(testCopy tc)
+	{
+		Message msg = new Message(MessageType.SubmitTest, tc);
+		ClientUI.accept(msg);
+		return;
+	}
+
+	public static void AddStudentToOnGoing(ArrayList<String> studentDetails) {
+		
+		Message msg = new Message(MessageType.AddStudentToOnGoing, studentDetails);
+		ClientUI.accept(msg);
+		return;
+		
+	}
+
+	public static void removeStudentFromOnGoing(ArrayList<String> studentDetails)
+	{
+		Message msg = new Message(MessageType.RemoveStudentFromOnGoing, studentDetails);
+		ClientUI.accept(msg);
+		return;
+		
 	}
 	
 	

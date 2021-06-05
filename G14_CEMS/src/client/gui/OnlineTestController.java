@@ -41,7 +41,7 @@ public class OnlineTestController {
     public static ObservableList<Question> testQuestionsList;
     public static Test test;
     public static ObservableList<Test> tests;
-    public static HashMap<String,Test> testMap;
+    public static ArrayList<String> studentDetails;
     
     
     @FXML
@@ -69,17 +69,15 @@ public class OnlineTestController {
 		{
     		lblValidCode.setText("Its A Valid Code!");
     		lblValidCode.setTextFill(Color.GREEN);
-    		testMap = TeacherTestController.getTestQuestions();
-    		String id = TeacherTestController.getTestID(getExecutionCode());
+    		test = TeacherTestController.getTestQuestions(getExecutionCode());
+    		//System.out.println(test);
     		
-    		for(int i = 0;i<testMap.size();i++)
-    		{
-    			if(testMap.containsKey(id))
-    				test = testMap.get(id);
-    		}
+    		//get student details to enter to table 'ongoing' in DB.
+    		studentDetails = new ArrayList<>();
+    		studentDetails.add(0,getExecutionCode());
+    		studentDetails.add(1,LoginFormController.username);
     		
-    		
-    		
+    		StudentController.AddStudentToOnGoing(studentDetails);
     		FXMLLoader loader = new FXMLLoader(getClass().getResource
     				("TestQuestionsAndAnswersForm.fxml"));
         	Parent root = null;
@@ -95,11 +93,6 @@ public class OnlineTestController {
     			e.printStackTrace();
     		}
     		
-    		//TO-DO:
-    		//Need to start a timer before starting the exam 
-    		
-    		
-    		
 		}
     	else
     	{
@@ -109,25 +102,22 @@ public class OnlineTestController {
     	}
 }
     
-    
-    
-    public String getExecutionCode()
-    {
-    	return txtExecutionCode.getText();
-    }
-    
     public boolean isExecutionCodeValid()
     {
     	if(StudentController.isExecutionCodeValid(getExecutionCode()))
     		return true;
     	return false;
-    
-    
+
     }
     
-    public static HashMap<String, Test> getList()
+    public String getExecutionCode()
     {
-    	return testMap;
+    	return txtExecutionCode.getText();
+    }
+   
+    public static Test getTest()
+    {
+    	return test;
     }
     
     

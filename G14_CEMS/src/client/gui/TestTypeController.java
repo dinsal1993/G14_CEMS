@@ -39,14 +39,20 @@ public class TestTypeController {
     @FXML
     private Label lblisStudentIDValid;
     
+    public static String testID;
+    public static String studentID;
+    
     @FXML
     void clickOnlineTest(ActionEvent event) 
     {
     	if(isTestExist())
 		{
     		lblisTestIDValid.setText("");
+    		testID = txtTestID.getText();
+ 
     		if(isStudentIDExist())
     		{
+    		studentID = txtStudentID.getText();
     		lblisStudentIDValid.setText("");
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("OnlineTestForm.fxml"));
     		Parent root;
@@ -125,8 +131,11 @@ public class TestTypeController {
     
     public String getTestID()
     {
-    	return txtTestID.getText();
+       	return  txtTestID.getText();
     }
+    
+    
+  
     
     public boolean isTestExist()
     {
@@ -134,17 +143,16 @@ public class TestTypeController {
     		return true;
     	return false;
     
-    
     }
     
     public boolean isStudentIDExist()
     {
     	if(StudentController.isStudentIDExist(getStudentID()))
     		return true;
-    	return false;
-    
-    
+    	return false; 
     }
+    
+   
 
 
 	public void start() {
