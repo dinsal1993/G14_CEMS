@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
@@ -18,7 +19,7 @@
                </font>
             </Text>
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="422.0" prefWidth="668.0">
          <children>
             <Label fx:id="lblTests" layoutX="126.0" layoutY="14.0" text="tests:">
                <font>
@@ -32,18 +33,20 @@
             </Label>
             <Separator layoutX="285.0" layoutY="7.0" orientation="VERTICAL" prefHeight="329.0" prefWidth="7.0" />
             <Separator layoutX="1.0" layoutY="183.0" prefHeight="0.0" prefWidth="287.0" />
-            <Button fx:id="btnEditTest" layoutX="15.0" layoutY="146.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Edit test" textFill="WHITE" />
+            <Button fx:id="btnEditTest" layoutX="15.0" layoutY="146.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="199.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Edit test" textFill="WHITE" />
             <Button fx:id="btnCreateTestBank" layoutX="14.0" layoutY="81.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Create test bank" textFill="WHITE" />
 
-            <Button fx:id="btnCreateTest" layoutX="12.0" layoutY="48.0" mnemonicParsing="false" onAction="#click_CreateTest" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Create test" textFill="WHITE" />
+            <Button fx:id="btnCreateTest" layoutX="12.0" layoutY="48.0" mnemonicParsing="false" onAction="#click_CreateTest" prefHeight="30.0" prefWidth="152.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Create test" textFill="WHITE" />
 
-            <Button fx:id="btnCheckTestScore" layoutX="14.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Check test score" textFill="WHITE" />
-            <Button fx:id="btnSeeTestsStatistics" layoutX="17.0" layoutY="292.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="119.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="See tests statistics" textFill="WHITE" />
-            <Button fx:id="btnManageATest" layoutX="14.0" layoutY="221.0" mnemonicParsing="false" onAction="#clickManageTest" prefHeight="25.0" prefWidth="93.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Manage a test" textFill="WHITE" />
+            <Button fx:id="btnCheckTestScore" layoutX="14.0" layoutY="259.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="224.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Check test score" textFill="WHITE" />
+            <Button fx:id="btnSeeTestsStatistics" layoutX="17.0" layoutY="292.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="212.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="See tests statistics" textFill="WHITE" />
+            <Button fx:id="btnManageATest" layoutX="14.0" layoutY="221.0" mnemonicParsing="false" onAction="#clickManageTest" prefHeight="30.0" prefWidth="224.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Manage a test" textFill="WHITE" />
             <Button fx:id="btnCreateQuestionBank" layoutX="299.0" layoutY="81.0" mnemonicParsing="false" onAction="#click_CreateQBank" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Create question bank" textFill="WHITE" />
             <Button fx:id="btnCreateQuestion" layoutX="299.0" layoutY="48.0" mnemonicParsing="false" onAction="#click_CreateQuestion" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Create question" textFill="WHITE" />
-            <Button fx:id="btnEditQuestion" layoutX="303.0" layoutY="112.0" mnemonicParsing="false" onAction="#click_editQuestion" prefHeight="25.0" prefWidth="93.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Edit question" textFill="WHITE" />
+            <Button fx:id="btnEditQuestion" layoutX="303.0" layoutY="112.0" mnemonicParsing="false" onAction="#click_editQuestion" prefHeight="30.0" prefWidth="182.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Edit question" textFill="WHITE" />
             <Button fx:id="btnBack" layoutX="515.0" layoutY="292.0" mnemonicParsing="false" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+            <ButtonBar layoutX="183.0" layoutY="183.0" prefHeight="40.0" prefWidth="81.0" />
+          <Button fx:id="btnPlanningATest" layoutX="67.0" layoutY="188.0" mnemonicParsing="false" onAction="#clickPlaningATest" text="Planning a test" />
          </children></AnchorPane>
   </items>
 </SplitPane>

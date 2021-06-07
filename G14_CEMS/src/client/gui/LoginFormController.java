@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 
 public class LoginFormController {
 
+	
+	
 	@FXML
 	private Button btnLogin;
 
@@ -68,6 +70,7 @@ public class LoginFormController {
 			ClientUI.display(logInStatus);
 			break;
 		case "teacher": // openTeacherMenuForm();
+			UserController.username = getUsername();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource
 					("TeacherMenuForm.fxml"));
 			Parent root;
@@ -84,7 +87,7 @@ public class LoginFormController {
 			break;
 			
 		case "student": // openStudentMenuForm();
-
+			UserController.username = getUsername();
 			FXMLLoader loader2 = new FXMLLoader(getClass().getResource
 					("StudentMenuForm.fxml")); // change the name to StudentMenu"Form"
 			Parent root2;
@@ -100,6 +103,7 @@ public class LoginFormController {
 		default:
 			ClientUI.display("cant read message from server");
 		}
+		
 	}
 
 	

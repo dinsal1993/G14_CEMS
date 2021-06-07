@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.2135678391959799" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.PlanningATestSecondStageController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="134.0" prefWidth="598.0">
+         <children>
+            <Text layoutX="253.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Planning a test" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="305.0" prefWidth="598.0">
+         <children>
+            <Text layoutX="51.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the details for the test you want to build:" />
+            <Label layoutX="74.0" layoutY="70.0" text="Execution code" />
+            <Label layoutX="74.0" layoutY="98.0" prefHeight="20.0" prefWidth="91.0" text="Start time" />
+            <Label layoutX="74.0" layoutY="123.0" text="Duration" />
+            <Label layoutX="74.0" layoutY="159.0" text="date" />
+            <DatePicker fx:id="txtDate" layoutX="182.0" layoutY="154.0" />
+            <TextField fx:id="txtExecutionCode" layoutX="182.0" layoutY="65.0" promptText="4 fields digits or letters" />
+            <TextField fx:id="txtStartTime" layoutX="182.0" layoutY="93.0" promptText="hh:mm" />
+            <Button fx:id="btnBack" layoutX="32.0" layoutY="233.0" mnemonicParsing="false" onAction="#clickBack" text="Back" />
+            <TextField fx:id="txtDuration" layoutX="182.0" layoutY="118.0" promptText="0-480" />
+            <Button fx:id="btnBuildTest" layoutX="388.0" layoutY="233.0" mnemonicParsing="false" onAction="#clickBuildTest" text="Build Test" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

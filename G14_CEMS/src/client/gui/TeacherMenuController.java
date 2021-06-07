@@ -61,6 +61,26 @@ public class TeacherMenuController {
    public void start() {
     	
     }
+   
+   //shahar for planing plan
+   /**
+    * moves to Plan a test stage
+    * @param event
+    */
+   @FXML
+   void clickPlaningATest(ActionEvent event) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("PlanningATestForm.fxml"));
+		Parent root;
+		try {
+			root = loader.load();
+			Scene scene = new Scene(root);
+			UserController.extraStage = UserController.currentStage; // save the current stage
+			UserController.currentStage.setScene(scene);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+   }
     
     @FXML
     void click_CreateQuestion(ActionEvent event) {
@@ -156,22 +176,5 @@ public class TeacherMenuController {
 			e.printStackTrace();
 		}
     }
-       @FXML
-    public void clickEditCourses(ActionEvent event) throws Exception
-    {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("EditCoursesForm.fxml"));
-		Parent root;
-		try {
-			ScreenControllers.editCoursesControl = loader.getController();
-			root = loader.load();
-			Scene scene = new Scene(root);
-			Stage editCourse = new Stage();
-			editCourse.setScene(scene);
-			UserController.currentStage.hide(); // close?
-			UserController.currentStage = editCourse;
-			editCourse.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
+ 
 }

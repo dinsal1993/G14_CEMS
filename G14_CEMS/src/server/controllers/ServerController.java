@@ -44,27 +44,9 @@ public class ServerController extends AbstractServer {
 		Message message = (Message) msg;
 
 		switch (message.getMessageType()) {
-		case GetAllTests:
-			ArrayList<Test> arr = TeacherTestDBController.getAllTests();
-			msgFromServer = new Message(MessageType.TestsList, arr);
-			break;
-		case GetAllQuestionBank:
-			ArrayList<String> arrQ = QuestionDBController.getAllQuestionBanks();
-			msgFromServer = new Message(MessageType.QuestionBankList, arrQ);
-			break;
-		case addQuestion:
-			QuestionDBController.addQuestion((Question) message.getMessageData());
-			msgFromServer = new Message(MessageType.addQuestion, null);
-			break;
-		case insertQuestionBank:
-			try {
-				QuestionDBController.insertQuestionBank((QuestionBank) message.getMessageData());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			msgFromServer = new Message(MessageType.insertQuestionBank, null);
-			break;
+
+
+
 		case GetAllTestBanks:
 			System.out.println("in server controller. recieved msg");
 			getAllTestBanks();
@@ -106,21 +88,92 @@ public class ServerController extends AbstractServer {
 			 msgFromServer = new Message(MessageType.execCode, id);
 			break;
 		case downloadManualTest:
-			byte[] byteManualTest = TestDBController.getTest((String)message.getMessageData()); // lo hayav, efshar she tamid nase ba func shel get test she yavi et a blob shel execcODE 0000 , LE SHEM HAVANA , OLAY NIMHAK
-			 msgFromServer = new Message(MessageType.downloadManualTest, byteManualTest); // mabey blob not object dont forgert
+			byte[] byteManualTest = TestDBController.getTest((String)message.getMessageData()); 
+			 msgFromServer = new Message(MessageType.downloadManualTest, byteManualTest); 
 			 break;
 		case submitManualTest:
 			boolean saveTestInDB = TestDBController.SaveManualTest((byte[])message.getMessageData());
 			if(saveTestInDB) { msgFromServer = new Message(MessageType.submitManualTest, "Successfully submitted");}
 			else { msgFromServer = new Message(MessageType.submitManualTest, "Error in submit the test in to the database");}
 			break;
-		default:
+			
+		case ContinuePlanTest:
+			boolean ValidIdAndUsername = TeacherTestDBController.checkValidIdAndUsernameTest((ArrayList<String>)message.getMessageData());
+			if(ValidIdAndUsername) { msgFromServer = new Message(MessageType.ContinuePlanTest, "TestID and username matched");}
+			else { msgFromServer = new Message(MessageType.ContinuePlanTest, "TestID and username not matched");}
+			break;
+			
+		case InsertPlanTest:
+			String insertPlanToDb = TeacherTestDBController.insertPlanTestToDB((ArrayList<String>)message.getMessageData());
+			msgFromServer = new Message(MessageType.InsertPlanTest,insertPlanToDb);
+			break;
+			
+			//RAGAH - en bdika she ze takin.ok? 
+			//add to HAShMAP ConnectionClient. Shr
+		case AddStudentToOnGoing:
+			TestDBController.addConnectionClientToHashMap
+			(client,((ArrayList<String>)message.getMessageData()).get(2));// client, username of the student
+			TestDBController.addStudentToOnGoing
+			((ArrayList<String>)message.getMessageData());
+			break;
+		case RemoveStudentFromOnGoing:
+			TestDBController.removeConnectionClientToHashMap
+			(((ArrayList<String>)message.getMessageData()).get(2));// client, username of the student
+			TestDBController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+			
+		case lockTest:
+			TestDBController.lockTest((String)message.getMessageData());
+			break;
+		case AddExecCodeToTestDB:
+			TestDBController.addExecCodetoTestDB((ArrayList<String>)message.getMessageData());
+			break;
+			
+			
+			/// ragah
+			
+		case CheckTest:
+			boolean flag = StudentDBController.checkTest((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.CheckedTest,flag);
+			break;
+		case CheckStudentID:
+			boolean isStudentIDExist = StudentDBController.checkStudentID((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.CheckedStudentID,isStudentIDExist);
+			break;
+		case CheckValidCode:
+			String testId = StudentDBController.checkValidCode((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.CheckedCode,testId);
+			break;
+		case GetTestQuestions:
+			Test test = QuestionDBController.getTestQuestions((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.TestQuestions, test);
+			break;
+		case SubmitTest:
+			StudentDBController.submitTest((testCopy)message.getMessageData());
+			msgFromServer = new Message(MessageType.SubmittedTest, null);
+			break;
+		case AddStudentToOnGoingOnline:
+			StudentDBController.addStudentToOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+		case RemoveStudentFromOnGoingOnline:
+			StudentDBController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+
+		case GetExamDate:
+			ArrayList<String> examDate = new ArrayList<>();
+			examDate = StudentDBController.getExamDate((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.GotExamDate, examDate);
+			break;
+			
+			
+		default:	
 			msgFromServer = new Message(MessageType.Error, null);
 		}
-		
 		sendToAllClients(msgFromServer);
-	
+		
 	}
+
+
 
 	private void getAllTestBanks() {
 

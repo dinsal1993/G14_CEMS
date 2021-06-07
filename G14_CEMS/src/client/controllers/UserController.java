@@ -59,6 +59,18 @@ public class UserController {
 	 */
 	public static boolean flagForSubmittedTestSuccessfully=false;
 	/**
+	 * flag is true when Username and Test id are matched.
+	 */
+	public static boolean flagForContinuePlanTest;
+	/**
+	 * string that indicates the status about inserting the plan test to db
+	 */
+	public static String InsertPlanTest;
+	/**
+	 * username of the user 
+	 */
+	public static String username;
+	/**
 	 * send to the server the details about the login
 	 * 
 	 * @param username of the user

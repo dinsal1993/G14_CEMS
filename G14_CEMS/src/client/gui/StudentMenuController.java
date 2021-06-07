@@ -41,6 +41,11 @@ public class StudentMenuController {
 			e.printStackTrace();
 		}
     }
+
+	public void start() { //ragah
+		// TODO Auto-generated method stub
+		
+	}
     
     
 

@@ -62,7 +62,7 @@ public class ClientController extends AbstractClient {
 		case logIn:
 			UserController.logInStatus = (String)message.getMessageData();
 	     	break;
-		case LockTest:
+		/*case LockTest:
 			TeacherTestController.lockTest((Test)message.getMessageData());
 			break;
 		case SuccessLockTest:
@@ -73,8 +73,7 @@ public class ClientController extends AbstractClient {
 			break;
 		case SentExtraTimeRequest:
 			ClientUI.display("Request Has Been Sent!");
-			break;
-		case RefreshCourseTable:
+			break;	case RefreshCourseTable:
 			TeacherTestController.refreshCourseTable();
 			break;
 		case CourseList:
@@ -91,25 +90,88 @@ public class ClientController extends AbstractClient {
 			break;
 		case CourseDeleted:		
 			ClientUI.display("Course Has Been Deleted!");
-			break;
+			break;*/
 		case execCode:
 			if(message.getMessageData() == null) ClientUI.display("execution code invalid");
 			else { UserController.CurrentTestID = (String)message.getMessageData();}
-			break;
-			
+			break;		
 		case downloadManualTest:
 			UserController.byteManualTest = (byte[])message.getMessageData();
 			break;
-		case submitManualTest:
-			
+		case submitManualTest:	
 			if( ((String)message.getMessageData()).equals("Successfully submitted")) {
-				UserController.flagForSubmittedTestSuccessfully = true; }
-			//ClientUI.display((String)message.getMessageData());	
-			
-	
-			
+				UserController.flagForSubmittedTestSuccessfully = true; }		
+			break;
+		case ContinuePlanTest:
+			if( ((String)message.getMessageData()).equals("TestID and username matched")) {
+				UserController.flagForContinuePlanTest= true; }		
+		case InsertPlanTest:
+			UserController.InsertPlanTest = (String)message.getMessageData();
 			break;
 			
+			
+			
+			
+			//ragah
+		case CheckTest:
+			StudentController.isTestExist((String)message.getMessageData());
+			break;
+		case CheckedTest:
+			if(!(boolean)message.getMessageData())
+				StudentController.testExist = false;
+			else
+				StudentController.testExist = true;
+			break;
+		case CheckStudentID:
+			StudentController.isStudentIDExist((String)message.getMessageData());
+			break;
+		case CheckedStudentID:
+			if(!(boolean)message.getMessageData())
+				StudentController.studentIDExist = false;
+			else
+				StudentController.studentIDExist = true;
+			break;
+		case CheckValidCode:
+			StudentController.isExecutionCodeValid((String)message.getMessageData());
+			break;
+		case CheckedCode:
+			if((String)message.getMessageData() == null)
+				StudentController.validCode = false;
+			else
+				StudentController.validCode = true;
+			break;
+		case GetTestQuestions:
+			TeacherTestController.getTestQuestions((String)message.getMessageData());
+			break;
+		case TestQuestions:
+			TeacherTestController.currentTest = (Test)message.getMessageData();
+			break;
+		case GetTestCode:
+			TeacherTestController.getTestID((String)message.getMessageData());
+			break;
+		case GotTestCode:
+			TeacherTestController.testID = (String)message.getMessageData();
+			break;
+		case SubmitTest:
+			StudentController.submitTest((testCopy)message.getMessageData());
+			break;
+		case SubmittedTest:
+			ClientUI.display("Test has been submitted successfully!");
+			break;
+		case AddStudentToOnGoingOnline:
+			StudentController.AddStudentToOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+		case RemoveStudentFromOnGoingOnline:
+			StudentController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+		case GetExamDate:
+			StudentController.getExamDate((String)message.getMessageData());
+			break;
+		case GotExamDate:
+			StudentController.examDate = (ArrayList<String>)message.getMessageData();
+			break;
+	
+
 			default:
 				ClientUI.display("cant read message from server");
 		}

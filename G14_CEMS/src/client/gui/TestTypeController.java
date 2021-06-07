@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
+import client.controllers.StudentController;
 import client.controllers.UserController;
 import entity.Message;
 import entity.MessageType;
@@ -13,7 +14,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class TestTypeController {
@@ -38,6 +41,14 @@ public class TestTypeController {
 	@FXML
 	private Button btnManualTest;
 
+	
+	//ragah
+	@FXML
+    private Label lblIsExecCodeValid;
+   
+    public static String code;
+
+	
 	/**
 	 * change the stage to the manual test form in case the execution code is right
 	 * 
@@ -60,26 +71,65 @@ public class TestTypeController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			//UserController.executionCodeForTest = getTxtExecCode(); mi mishtamesh beze?
+			code = getTxtExecCode();
+			
 		}
 
 	}
+	
+	//ragah
+
+    @FXML
+    void clickOnlineTest(ActionEvent event) 
+    {
+    	if(StudentController.isExecutionCodeValid( getTxtExecCode()))
+		{
+    		code =  getTxtExecCode();
+    		lblIsExecCodeValid.setText("");
+    		
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("OnlineTestForm.fxml"));
+    		Parent root;
+    		try {
+    			ScreenControllers.onlineTestControl = loader.getController();
+    			root = loader.load();
+    			Scene scene = new Scene(root);
+    			Stage onlineTest = new Stage();
+    			onlineTest.setScene(scene);
+    			UserController.currentStage.hide();
+    			UserController.currentStage =onlineTest;
+    			onlineTest.show();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    		}
+    		else
+    		{
+    			lblIsExecCodeValid.setText("Please Enter A Valid Execution Code.");
+    			lblIsExecCodeValid.setTextFill(Color.RED);
+        		ClientUI.display("Code Doesnt Exist!");
+    		}
+		}
+    	
+
 
 	@FXML
-	void back(ActionEvent event) {
-
-		FXMLLoader loader2 = new FXMLLoader(getClass().getResource("StudentMenuForm.fxml")); // change the name to
-																								// StudentMenu"Form"
+	void clickBack(ActionEvent event) {
+		FXMLLoader loader2 = new FXMLLoader(getClass().getResource("StudentMenuForm.fxml")); 																		
 		Parent root2;
 		try {
-			UserController.extraStage = null;
 			root2 = loader2.load();
-			ScreenControllers.studentMenuController = loader2.getController();
 			Scene scene = new Scene(root2);
 			UserController.currentStage.setScene(scene);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void start() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

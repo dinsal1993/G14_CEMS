@@ -15,21 +15,28 @@ import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class TeacherTestController {
+public class TeacherTestController { //ragah evreything
 	public static final int MAX_TEST_TIME = 300;
 	public static ObservableList<Test> list = FXCollections.observableArrayList();
 	public static ObservableList<Course> courseList = FXCollections.observableArrayList();
+	public static ObservableList<TestBank> testBanklist = FXCollections.observableArrayList();
 	public static ArrayList<Test> testArr = new ArrayList<>();
 	public static ArrayList<Course> courseArr = new ArrayList<>();
 	public static Test t = new Test();
+	public static Test testQuestions = new Test();
 	public static testCopy tc = new testCopy();
 	public static int testCount;
 	public static Course course = new Course();
-
+    public static int currentQuestions = 0;
+    public static int currentBanks = 0;
+    public static String testID;
 	
 	public static HashMap<String, TestBank> banksMap;
+	public static HashMap<String, Question> questionMap;
+	public static Test currentTest;
 	public static ArrayList<String> QuestionArr;
-
+	public static ArrayList<Question> QuestionList;
+	
 	public static boolean updateTestValidFields(String testID, String newDuration) {
 		int id, duration;
 		try {
@@ -116,29 +123,21 @@ public class TeacherTestController {
 		
 	}
 	
-	public static ObservableList<Course> refreshCourseTable()
-	{
-		Message msg = new Message(MessageType.RefreshCourseTable, courseArr);
+	
+	public static Test getTestQuestions(String code) {		
+	
+		Message msg = new Message(MessageType.GetTestQuestions, code);
 		ClientUI.accept(msg);
 		
-		/*for (Course c : courseList)
-			courseList.remove(c);*/
-		for (Course c : courseArr)
-			courseList.add(c);
-		
-		return courseList;
-		
+		return currentTest;
 	}
 	
-	public static void addCourse(Course c)
+	public static String getTestID(String code)
 	{
-		Message msg = new Message(MessageType.AddCourse,c);
+		Message msg = new Message(MessageType.GetTestCode,code);
 		ClientUI.accept(msg);
+		
+		return testID;
 	}
-	
-	public static void deleteCourse(Course c)
-	{
-		Message msg = new Message(MessageType.DeleteCourse,c);
-		ClientUI.accept(msg);
-	}
+
 }

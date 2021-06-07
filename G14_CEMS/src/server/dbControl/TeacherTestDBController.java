@@ -3,11 +3,18 @@ package server.dbControl;
 import java.io.*;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,6 +25,7 @@ import entity.TestBank;
 import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class TeacherTestDBController implements Serializable {
@@ -39,61 +47,63 @@ public class TeacherTestDBController implements Serializable {
 		 * b); ps.executeUpdate();
 		 */
 		// Shahar- input- MIVHAN YADANI LEDOGMA -id-0000.
-		 //writeBlob();
-		//readBlob("0000","a");
+	//	 writeBlob();
+		// readBlob("0000","a");
 
 	}
 
 	/**
 	 * get the test
-	 * @param idTest id of the test 
+	 * 
+	 * @param idTest   id of the test
 	 * @param TestType Manual or computerized
 	 * @throws ClassNotFoundException
 	 */
-	private static void readBlob(String idTest,String TestType) throws ClassNotFoundException {
+	private static void readBlob(String idTest, String TestType) throws ClassNotFoundException {
 		DBConnector db = new DBConnector();
 		// update sql
 		String selectSQL = "SELECT questions FROM test WHERE id=?";
 		ResultSet rs = null;
-System.out.println("lifni try");
+		System.out.println("lifni try");
 		try {
 			PreparedStatement pstmt = DBConnector.myConn.prepareStatement(selectSQL);
 			// set parameter;
 			pstmt.setString(1, idTest);
 			rs = pstmt.executeQuery();
 
-			
 			rs.first();
 			BufferedInputStream bis = new BufferedInputStream(rs.getBlob(1).getBinaryStream());
 			byte[] blobByte = new byte[1024];
 			File manualTest = new File("manualTest2.docx");
 
-		      FileOutputStream fos = new FileOutputStream(manualTest);
+			FileOutputStream fos = new FileOutputStream(manualTest);
 
-		      BufferedOutputStream bos = new BufferedOutputStream(fos);
-		      int a;
-			while(( a = bis.read(blobByte))!= -1) {
-				 bos.write(blobByte,0,a);
-			      bos.flush();
-			      fos.flush();}
-			   //   blobByte = ""; }
-				
-		/*	System.out.println("ahri try2");
-			ObjectInputStream ois = new ObjectInputStream(bis);	
-			System.out.println("ahri try3");
-		
-			blobByte = (byte[])ois.readObject();
-			if(TestType.equals("Manual")) { // ELSE -> Lo baniti zarih livnot*/
-		//	File manualTest = new File("manualTest.docx");
+			BufferedOutputStream bos = new BufferedOutputStream(fos);
+			int a;
+			while ((a = bis.read(blobByte)) != -1) {
+				bos.write(blobByte, 0, a);
+				bos.flush();
+				fos.flush();
+			}
+			// blobByte = ""; }
 
-		   //   FileOutputStream fos = new FileOutputStream(manualTest);
+			/*
+			 * System.out.println("ahri try2"); ObjectInputStream ois = new
+			 * ObjectInputStream(bis); System.out.println("ahri try3");
+			 * 
+			 * blobByte = (byte[])ois.readObject(); if(TestType.equals("Manual")) { // ELSE
+			 * -> Lo baniti zarih livnot
+			 */
+			// File manualTest = new File("manualTest.docx");
 
-		    //  BufferedOutputStream bos = new BufferedOutputStream(fos);
-				
-		     // bos.write( ((MyFile)msg).getMybytearray() ,0,((MyFile)msg).getSize());
-		     // bos.write(blobByte,0,blobByte.length);
-		     // bos.flush();
-		      //fos.flush();
+			// FileOutputStream fos = new FileOutputStream(manualTest);
+
+			// BufferedOutputStream bos = new BufferedOutputStream(fos);
+
+			// bos.write( ((MyFile)msg).getMybytearray() ,0,((MyFile)msg).getSize());
+			// bos.write(blobByte,0,blobByte.length);
+			// bos.flush();
+			// fos.flush();
 
 		} catch (SQLException |
 
@@ -113,12 +123,12 @@ System.out.println("lifni try");
 /////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * insert the TEST_YADANI to db with ID 0000
+	 * insert the TEST_YADANI t
 	 */
 	public static void writeBlob() {
 
 		DBConnector db = new DBConnector();
-		String updateSQL = "UPDATE test " + "SET questions = ? " + "WHERE id=?";
+		String updateSQL = "UPDATE test " + "SET manualQuestions = ? " + "WHERE id=?";
 		try {
 			PreparedStatement ps = DBConnector.myConn.prepareStatement(updateSQL);
 
@@ -135,7 +145,7 @@ System.out.println("lifni try");
 
 			// attach blob object to sql query
 			ps.setBlob(1, b);
-			ps.setString(2, "000000");
+			ps.setString(2, "010301");
 
 			// activate sql query
 			ps.executeUpdate();
@@ -168,7 +178,7 @@ System.out.println("lifni try");
 	 */
 
 /////////////////////////////////////////////////////////////////////////
-	public static ArrayList<Test> getAllTests() {
+/*	public static ArrayList<Test> getAllTests() {
 
 		ArrayList<Test> tests = new ArrayList<Test>();
 		String sqlQuery = "select id,duration,isLocked from test";
@@ -199,7 +209,7 @@ System.out.println("lifni try");
 			e.printStackTrace();
 		}
 		return tests;
-	}
+	}*/
 
 	public static void updateTestDuration(Test t) {
 
@@ -359,4 +369,182 @@ System.out.println("lifni try");
 		}
 
 	}
+
+	/**
+	 * check if the Id of the test are matching to the username of the teacher
+	 * 
+	 * @param IDandUsername
+	 * @return true when there is a match
+	 */
+
+	public static boolean checkValidIdAndUsernameTest(ArrayList<String> IDandUsername) {
+
+		boolean ValidIdAndUsername = false;
+		ResultSet rs2;
+		String selectSQL = "SELECT id,teacherUsername FROM test";
+		Statement pstmt;
+		try {
+			pstmt = DBConnector.myConn.createStatement();
+			rs2 = pstmt.executeQuery(selectSQL);
+			while (rs2.next()) {
+				if (rs2.getString(1).equals(IDandUsername.get(0))) {
+					if (rs2.getString(2).equals(IDandUsername.get(1))) {
+						ValidIdAndUsername = true;
+					}
+				}
+			}
+			rs2.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ValidIdAndUsername;
+	}
+
+	/**
+	 * insert all the info that she get in to the data base
+	 * 
+	 * @param messageD
+	 * @return true if succsseed
+	 * 
+	 */
+//////////////// lo asiti adain check valid DATE!! me ayom ve alaaa.. she lo yochlo lasim yom lfni.. o be oto yom shaa lfni ahshav..
+	public static String insertPlanTestToDB(ArrayList<String> planTest) {
+		System.out.println(planTest.toString());
+		String validExecCode = checkValidExecCode(planTest.get(0));
+
+		if (validExecCode.equals("Execution code must be 4 fields, digits and letters")) {
+		
+			return "Execution code must be 4 fields, digits and letters";
+		}
+
+		if (validExecCode.equals("Execuion Code already exist." + " please choose another one")) {
+			return "Execuion Code already exist. please choose another one";
+		}
+
+		if (!checkValidStartTime(planTest.get(1))) {
+			return "Start time must be in format hh:mm:ss or hh:mm";
+		}
+
+		if (!checkValidDuration(planTest.get(2))) {
+			return "Duration must be a number between 0-480";
+		}
+
+		// checkValidDate(planTest.get(0)); // eich osim me ayom va ala?
+
+		String insertPlannedTest = "INSERT INTO plannedtest " + "(execCode, startHour, duration, date)"
+				+ " VALUES (?, ?, ?, ?)";
+		PreparedStatement ps;
+
+		try {
+			ps = DBConnector.myConn.prepareStatement(insertPlannedTest);
+
+			ps.setString(1, planTest.get(0));
+			ps.setString(2, planTest.get(1));
+			ps.setString(3, planTest.get(2));
+			System.out.println(planTest.get(3));
+			System.out.println(planTest.toString());
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+			java.util.Date u = sdf.parse(planTest.get(3));
+			long ms = u.getTime();
+			java.sql.Date testDate = new java.sql.Date(ms);
+			ps.setDate(4, testDate);
+			System.out.println(planTest.toString());
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return "ok";
+	}
+
+	/**
+	 * check the validation of the duration must be a string between 0-480 [8 hours]
+	 * 
+	 * @param duration
+	 * @return true in case the duration is valid
+	 */
+	private static boolean checkValidDuration(String duration) {
+		int durationInteger = Integer.parseInt(duration);
+
+		System.out.println(durationInteger);
+		if (!duration.matches("[0-9]+")) {
+			return false;
+		}
+		System.out.println(durationInteger);
+
+		if (durationInteger >= 480 || durationInteger <= 0) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * check the validation of the execution code
+	 * 
+	 * @param startTime start time of the test
+	 * @return true in case the string start time in time format
+	 */
+	
+	@SuppressWarnings("finally")
+	private static boolean checkValidStartTime(String startTime) {
+		boolean flag = false;
+		try {		
+			SimpleDateFormat sdf = new SimpleDateFormat("H:m:s");
+			sdf.setLenient(false);
+			java.util.Date u = sdf.parse(startTime);
+			flag=true;
+			}
+			catch (ParseException e) {
+				flag=false;
+			e.printStackTrace();
+		} 
+		finally {return flag;}
+	}
+
+	/**
+	 * check the validation of the execution code
+	 * 
+	 * @param execCode that the teacher entered
+	 * @return true in case its valid
+	 */
+	private static String checkValidExecCode(String execCode) { // leosif bdika she en od exec
+		ResultSet rs;
+		String validExecCode = "ok";
+
+		if (execCode.length() != 4 || (!isLetterOrDigit(execCode))) {
+			validExecCode = "Execution code must be 4 fields, digits and letters";
+		}
+		String sqlQuery = "select execCode from plannedtest where execCode = ?;";
+		try {
+			PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
+			ps.setString(1, execCode);
+			rs = ps.executeQuery();
+			rs.beforeFirst();
+			if (rs.next()) // means that there is execCode like that already
+				validExecCode = "Execuion Code already exist. please choose another one";
+
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return validExecCode;
+	}
+
+	private static boolean isLetterOrDigit(String execCode) {
+		for (int i = 0; i < execCode.length(); i++) {
+			if (!Character.isLetterOrDigit(execCode.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

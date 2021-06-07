@@ -7,15 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 /** A question that can be used in a test */
 public class Question implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/** The Question ID */
-	private int id;
-	
-	private static final AtomicInteger count = new AtomicInteger(0);
+	private String id;
 	
 	/** The question description(the question itself) */
 	private String description;
@@ -29,6 +24,8 @@ public class Question implements Serializable {
 	/** The teacher that wrote the question */
 	private String teacherName;
 	
+	private String teacherUsername;
+	
 	/**
 	 * @param id The unique question ID
 	 * @param description The text of the question
@@ -36,19 +33,27 @@ public class Question implements Serializable {
 	 * @param correctAnswer The correct answer
 	 * @param teacherName The teacher who wrote the test
 	 */
-	public Question(int id, String description, ArrayList<String> answers,
-			int correctAnswer, String teacherName) {
-		this.id = count.incrementAndGet();
+	public Question(String id, String description, ArrayList<String> answers,
+			int correctAnswer, String teacherName, String teacherUsername) {
+		this.id = id;
 		this.description = description;
 		this.answers = answers;
 		this.correctAnswer = correctAnswer;
 		this.teacherName = teacherName;
+		this.teacherUsername = teacherUsername;
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getTeacherUsername() {
+		return teacherUsername;
+	}
+	public void setTeacherUsername(String teacherUsername) {
+		this.teacherUsername = teacherUsername;
 	}
 	public String getDescription() {
 		return description;
@@ -77,8 +82,9 @@ public class Question implements Serializable {
 	@Override
 	public String toString() {
 		return "Question [id=" + id + ", description=" + description + ", answers=" + answers + ", correctAnswer="
-				+ correctAnswer + ", teacherName=" + teacherName + "]";
+				+ correctAnswer + ", teacherName=" + teacherName + ", teacherUsername=" + teacherUsername + "]";
 	}
+	
 	
 	
 
