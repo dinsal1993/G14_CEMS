@@ -132,6 +132,11 @@ public class ServerController extends AbstractServer {
 			String id = QuestionDBController.getTestID((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.GotTestCode,id);
 			break;*/
+		case GetExamDate:
+			ArrayList<String> examDate = new ArrayList<>();
+			examDate = StudentDBController.getExamDate((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.GotExamDate, examDate);
+			break;
 		default:
 			msgFromServer = new Message(MessageType.Error, null);
 		}

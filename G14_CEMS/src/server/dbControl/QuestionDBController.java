@@ -41,20 +41,34 @@ public class QuestionDBController implements Serializable {
 		answers.add("72");
 		answers.add("66");
 		points.add(5);
-		questions.add(new Question(1, "9 * 9 = ", answers,1,"Rajih"));
-		/*answers = new ArrayList<>();
-		answers.add("21");
-		answers.add("31");
-		answers.add("25");
-		answers.add("36");
+		questions.add(new Question("1", "9 * 9 = ", answers,1,"Rajih","Rajih"));
+		answers = new ArrayList<>();
+		answers.add("55");
+		answers.add("100");
+		answers.add("0");
+		answers.add("-52");
+		points.add(20);
+		questions.add(new Question("2", "10 * 10 = ", answers,2,"Rajih","Rajih"));
+		answers = new ArrayList<>();
+		answers.add("15");
+		answers.add("13");
+		answers.add("19");
+		answers.add("22");
 		points.add(10);
-		questions.add(new Question(2, "5 * 5 = ", answers,3,"Rajih"));*/
-		Test test = new Test(1,180,questions,points,"1234","Rajih");
-		String sql = "insert into test values (?, ?, ?, ?, ?)";
+		questions.add(new Question("3", "12 + 7 = ", answers,3,"Rajih","Rajih"));
+		//answers = new ArrayList<>();
+		//answers.add("21");
+		//answers.add("31");
+		//answers.add("25");
+		//answers.add("36");
+		//points.add(10);
+		//questions.add(new Question(2, "5 * 5 = ", answers,3,"Rajih"));
+		Test test = new Test("1",180,questions,points,"Rajih","Rajih"," "," ");
+		String sql = "insert into test values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		DBConnector db = new DBConnector();
 		PreparedStatement ps = DBConnector.myConn.prepareStatement(sql);
-		ps.setString(1, "2");
-		ps.setString(2, "300");
+		ps.setString(1, "1");
+		ps.setString(2, "180");
 		
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -75,73 +89,15 @@ public class QuestionDBController implements Serializable {
 		b1.setBytes(1, courseAsByte1);
 		ps.setBlob(4, b1);
 		ps.setString(5,"Rajih");
+		ps.setString(6,"Rajih");
+		ps.setString(7,"1234");
+		ps.setString(8,"");
+		ps.setString(9,"");
 		ps.executeUpdate();
 
 	}
 	
 	
-	/*public static ArrayList<Question> getAllQuestions() {
-
-		ArrayList<Question> questions = new ArrayList<Question>();
-		
-		String sqlQuery = "select * from question";
-
-		try {
-			if (DBConnector.myConn != null) {
-				Statement st = DBConnector.myConn.createStatement();
-				ResultSet rs = st.executeQuery(sqlQuery);
-
-				while (rs.next()) {
-					// Gather Data
-					ArrayList<String> answers = new ArrayList<String>();
-					Integer id = Integer.parseInt(rs.getString(1));
-					String description = rs.getString(2);
-					int correctAnswer = Integer.parseInt(rs.getString(3));
-					String teacherName = rs.getString(4);
-					String option1 = rs.getString(5);
-					String option2 = rs.getString(6);
-					String option3 = rs.getString(7);
-					String option4 = rs.getString(8);
-					answers.add(option1);
-					answers.add(option2);
-					answers.add(option3);
-					answers.add(option4);
-					//questions.add(new Question(null,description,answers,correctAnswer,teacherName));
-				}
-				rs.close();
-			} else
-				System.out.println("myConn is NULL !");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return questions;
-	}*/
-	
-	public static ArrayList<String> getAllQuestionBanks() {
-
-		ArrayList<String> banks = new ArrayList<String>();
-		String sqlQuery = "select * from questionbank";
-
-		try {
-			if (DBConnector.myConn != null) {
-				Statement st = DBConnector.myConn.createStatement();
-				ResultSet rs = st.executeQuery(sqlQuery);
-
-				while (rs.next()) {
-					// Gather Data
-					String name = rs.getString(2);
-					banks.add(name);
-				}
-				rs.close();
-			} else
-				System.out.println("myConn is NULL !");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return banks;
-	}
-
-
 	public static void addQuestion(Question q) {
 
 		String sqlQuery = "insert into question (id,description,correctAnswer,teacherName,A1,A2,A3,A4) values (?,?,?,?,?,?,?,?)";
@@ -172,42 +128,17 @@ public class QuestionDBController implements Serializable {
 
 	}
 	
-	public static void insertQuestionBank(QuestionBank QB) throws SQLException
-	{
-		try (PreparedStatement pst = DBConnector.myConn.prepareStatement(
-		        "SELECT 1 FROM cems.questionbank WHERE name = ?")) {
-			pst.setString(1,QB.getName());
-
-		    try (ResultSet rs = pst.executeQuery()) {
-		        if (rs.next()) {
-		        	//ClientUI.display("This bank name already exist!");
-		            // handle account already exists
-		        } else {
-		            try (PreparedStatement insert = DBConnector.myConn.prepareStatement(
-		                    "insert into cems.questionbank (id,name) values (?,?)")) {
-		            	insert.setString(1, String.valueOf(QB.getId()));
-						
-						insert.setString(2,QB.getName() );
-		             
-		                insert.executeUpdate();
-		                insert.close();
-		            }
-		        }
-		        
-		    }
-		    pst.close();
-		}
-	}		
-	
-	public static HashMap<String, Test> getTestQuestions() {
-	
-		String sqlQuery = "select * from test";
 		
-		Test temp;
+	
+	public static Test getTestQuestions(String code) {
+	
+		String sqlQuery = "select * from test where executionCode ="+code+"";
+		
+		Test temp = null;
 		ArrayList<Question> questions;
 		ArrayList<Integer> points;
 		
-		HashMap<String, Test> testMap = new HashMap<String, Test>();
+		
 		try {
 			if (DBConnector.myConn != null) {
 				Statement st = DBConnector.myConn.createStatement();
@@ -215,7 +146,6 @@ public class QuestionDBController implements Serializable {
 				while (rs.next()) {
 					questions = new ArrayList<>();
 					points = new ArrayList<>();
-					temp = new Test();
 					
 					Blob questionsBlob = rs.getBlob(3);
 					BufferedInputStream bis = new BufferedInputStream(questionsBlob.getBinaryStream());
@@ -229,16 +159,16 @@ public class QuestionDBController implements Serializable {
 					points = (ArrayList<Integer>) ois1.readObject();
 					
 					// construct current read test
-					
-					temp.setId(Integer.parseInt(rs.getString(1)));
+					temp = new Test();
+					temp.setId(rs.getString(1));
 					temp.setDuration(Integer.parseInt(rs.getString(2)));
 					temp.setQuestions(questions);
 					temp.setPointsPerQuestion(points);
 					temp.setTeacherName(rs.getString(5));
-			
-
-					// Add test to hashMap
-					testMap.put(rs.getString(1), temp);
+					temp.setTeacherUsername(rs.getString(6));
+					temp.setExecutionCode(code);
+					temp.setTeacherNotes(rs.getString(8));
+					temp.setStudentNotes(rs.getString(9));
 
 				}
 			}
@@ -251,10 +181,12 @@ public class QuestionDBController implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return testMap;
+		
+		return temp;
 	}
 	
-	public static String getTestID(String code)
+	
+	/*public static String getTestID(String code)
 	{
 		String id = null;
 		String sqlQuery = "select id from pretest where executioncode = "+code+"";
@@ -277,7 +209,7 @@ public class QuestionDBController implements Serializable {
 			return id;
 		
 
-	}
+	}*/
 	
 	
 

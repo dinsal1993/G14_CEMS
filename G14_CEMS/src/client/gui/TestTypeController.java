@@ -18,11 +18,8 @@ import javafx.stage.Stage;
 
 public class TestTypeController {
 
-    @FXML
-    private TextField txtStudentID;
-
-    @FXML
-    private TextField txtTestID;
+	@FXML
+    private TextField txtExecCode;
 
     @FXML
     private Button btnBack;
@@ -34,26 +31,19 @@ public class TestTypeController {
     private Button btnManualTest;
     
     @FXML
-    private Label lblisTestIDValid;
-
-    @FXML
-    private Label lblisStudentIDValid;
-    
-    public static String testID;
-    public static String studentID;
+    private Label lblIsExecCodeValid;
+   
+    public static String code;
     
     @FXML
     void clickOnlineTest(ActionEvent event) 
     {
-    	if(isTestExist())
+    	
+    	if(StudentController.isExecutionCodeValid(getExecutionCode()))
 		{
-    		lblisTestIDValid.setText("");
-    		testID = txtTestID.getText();
- 
-    		if(isStudentIDExist())
-    		{
-    		studentID = txtStudentID.getText();
-    		lblisStudentIDValid.setText("");
+    		code = getExecutionCode();
+    		lblIsExecCodeValid.setText("");
+    		
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("OnlineTestForm.fxml"));
     		Parent root;
     		try {
@@ -71,18 +61,13 @@ public class TestTypeController {
     		}
     		else
     		{
-    			lblisStudentIDValid.setText("Please Enter A Valid Student ID.");
-    			lblisStudentIDValid.setTextFill(Color.RED);
-        		ClientUI.display("Student Doesnt Exist!");
+    			lblIsExecCodeValid.setText("Please Enter A Valid Execution Code.");
+    			lblIsExecCodeValid.setTextFill(Color.RED);
+        		ClientUI.display("Code Doesnt Exist!");
     		}
 		}
-    	else
-    	{
-    		lblisTestIDValid.setText("Please Enter A Valid Test.");
-    		lblisTestIDValid.setTextFill(Color.RED);
-    		ClientUI.display("Test Doesnt Exist!");
-    	}
-    }
+    	
+    
     
     
     @FXML
@@ -124,34 +109,11 @@ public class TestTypeController {
 
     }
     
-    public String getStudentID()
+
+    public String getExecutionCode()
     {
-    	return txtStudentID.getText();
+    	return txtExecCode.getText();
     }
-    
-    public String getTestID()
-    {
-       	return  txtTestID.getText();
-    }
-    
-    
-  
-    
-    public boolean isTestExist()
-    {
-    	if(StudentController.isTestExist(getTestID()))
-    		return true;
-    	return false;
-    
-    }
-    
-    public boolean isStudentIDExist()
-    {
-    	if(StudentController.isStudentIDExist(getStudentID()))
-    		return true;
-    	return false; 
-    }
-    
    
 
 

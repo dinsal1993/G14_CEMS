@@ -12,6 +12,8 @@ public class StudentController {
 	public static boolean testExist;
 	public static boolean studentIDExist;
 	public static boolean validCode;
+	public static ArrayList<String> examDate;
+	
 	
 	public static boolean isTestExist(String testID)
 	{
@@ -55,6 +57,12 @@ public class StudentController {
 		ClientUI.accept(msg);
 		return;
 		
+	}
+
+	public static ArrayList<String> getExamDate(String executionCode) {
+		Message msg = new Message(MessageType.GetExamDate, executionCode);
+		ClientUI.accept(msg);
+		return examDate;
 	}
 	
 	

@@ -163,6 +163,12 @@ public class ClientController extends AbstractClient {
 		case RemoveStudentFromOnGoing:
 			StudentController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
 			break;
+		case GetExamDate:
+			StudentController.getExamDate((String)message.getMessageData());
+			break;
+		case GotExamDate:
+			StudentController.examDate = (ArrayList<String>)message.getMessageData();
+			break;
 			default:
 				ClientUI.display("cant read message from server");
 		}

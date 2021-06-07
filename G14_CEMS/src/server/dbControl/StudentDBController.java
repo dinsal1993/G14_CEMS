@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import client.controllers.ClientUI;
+import client.gui.LoginFormController;
 import entity.Course;
 import entity.Test;
 import entity.TestBank;
@@ -83,30 +84,34 @@ public static boolean checkTest(String testID) {
 			{
 				Statement st = DBConnector.myConn.createStatement();
 				ResultSet rs = st.executeQuery(sqlQuery);
+				
 				while(rs.next())
 				{
-					id = rs.getString("id");
+					id = rs.getString(1);
+						
 				}
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(id);
 		return id;
 	}
 	
 	public static void submitTest(testCopy tc)
 	{
 	
-		String sqlQuery = "insert into testcopy (id ,year, month,day,studentAnswers,finalScore,actualTime,studentID,scoreApproved,status) values (?,?,?,?,?,?,?,?,?,?)";
+		String sqlQuery = "insert into testcopy (id ,year, month,day,studentAnswers,finalScore,actualTime,usernamestudent,scoreApproved,status) values (?,?,?,?,?,?,?,?,?,?)";
 		try {
 			if (DBConnector.myConn != null) {
 				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
 				ps.setString(1, String.valueOf(tc.getTestID()));
 				ps.setString(2, String.valueOf(tc.getYear()));
-				ps.setString(3, String.valueOf("06"));
-				ps.setString(4, String.valueOf("05"));
+				ps.setString(3, String.valueOf(tc.getMonth()));
+				ps.setString(4, String.valueOf(tc.getDay()));
+				
+				
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ObjectOutputStream oos = null;
 				try {
@@ -124,14 +129,14 @@ public static boolean checkTest(String testID) {
 				byte[] answersAsByte;
 				answersAsByte = baos.toByteArray();
 				Blob b = DBConnector.myConn.createBlob();
-				b.setBytes(1, answersAsByte);
+				b.setBytes(1, answersAsByte);		
 				ps.setBlob(5, b);
-				
 				ps.setString(6, String.valueOf(tc.getFinalScore()));
 				ps.setString(7, String.valueOf(tc.getActualTime()));
 				ps.setString(8, String.valueOf(tc.getStudentID()));
-				ps.setString(9, String.valueOf("No"));
-				ps.setString(10, String.valueOf("Pending"));
+				ps.setString(9, String.valueOf("Yes"));
+				ps.setString(10, String.valueOf("Approved / Online"));
+				
 				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
@@ -171,6 +176,33 @@ public static boolean checkTest(String testID) {
 			e.printStackTrace();
 		}
 		return;	
+	}
+
+	public static ArrayList<String> getExamDate(String code)
+	{
+		ArrayList<String> list = new ArrayList<>();
+		String sqlQuery = "select * from plannedtest where execCode = "+code+"";
+		
+		try {
+			if(DBConnector.myConn != null)
+			{
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				while(rs.next())
+				{
+					list.add(0,String.valueOf(rs.getString(1)));
+					list.add(1,String.valueOf(rs.getString(2)));
+					list.add(2,String.valueOf(rs.getString(3)));
+					list.add(3,String.valueOf(rs.getString(4)));
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(list);
+		return list;
 	}
 	
 

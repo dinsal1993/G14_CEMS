@@ -26,6 +26,6 @@ public enum MessageType {
 	, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, 
 	GetQuestionsNumber, CountedQuestions, GetQuestionBankNumber, CountedBankQuestions
 	, GetAllQuestions, QuestionsList, GetTestQuestions, TestQuestions, GetTestCode, GotTestCode
-	, SubmitTest, SubmittedTest, AddStudentToOnGoing, RemoveStudentFromOnGoing;
+	, SubmitTest, SubmittedTest, AddStudentToOnGoing, RemoveStudentFromOnGoing, GetExamDate, GotExamDate;
 
 }

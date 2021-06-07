@@ -9,6 +9,8 @@ public class testCopy  implements Serializable{
 	
 	private String testID;
 	private String year;
+	private String month;
+	private String day;
 	private String semester;
 	private ArrayList<Integer> studentAnswers;
 	private int finalScore;
@@ -17,7 +19,8 @@ public class testCopy  implements Serializable{
 	private boolean scoreApproved;
 	private String reasons;
 	
-	public testCopy(String testID, String year, String semester, 
+	public testCopy(String testID, String year, String semester,
+			String month,String day,
 			ArrayList<Integer> studentAnswers, int finalScore,
 			long actualTime, String studentID, boolean scoreApproved) {
 		this.testID = testID;
@@ -28,6 +31,8 @@ public class testCopy  implements Serializable{
 		this.actualTime = actualTime;
 		this.studentID = studentID;
 		this.scoreApproved = scoreApproved;
+		this.month = month;
+		this.day = day;
 		reasons = null;
 	}
 	public testCopy() {
@@ -45,6 +50,20 @@ public class testCopy  implements Serializable{
 	}
 	public void setYear(String year) {
 		this.year = year;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public String getMonth()
+	{
+		return this.month;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
+	public String getDay()
+	{
+		return this.day;
 	}
 	public String getSemester() {
 		return semester;

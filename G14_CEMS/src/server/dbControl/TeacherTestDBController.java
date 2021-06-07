@@ -56,7 +56,7 @@ public class TeacherTestDBController {
 
 	}
 
-	public static ArrayList<Test> getAllTests() {
+	/*public static ArrayList<Test> getAllTests() {
 
 		//TO-DO:
 		//need to select question and questionPoint from DB and add them to test
@@ -86,7 +86,7 @@ public class TeacherTestDBController {
 			e.printStackTrace();
 		}
 		return tests;
-	}
+	}*/
 
 	public static void updateTestDuration(Test t) {
 

@@ -1,7 +1,9 @@
 package client.gui;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -78,6 +80,7 @@ public class TestQuestionsAndAnswersController {
 	    public int[] currentAnswers =  new int[questionsList.getQuestions().size()];
 	    public int currAnswer;
 	    public long timeTookToFinish;
+	    public ArrayList<String> examDateAndTime = OnlineTestController.examTime;
 	    
 	    //timer fields
 	    private long min, sec, hr, totalSec; 
@@ -190,11 +193,13 @@ public class TestQuestionsAndAnswersController {
 	    		
 	    			testCopy tc = new testCopy();
 	    			tc.setTestID(questionsList.getId());
-	    			tc.setYear("2021");
+	    			tc.setYear(examDateAndTime.get(3).split("-")[0]);
+	    			tc.setMonth(examDateAndTime.get(3).split("-")[1]);
+	    			tc.setDay(examDateAndTime.get(3).split("-")[2]);
 	    			tc.setStudentAnswers(answers);
 	    			tc.setFinalScore(finalGrade);
 	    			tc.setActualTime(timeTookToFinish);
-	    			tc.setStudentID(TestTypeController.studentID);
+	    			tc.setStudentID(LoginFormController.username);
 	    			StudentController.submitTest(tc);
 	    			
 	    		
@@ -305,9 +310,12 @@ public class TestQuestionsAndAnswersController {
 	    }
 	    
 	    private void setTimer() {
-	        //totalSec = questionsList.getDuration() * 60; 
+	        
 	    	//SHOULD BE totalSec = exam duration - (current local time - exam start hour)
-	    	totalSec = 120;
+	    	totalSec = questionsList.getDuration() * 60 + OnlineTestController.delayTimeInSecs;
+	    
+	    	
+	    	
 	    	timeTookToFinish = totalSec;
 	        this.timer = new Timer();
 
@@ -327,6 +335,7 @@ public class TestQuestionsAndAnswersController {
 	                            lblTimer.setText("00:00:00");
 	                            finalGrade = 0;
 	                            ClientUI.display("Sorry you couldn't finish the test in the given time...");
+	        	    			
 	                            returnToStudentMainMenu();
 	                        }
 	                    }
@@ -336,6 +345,8 @@ public class TestQuestionsAndAnswersController {
 
 	        timer.schedule(timerTask, 0, 1000);
 	    }
+	    
+	   
 	    
 	    
 }
