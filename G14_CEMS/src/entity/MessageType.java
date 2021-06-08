@@ -26,7 +26,7 @@ public enum MessageType {
 
 	logIn, getTestBankName, getCourseID, getTestID, TestList, CheckTest, CheckedTest, CheckStudentID, CheckedStudentID, CheckValidCode, CheckedCode, GetNextQID, GetSubjectID, getCoursesBySubject, GetQuestionsBySubject, GetCourseID, GetTCount, AddTest, Hello, GetQuestionByID, UpdateQuestion,
 
-	 execCode, execCodeManual, downloadManualTest, submitManualTest, DeleteQuestion;
+	 execCode, execCodeManual, downloadManualTest, submitManualTest, DeleteQuestion, GetNextTID, GetAllTestsBySubject, deleteTest, updateTest;
 
 
 }

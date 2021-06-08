@@ -41,9 +41,10 @@ public class ClientController extends AbstractClient {
 
 		System.out.println(message.getMessageType());
 		switch(message.getMessageType()) {
-		case TestsList :
+		case GetAllTests:
+		case GetAllTestsBySubject:
 			TeacherTestController.testArr = (ArrayList<Test>)message.getMessageData();
-			break;
+		break;
 		case GetAllSubjects:
 			TeacherTestController.subjects = (ArrayList<Subject>)message.getMessageData();
 			break;
@@ -66,10 +67,28 @@ public class ClientController extends AbstractClient {
 			TeacherTestController.specificQ = (Question)message.getMessageData();
 			break;
 		case AddTest:
-			ClientUI.display((String)message.getMessageData());
+			if((boolean)message.getMessageData())
+				ClientUI.display("Created test successfully");
+			else
+				ClientUI.display("error creating test");
+			break;
+		case updateTest:
+			if((boolean)message.getMessageData())
+				ClientUI.display("update successfully");
+			else
+				ClientUI.display("error update test");
+			break;
+		case deleteTest:
+			if((boolean)message.getMessageData())
+				ClientUI.display("delete test successfully");
+			else
+				ClientUI.display("error deleting question");
 			break;
 		case GetNextQID:
 			TeacherTestController.nextQID = (int)message.getMessageData();
+			break;
+		case GetNextTID:
+			TeacherTestController.nextTID = (int)message.getMessageData();
 			break;
 		case GetTCount:
 			TeacherTestController.tCountByBankAndCourse = (int)message.getMessageData();

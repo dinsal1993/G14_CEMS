@@ -1,11 +1,14 @@
 package client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import client.controllers.ClientUI;
 import javafx.application.Application;
 import client.controllers.ScreenControllers;
+import client.controllers.TeacherTestController;
 import client.controllers.UserController;
+import entity.Test;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +30,9 @@ public class TeacherMenuController {
 
     @FXML
     private Button btnEditTest;
+    
+    @FXML
+    private Button btnViewTest;
 
     @FXML
     private Button btnCreateTestBank;
@@ -58,6 +64,8 @@ public class TeacherMenuController {
     @FXML
     private Button btnBack;
     
+    private ArrayList<Test> tests;
+    
     public void start() {
     	
     }
@@ -70,7 +78,7 @@ public class TeacherMenuController {
 		try {
 		
 		root = loader.load();
-    ScreenControllers.createQuestionControl = loader.getController();
+		ScreenControllers.createQuestionControl = loader.getController();
 		Scene scene = new Scene(root);
 		UserController.currentStage.setScene(scene);
 		ScreenControllers.createQuestionControl.start();
@@ -87,10 +95,47 @@ public class TeacherMenuController {
 		try {
 		
 		root = loader.load();
-    ScreenControllers.editDeleteQuestionControl = loader.getController();
+		ScreenControllers.editDeleteQuestionControl = loader.getController();
 		Scene scene = new Scene(root);
 		UserController.currentStage.setScene(scene);
 		ScreenControllers.editDeleteQuestionControl.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
+    void click_viewTest(ActionEvent event) {		
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateTestForm.fxml"));
+		Parent root;
+
+		try {
+		
+		root = loader.load();
+		ScreenControllers.createTestControl = loader.getController();
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.createTestControl.startView();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
+    void click_editTest(ActionEvent event) {		
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateTestForm.fxml"));
+		Parent root;
+
+		String username = ScreenControllers.loginFormController.getUsername();
+		tests = TeacherTestController.getAllTests(username);
+
+		try {
+		
+		root = loader.load();
+		ScreenControllers.createTestControl = loader.getController();
+		Scene scene = new Scene(root);
+		UserController.currentStage.setScene(scene);
+		ScreenControllers.createTestControl.startEdit(tests);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -36,10 +36,16 @@ public class AddQuestionController {
 	private TextField txtScore;
 
 	@FXML
+	private TextField txtTotalScore;
+
+	@FXML
 	private Button btnBack;
 
 	@FXML
 	private Button btnView;
+	
+	@FXML
+	private Button btnConfirm;
 
 	@FXML
 	private Button btnAdd;
@@ -65,34 +71,59 @@ public class AddQuestionController {
 
 	private ArrayList<Integer> pointsPerQuestion;
 
+	private int sum;
+	private String mode;
+
 	@FXML
 	void click_addQuestion(ActionEvent event) {
-		int sum = 0;
-		for (Integer p : pointsPerQuestion)
-			sum += p;
-		ObservableList<String> questionsInTest = lstQuestionsInTest.getItems();
-		String isValid = TeacherTestController.checkValidQuestionID(txtQuestionID.getText(), txtScore.getText(), sum,
-				questionsInTest);
-		if (isValid.equals("valid")) {
-			lstQuestionsInTest.getItems().add(txtQuestionID.getText());
-			pointsPerQuestion.add(Integer.parseInt(txtScore.getText()));
-		} else
-			ClientUI.display(isValid);
+		if (mode.equals("regular")) {
+			int sum = 0;
+			for (Integer p : pointsPerQuestion)
+				sum += p;
+			ObservableList<String> questionsInTest = lstQuestionsInTest.getItems();
+			String isValid = TeacherTestController.checkValidQuestionID(txtQuestionID.getText(), txtScore.getText(),
+					sum, questionsInTest);
+			if (isValid.equals("valid")) {
+				lstQuestionsInTest.getItems().add(txtQuestionID.getText());
+				pointsPerQuestion.add(Integer.parseInt(txtScore.getText()));
+				sum += Integer.parseInt(txtScore.getText());
+				txtTotalScore.setText(String.valueOf(sum));
+			} else
+				ClientUI.display(isValid);
+		} else if (mode.equals("edit")) {
+
+		} else {
+
+		}
 	}
 
 	@FXML
 	void click_removeQuestion(ActionEvent event) {
-		int index = -1;
+		if (mode.equals("regular")) {
+			int index = -1;
 
-		String qID = lstQuestionsInTest.getSelectionModel().getSelectedItem();
-		ObservableList<String> questionsInTest = lstQuestionsInTest.getItems();
-		for (int i = 0; i < questionsInTest.size(); i++) {
-			if (questionsInTest.get(i).equals(qID))
-				index = i;
+			String qID = txtQuestionID.getText();
+			if (qID == null || qID.equals("")) {
+				ClientUI.display("no id input");
+				return;
+			}
+			ObservableList<String> questionsInTest = lstQuestionsInTest.getItems();
+			for (int i = 0; i < questionsInTest.size(); i++) {
+				if (questionsInTest.get(i).equals(qID))
+					index = i;
+			}
+
+			lstQuestionsInTest.getItems().remove(index);
+			pointsPerQuestion.remove(index);
+			int sum = 0;
+			for (Integer i : pointsPerQuestion)
+				sum += i;
+			txtTotalScore.setText(String.valueOf(sum));
+		} else if (mode.equals("edit")) {
+
+		} else {
+
 		}
-
-		lstQuestionsInTest.getItems().remove(index);
-		pointsPerQuestion.remove(index);
 	}
 
 	@FXML
@@ -123,35 +154,78 @@ public class AddQuestionController {
 
 	@FXML
 	void click_Back(ActionEvent event) {
-		questionsBySubject = null;
-		pointsPerQuestion = null;
-		ScreenControllers.createTestControl.setQuestionsAdded(false);
-		UserController.extraStage.hide();
-		UserController.currentStage.show();
+		if (mode.equals("regular")) {
+			questionsBySubject = null;
+			pointsPerQuestion = null;
+			ScreenControllers.createTestControl.setQuestionsAdded(false);
+			UserController.extraStage.hide();
+			UserController.currentStage.show();
+		} else {
+			questionsBySubject = null;
+			pointsPerQuestion = null;
+			UserController.extraStage.hide();
+			UserController.currentStage.show();
+		}
 	}
 
 	@FXML
 	void click_confirm(ActionEvent event) {
-		ScreenControllers.createTestControl.setTestQuestions(lstQuestionsInTest);
-		ScreenControllers.createTestControl.setPointsPerQuestion(pointsPerQuestion);
-		ScreenControllers.createTestControl.setQuestionsAdded(true);
-		UserController.extraStage.hide();
-		UserController.currentStage.show();
+		System.out.println("points: " + pointsPerQuestion);
+		int sum = 0;
+		for (Integer i : pointsPerQuestion)
+			sum += i;
+		if (sum == 100) {
+			ScreenControllers.createTestControl.setTestQuestions(lstQuestionsInTest);
+			ScreenControllers.createTestControl.setPointsPerQuestion(pointsPerQuestion);
+			ScreenControllers.createTestControl.setQuestionsAdded(true);
+			UserController.extraStage.hide();
+			UserController.currentStage.show();
+		} else
+			ClientUI.display("Total score not 100");
 	}
 
-	public void start(String subjectID, String username) {
-		pointsPerQuestion = new ArrayList<>();
+	public void start(String subjectID, String username, boolean fromEdit, Test testForEdit, String mode) {
 		col_id.setCellValueFactory(new PropertyValueFactory<Question, Integer>("id"));
 		col_description.setCellValueFactory(new PropertyValueFactory<Question, String>("description"));
+		sum = 0;
+		this.mode = mode;
 		fillTable(subjectID, username);
-
+		if (mode.equals("regular")) {
+			pointsPerQuestion = new ArrayList<>();
+		} else if (mode.equals("edit")) {
+			pointsPerQuestion = testForEdit.getPointsPerQuestion();
+			for (Integer p : pointsPerQuestion)
+				sum += p;
+			lstQuestionsInTest.getItems().clear();
+			for (int i = 0; i < testForEdit.getQuestions().size(); i++) {
+				lstQuestionsInTest.getItems().add(testForEdit.getQuestions().get(i).getId());
+			}
+			txtTotalScore.setText(String.valueOf(sum));
+			txtScore.setEditable(true);
+			tblQuestionList.setDisable(false);
+			btnAdd.setDisable(false);
+			btnRemove.setDisable(false);
+		} else /* mode = view */ {
+			pointsPerQuestion = testForEdit.getPointsPerQuestion();
+			for (Integer p : pointsPerQuestion)
+				sum += p;
+			lstQuestionsInTest.getItems().clear();
+			for (int i = 0; i < testForEdit.getQuestions().size(); i++) {
+				lstQuestionsInTest.getItems().add(testForEdit.getQuestions().get(i).getId());
+				// sum += testForEdit.getPointsPerQuestion().get(i).getPoints();
+			}
+			txtTotalScore.setText(String.valueOf(sum));
+			txtScore.setEditable(false);
+			tblQuestionList.setDisable(true);
+			btnAdd.setDisable(true);
+			btnRemove.setDisable(true);
+			btnConfirm.setDisable(true);		
+		}
 	}
 
 	private void fillTable(String subjectID, String username) {
 		tblQuestionList.getItems().clear();
-		tblQuestionList.getItems().setAll(
-				TeacherTestController.getQuestionsBySubject(
-						subjectID,username));
+		tblQuestionList.getItems().setAll(TeacherTestController.getQuestionsBySubject(subjectID, username));
 
 	}
 

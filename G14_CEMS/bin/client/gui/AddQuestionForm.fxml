@@ -41,12 +41,14 @@
             <TextField fx:id="txtScore" layoutX="469.0" layoutY="49.0" prefHeight="25.0" prefWidth="80.0" promptText="Score" />
             <Label layoutX="383.0" layoutY="53.0" text="Score : " />
             <Button fx:id="btnView" layoutX="561.0" layoutY="16.0" mnemonicParsing="false" onAction="#click_viewQuestion" text="View" />
-            <Button fx:id="btnAdd" layoutX="421.0" layoutY="82.0" mnemonicParsing="false" onAction="#click_addQuestion" text="Add" />
-            <Button fx:id="btnRemove" layoutX="478.0" layoutY="82.0" mnemonicParsing="false" onAction="#click_removeQuestion" text="Remove" />
-            <ListView fx:id="lstQuestionsInTest" layoutX="382.0" layoutY="142.0" prefHeight="258.0" prefWidth="200.0" />
+            <Button fx:id="btnAdd" layoutX="421.0" layoutY="124.0" mnemonicParsing="false" onAction="#click_addQuestion" text="Add" />
+            <Button fx:id="btnRemove" layoutX="480.0" layoutY="124.0" mnemonicParsing="false" onAction="#click_removeQuestion" text="Remove" />
+            <ListView fx:id="lstQuestionsInTest" layoutX="382.0" layoutY="183.0" prefHeight="217.0" prefWidth="200.0" />
             <Separator layoutX="369.0" layoutY="11.0" orientation="VERTICAL" prefHeight="385.0" prefWidth="8.0" />
-            <Label layoutX="381.0" layoutY="125.0" text="Question List : " />
+            <Label layoutX="376.0" layoutY="160.0" text="Question List : " />
             <Button fx:id="btnConfirm" layoutX="176.0" layoutY="366.0" mnemonicParsing="false" onAction="#click_confirm" styleClass="btn" text="Confirm" />
+            <Label layoutX="382.0" layoutY="82.0" text="Total :" />
+            <TextField fx:id="txtTotalScore" editable="false" layoutX="470.0" layoutY="78.0" prefHeight="25.0" prefWidth="79.0" promptText="total score" />
          </children></AnchorPane>
   </items>
 </SplitPane>

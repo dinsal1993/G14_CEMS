@@ -86,7 +86,7 @@ public class ManageTestController {
 			&& txtTestID.getText().matches(".*[A-Z].*") == false) {
 			Test test = new Test();
 			//list = (tblTests.getItems());
-			TeacherTestController.getAllTest();
+			//TeacherTestController.getAllTest();
 			// get chosen test details
 			//for (Test t : TeacherTestController.list) {
 			//	if (t.getId() == Integer.parseInt(txtTestID.getText())) {
@@ -113,7 +113,7 @@ public class ManageTestController {
     		String reasons = txtReasons.getText();
     		testCopy tc = new testCopy();
 			//list = (tblTests.getItems());
-			TeacherTestController.getAllTest();
+			//TeacherTestController.getAllTest();
 			// get chosen test details
 			//for (Test t : TeacherTestController.list) 
 			//{

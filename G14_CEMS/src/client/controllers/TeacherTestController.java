@@ -20,7 +20,7 @@ public class TeacherTestController {
 	public static ObservableList<Test> list = FXCollections.observableArrayList();
 	public static ObservableList<Course> courseList = FXCollections.observableArrayList();
 	public static ObservableList<TestBank> testBanklist = FXCollections.observableArrayList();
-	public static ArrayList<Test> testArr = new ArrayList<>();
+
 	public static ArrayList<Course> courseArr = new ArrayList<>();
 	public static Test t = new Test();
 	public static testCopy tc = new testCopy();
@@ -30,20 +30,26 @@ public class TeacherTestController {
 	public static HashMap<String, TestBank> banksMap;
 	public static ArrayList<Subject> subjects;
 	public static int nextQID;
+	public static int nextTID;
 	public static String subjectID;
 	public static ArrayList<Question> questionsBySubject;
 	public static String courseID;
 	public static int tCountByBankAndCourse;
 	public static Question specificQ;
+	public static ArrayList<Test> testArr;
 
-	public static void getAllTest() {
-		Message msg = new Message(MessageType.GetAllTests, null);
+	public static ArrayList<Test> getAllTests(String username) {
+		Message msg = new Message(MessageType.GetAllTests, username);
 		ClientUI.accept(msg);
 
-		for (Test t : list)
-			list.remove(t);
-		for (Test t : testArr)
-			list.add(t);
+		return testArr;
+	}
+	
+	public static ArrayList<Test> getAllTestsBySubject(String subjectID) {
+		Message msg = new Message(MessageType.GetAllTestsBySubject, subjectID);
+		ClientUI.accept(msg);
+
+		return testArr;
 	}
 
 	public static ObservableList<String> getCourseList(String subjectName) {
@@ -72,6 +78,14 @@ public class TeacherTestController {
 	public static void insertTestBank(TestBank TB) {
 		Message msg = new Message(MessageType.insertTestBank, TB);
 		ClientUI.accept(msg);
+	}
+	
+	public static String getCourseIDNotDB(String subjectID, String courseName) {
+		for(Course c: courseArr) {
+			if(c.getSubjectID().equals(subjectID) && c.getName().equals(courseName))
+				return c.getCourseID();
+		}
+		return null;
 	}
 
 	public static ObservableList<String> getAllSubjects(String username) {
@@ -119,7 +133,7 @@ public class TeacherTestController {
 		ClientUI.accept(msg);
 	}
 
-	// get count of questions in bank
+
 	public static int getNextQID(String subjectID, String username) {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(subjectID);
@@ -154,6 +168,7 @@ public class TeacherTestController {
 			ObservableList<String> questionsInTest) {
 		boolean questionExist = false, scoreValid = false;
 		int scoreNum = 0;
+		System.out.println("in checkValidQuestionID");
 		// check that teacher input a valid questionID from the list of
 		// possible questions
 		for (Question q : questionsBySubject) {
@@ -225,6 +240,20 @@ public class TeacherTestController {
 			return "please enter description";
 		return "valid";
 	}
+	
+	public static String isValidFieldsCreateTest(Test t,String subject, String course, String duration) {
+		if (subject == null)
+			return "please choose subject";
+		else if (course == null)
+			return "please choose course";
+		else if (duration.equals("") || duration == null)
+			return "please enter duration";
+		else if (t.getPointsPerQuestion().size() == 0)
+			return "did not set points for questions";
+		else if (t.getQuestions().size() == 0)
+			return "did not set questions for test";
+		return "valid";
+	}
 
 	public static String getNextQuestionID(String teacherUsername, String subject) {
 		String subjectID = getSubjectID(subject);
@@ -238,5 +267,25 @@ public class TeacherTestController {
 		else {
 			return "error";
 		}
+	}
+
+	public static String getNextTestID(String subjectID, String courseID, String teacherUsername) {
+		int nextID = getNextTID(subjectID, courseID, teacherUsername);
+		if (nextID < 10)
+			return (subjectID + courseID + "0" + nextID);
+		else if (nextID <= 99)
+			return (subjectID + courseID + nextID);
+		else
+			return "error";
+	}
+
+	private static int getNextTID(String subjectID, String courseID, String teacherUsername) {
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add(subjectID);
+		arr.add(courseID);
+		arr.add(teacherUsername);
+		Message msg = new Message(MessageType.GetNextTID, arr);
+		ClientUI.accept(msg);
+		return nextTID;
 	}
 }

@@ -38,6 +38,7 @@ public class ServerController extends AbstractServer {
 	public static DBConnector dbConnector;
 	Message msgFromServer = null;
 	boolean specificMsg = false;
+	String temp;
 
 	public ServerController(int port) {
 		super(port);
@@ -56,11 +57,20 @@ public class ServerController extends AbstractServer {
 			ArrayList<Subject> subjects = QuestionDBController.getAllSubjects((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.GetAllSubjects, subjects);
 			break;
+		case GetAllTests:
+			getAllTests((String)message.getMessageData());
+			break;
+		case GetAllTestsBySubject:
+			getAllTestsBySubject((String)message.getMessageData());
+			break;
 		case getCoursesBySubject:
 			getCoursesBySubject((String)message.getMessageData());
 			break;
 		case GetNextQID:
 			getNextQID((ArrayList<String>)message.getMessageData());
+			break;
+		case GetNextTID:
+			getNextTID((ArrayList<String>)message.getMessageData());
 			break;
 		case GetTCount:
 			getTCount((ArrayList<String>)message.getMessageData());
@@ -72,6 +82,16 @@ public class ServerController extends AbstractServer {
 		case DeleteQuestion:
 			check = QuestionDBController.deleteQuestion((Question)message.getMessageData());
 			msgFromServer = new Message(MessageType.DeleteQuestion, check);
+			break;
+		case deleteTest:
+			System.out.println("recieved msg: serverController: test is: " + (Test)message.getMessageData());
+			check = TeacherTestDBController.deleteTest((Test)message.getMessageData());
+			msgFromServer = new Message(MessageType.deleteTest, check);
+			break;
+		case updateTest:
+			check = TeacherTestDBController.updateTest((Test)message.getMessageData());
+			msgFromServer = new Message(MessageType.deleteTest, check);
+			break;
 		case GetQuestionByID:
 			Question q = QuestionDBController.getQuestionByID((ArrayList<String>)message.getMessageData());
 			msgFromServer = new Message(MessageType.GetQuestionByID, q);
@@ -161,6 +181,23 @@ public class ServerController extends AbstractServer {
 			//send to specific clients
 		}
 
+	}
+
+	private void getAllTestsBySubject(String subject) {
+		ArrayList<Test> arr = TeacherTestDBController.getAllTestsBySubject(subject);
+		msgFromServer = new Message(MessageType.GetAllTestsBySubject, arr);
+	}
+
+	private void getNextTID(ArrayList<String> arr) {
+		int count = TeacherTestDBController.getNextTID(arr);
+		msgFromServer = new Message(MessageType.GetNextTID, count);
+		
+	}
+
+	private void getAllTests(String username) {
+		ArrayList<Test> arr = TeacherTestDBController.getAllTests(username);
+		msgFromServer = new Message(MessageType.GetAllTests, arr);
+		
 	}
 
 	private void lockTest(ArrayList<String> usersList) {

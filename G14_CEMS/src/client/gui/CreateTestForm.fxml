@@ -10,11 +10,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.15" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="689.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.CreateTestController">
+<SplitPane dividerPositions="0.15" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="689.0" prefWidth="751.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.CreateTestController">
   <items>
     <AnchorPane fx:id="UpperAP_CreateTest" minHeight="0.0" minWidth="0.0" prefHeight="60.0" prefWidth="830.0">
          <children>
-            <Text fx:id="CreateTestTitle" layoutX="371.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Test" wrappingWidth="161.6083984375">
+            <Text fx:id="CreateTestTitle" layoutX="294.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Test" wrappingWidth="161.6083984375">
                <font>
                   <Font size="30.0" />
                </font>
@@ -53,8 +53,26 @@
             <TextArea fx:id="txtStudentNotes" layoutX="250.0" layoutY="364.0" prefHeight="63.0" prefWidth="359.0" promptText="Add Text" style="-fx-background-color: gray;" styleClass="txtField" />
             <TextArea fx:id="txtTeacherNotes" layoutX="250.0" layoutY="259.0" prefHeight="63.0" prefWidth="359.0" promptText="Add Text" style="-fx-background-color: gray;" styleClass="txtField" />
             <Button fx:id="btnBack" layoutX="44.0" layoutY="514.0" mnemonicParsing="false" onAction="#click_Back" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
-            <Button fx:id="btnAddQuestion" layoutX="385.0" layoutY="473.0" mnemonicParsing="false" onAction="#click_AddQuestion" prefHeight="32.0" prefWidth="166.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Add Question" textFill="WHITE" />
-            <Button fx:id="btnCreateTest" layoutX="406.0" layoutY="514.0" mnemonicParsing="false" onAction="#click_CreateTest" prefHeight="32.0" prefWidth="124.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Create Test" textFill="WHITE" />
+            <Button fx:id="btnAddQuestion" layoutX="255.0" layoutY="473.0" mnemonicParsing="false" onAction="#click_AddQuestion" prefHeight="32.0" prefWidth="166.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Add Question" textFill="WHITE" />
+            <Button fx:id="btnCreateTest" layoutX="276.0" layoutY="515.0" mnemonicParsing="false" onAction="#click_CreateTest" prefHeight="32.0" prefWidth="124.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" styleClass="btn" text="Create Test" textFill="WHITE" />
+            <Button fx:id="btnEdit" layoutX="447.0" layoutY="518.0" mnemonicParsing="false" onAction="#click_edit" styleClass="btn" text="Edit" />
+            <Button fx:id="btnDelete" layoutX="505.0" layoutY="519.0" mnemonicParsing="false" onAction="#click_delete" styleClass="btn" text="Delete" />
+            <Button fx:id="btnNext" layoutX="694.0" layoutY="519.0" mnemonicParsing="false" onAction="#click_next" styleClass="btn" text="Next" />
+            <Button fx:id="btnPrevious" layoutX="623.0" layoutY="519.0" mnemonicParsing="false" onAction="#click_previous" styleClass="btn" text="previous" />
+            <Label fx:id="lblTeacherUsername" layoutX="421.0" layoutY="38.0" text="Teacher username :">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtTeacherUsername" editable="false" layoutX="580.0" layoutY="41.0" />
+            <Label fx:id="lblTestID" layoutX="426.0" layoutY="69.0" text="Test ID :">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtTestID" editable="false" layoutX="580.0" layoutY="72.0" />
+            <Button fx:id="btnStartEdit" layoutX="255.0" layoutY="143.0" mnemonicParsing="false" onAction="#click_startEdit" styleClass="btn" text="Start Edit" />
+            <Button fx:id="btnStopEdit" layoutX="343.0" layoutY="143.0" mnemonicParsing="false" onAction="#click_stopEdit" styleClass="btn" text="Stop Edit" />
          </children></AnchorPane>
   </items>
 </SplitPane>
