@@ -22,9 +22,15 @@
          <children>
             <Button fx:id="btnStartTest" layoutX="409.0" layoutY="39.0" mnemonicParsing="false" onAction="#clickStart" prefHeight="32.0" prefWidth="124.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" text="Start Test" textFill="WHITE" />
             <Button fx:id="btnBack" layoutX="40.0" layoutY="237.0" mnemonicParsing="false" onAction="#clickBack" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-border-radius: 5em; -fx-background-radius: 5em;" text="Back" textFill="WHITE" />
+<<<<<<< HEAD
             <Label layoutX="54.0" layoutY="46.0" text="Execution Code :" />
             <TextField fx:id="txtExecutionCode" layoutX="190.0" layoutY="42.0" prefHeight="25.0" prefWidth="159.0" promptText="Enter Test Execution Code" />
             <Label fx:id="lblValidCode" layoutX="190.0" layoutY="87.0" prefHeight="17.0" prefWidth="159.0" />
+=======
+            <Label layoutX="54.0" layoutY="46.0" text="Student ID:" />
+            <TextField fx:id="txtStudentID" layoutX="190.0" layoutY="42.0" prefHeight="25.0" prefWidth="159.0" promptText="Enter Your ID" />
+            <Label fx:id="lblValidStudentID" layoutX="157.0" layoutY="87.0" prefHeight="17.0" prefWidth="233.0" />
+>>>>>>> Milena
          </children></AnchorPane>
   </items>
 </SplitPane>

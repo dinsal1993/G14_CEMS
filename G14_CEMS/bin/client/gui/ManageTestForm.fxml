@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,37 +18,24 @@
                </font>
             </Text>
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="362.0" prefWidth="638.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="263.0" prefWidth="592.0">
          <children>
-            <TextField fx:id="txtTestID" layoutX="218.0" layoutY="30.0" styleClass="txtField" />
-            <Text fx:id="txtMustFillThisFieldToContinue" layoutX="210.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtCmnt" text="*must fill this field to continue*" />
-            <Label fx:id="lblTestID" layoutX="82.0" layoutY="28.0" text=" * Test ID:" textAlignment="RIGHT" textFill="#e20c0c" textOverrun="CENTER_ELLIPSIS">
+            <TextField fx:id="txtExecCode" layoutX="179.0" layoutY="20.0" styleClass="txtField" />
+            <Text fx:id="txtMustFillThisFieldToContinue" layoutX="370.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtCmnt" text="*must fill this field to continue*" />
+            <Label fx:id="lblTestID" layoutX="14.0" layoutY="20.0" text=" Execution code:" textAlignment="RIGHT" textFill="#e20c0c" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="btnLockTest" layoutX="409.0" layoutY="30.0" mnemonicParsing="false" onAction="#ClickLockTest" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Lock test" textFill="WHITE" />
-            <Button fx:id="btnBack" layoutX="16.0" layoutY="276.0" mnemonicParsing="false" onAction="#Click_Back" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
-            <Button fx:id="btnRequestExtraTime" layoutX="240.0" layoutY="276.0" mnemonicParsing="false" onAction="#clickRequestExtraTime" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Request Extra Time" textFill="WHITE" />
-            <Label fx:id="lblRequestExtraTime" layoutX="29.0" layoutY="120.0" text="Request extra time:">
+            <Button fx:id="btnLockTest" layoutX="370.0" layoutY="142.0" mnemonicParsing="false" onAction="#clickLockTest" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Lock test" textFill="WHITE" />
+            <Button fx:id="btnBack" layoutX="16.0" layoutY="276.0" mnemonicParsing="false" onAction="#clickBack" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+            <Text layoutX="31.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(of the specific test)" />
+            <Button layoutX="131.0" layoutY="149.0" mnemonicParsing="false" text="Request extra time" />
+            <Text layoutX="131.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="livnot od halon shel reasons" wrappingWidth="153.99999618530273">
                <font>
-                  <Font size="20.0" />
+                  <Font size="21.0" />
                </font>
-            </Label>
-            <Label fx:id="lblReasons" layoutX="29.0" layoutY="177.0" text="Reasons:">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <CheckBox fx:id="chkBoxRequestExtraTime" layoutX="228.0" layoutY="127.0" mnemonicParsing="false" prefHeight="10.0" prefWidth="107.0" styleClass="chkBox" />
-            <TextField fx:id="txtReasons" alignment="TOP_LEFT" layoutX="128.0" layoutY="177.0" prefHeight="77.0" prefWidth="424.0" styleClass="txtField" />
-            <Separator layoutX="16.0" layoutY="105.0" prefHeight="2.0" prefWidth="565.0" />
-            <Label fx:id="lblEnterTestID" layoutX="299.0" layoutY="120.0" text="Enter Test ID">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtTestIDForExtraTime" layoutX="424.0" layoutY="123.0" />
+            </Text>
          </children></AnchorPane>
   </items>
 </SplitPane>

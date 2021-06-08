@@ -19,6 +19,7 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
+<<<<<<< HEAD
 
             <TextField fx:id="txtExecCode" layoutX="175.0" layoutY="60.0" />
             <Label layoutX="32.0" layoutY="65.0" text="Execution Code :" />
@@ -26,6 +27,14 @@
             <Button fx:id="btnOnlineTest" layoutX="412.0" layoutY="170.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="108.0" styleClass="btn" text="Online Test" textFill="WHITE" />
             <Button fx:id="btnManualTest" layoutX="230.0" layoutY="170.0" mnemonicParsing="false" onAction="#clickManualTest" prefHeight="32.0" prefWidth="108.0" styleClass="btn" text="Manual Test" textFill="WHITE" />
 
+=======
+            <TextField fx:id="txtExecCode" layoutX="175.0" layoutY="60.0" promptText="Enter Test Execution Code" />
+            <Label layoutX="32.0" layoutY="65.0" text="Execution Code :" />
+            <Button fx:id="btnBack" layoutX="39.0" layoutY="248.0" mnemonicParsing="false" onAction="#clickBack" prefHeight="32.0" prefWidth="88.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
+            <Button fx:id="btnOnlineTest" layoutX="412.0" layoutY="170.0" mnemonicParsing="false" onAction="#clickOnlineTest" prefHeight="32.0" prefWidth="108.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Online Test" textFill="WHITE" />
+            <Button fx:id="btnManualTest" layoutX="230.0" layoutY="170.0" mnemonicParsing="false" onAction="#clickManualTest" prefHeight="32.0" prefWidth="108.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em; -fx-border-radius: 5em;" styleClass="btn" text="Manual Test" textFill="WHITE" />
+            <Label fx:id="lblIsExecCodeValid" layoutX="359.0" layoutY="65.0" prefHeight="17.0" prefWidth="213.0" />
+>>>>>>> Milena
          </children></AnchorPane>
   </items>
 </SplitPane>

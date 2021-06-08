@@ -9,6 +9,8 @@ import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
 import client.controllers.TeacherTestController;
 import client.controllers.UserController;
+import entity.Message;
+import entity.MessageType;
 import entity.Test;
 import entity.testCopy;
 import javafx.fxml.FXML;
@@ -24,66 +26,58 @@ import javafx.stage.Stage;
 
 public class ManageTestController {
 
-    @FXML
-    private Text txtManageTest;
 
     @FXML
-    private TextField txtTestID;
+    private TextField txtExecCode;
 
     @FXML
-    private Text txtMustFillThisFieldToContinue;
+    private TextField txtTestIDForExtraTime;
 
-    @FXML
-    private Label lblTestID;
+	public Button getBtnLockTest() {
+		return btnLockTest;
+	}
 
-    @FXML
+	public Button getBtnBack() {
+		return btnBack;
+	}
+
+	@FXML
     private Button btnLockTest;
-
 
     @FXML
     private Button btnBack;
 
-    @FXML
-    private Button btnRequestExtraTime;
+    public String getTxtExecCode() {
+		return txtExecCode.getText();
+	}
+
+    @FXML 
+    void clickLockTest(ActionEvent event) {
+    	Message msg = new Message(MessageType.lockTest, getTxtExecCode() );
+    	ClientUI.accept(msg);   	
+    }
     
     @FXML
-    private Label lblRequestExtraTime;
-
-    @FXML
-    private Label lblReasons;
-
-    @FXML
-    private CheckBox chkBoxRequestExtraTime;
-
-    @FXML
-    private TextField txtReasons;
-    
-    @FXML
-    private Label lblEnterTestID;
-
-    @FXML
-    private TextField txtTestIDForExtraTime;
-    
-    @FXML
-    void Click_Back(ActionEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource
-				("TeacherMenuForm.fxml"));
-		Parent root = null;
+    void clickBack(ActionEvent event) {
+		FXMLLoader loader2 = new FXMLLoader(getClass().getResource("TeacherMenuForm.fxml")); 
+		Parent root2;
 		try {
-			root = loader.load();
+			root2 = loader2.load();
+			Scene scene = new Scene(root2);
+			UserController.currentStage.setScene(scene);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Scene scene = new Scene(root);
-		UserController.currentStage.setScene(scene);
 		ScreenControllers.teacherMenuController.start();
     }
+
     @FXML
 	void ClickLockTest(ActionEvent event) {
     	int flag = 0;
-		if (txtTestID.getText().matches(".*[0-9].*") == true && txtTestID.getText().matches(".*[a-z].*") == false 
-			&& txtTestID.getText().matches(".*[A-Z].*") == false) {
+		//if (txtTestID.getText().matches(".*[0-9].*") == true && txtTestID.getText().matches(".*[a-z].*") == false 
+		//	&& txtTestID.getText().matches(".*[A-Z].*") == false) {
 			Test test = new Test();
 			//list = (tblTests.getItems());
 			//TeacherTestController.getAllTest();
@@ -100,11 +94,12 @@ public class ManageTestController {
 			else
 				TeacherTestController.lockTest(test);
 		}
-		else
-			ClientUI.display("Error in test ID");
+		//else
+		//	ClientUI.display("Error in test ID");
 	}
+
     
-    @FXML
+/*    @FXML
     public void clickRequestExtraTime()
     {	
     	if(chkBoxRequestExtraTime.isSelected())
@@ -128,5 +123,32 @@ public class ManageTestController {
     	}
     	else //checkbox isnt selected
     		ClientUI.display("Must Check 'Request Extra Time' to continue.");
-    }	
-}
+    }	*/
+    /*   @FXML ragah or something
+   	void ClickLockTest(ActionEvent event) {
+       	int flag = 0;
+   		if (txtTestID.getText().matches(".*[0-9].*") == true && txtTestID.getText().matches(".*[a-z].*") == false 
+   			&& txtTestID.getText().matches(".*[A-Z].*") == false) {
+   			Test test = new Test();
+   			//list = (tblTests.getItems());
+   			TeacherTestController.getAllTest();
+   			// get chosen test details
+   			for (Test t : TeacherTestController.list) {
+   				if (t.getId() == Integer.parseInt(txtTestID.getText())) {
+   					test.setId(t.getId());
+   					flag = 1;
+   				}
+   			}
+   			if(flag == 0)
+   				ClientUI.display("Test doesnt exist!");
+   			else
+   				TeacherTestController.lockTest(test);
+   		}
+   		else
+   			ClientUI.display("Error in test ID");
+   	}*/
+//}
+
+
+
+

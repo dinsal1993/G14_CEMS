@@ -14,6 +14,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.TimeZone;
 
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
@@ -38,6 +43,17 @@ import javafx.stage.Stage;
 
 public class ManualTestController {
 
+	/*public static void main(String[] args) {
+	/*	Date d = new Date(0, 0, 0);
+		DateFormat timeFormat = new SimpleDateFormat("");
+		timeFormat.setTimeZone(TimeZone.getTimeZone("Asia/Jerusalem"));
+		String curTime = timeFormat.format(new Date());
+		Date d=new Date();
+		System.out.println("Old date is : "+d.getDate());
+		d.setDate(10);
+		System.out.println("Date after setting is : "+d.getDate());
+		}*/
+	
 	/**
 	 * array byte of the uploaded word document file.
 	 */
@@ -47,6 +63,8 @@ public class ManualTestController {
 	 * flag to know if the user uploaded at least one test
 	 */
 	static boolean flagForUploadedTest = false;
+	
+	private static ArrayList<String> studentDetails = new ArrayList<String>();
 
 	@FXML
 	private Button btnBack;
@@ -66,7 +84,7 @@ public class ManualTestController {
 	@FXML
 	void clickDownloadTest(ActionEvent event) {
 		UserController.byteManualTest = null;
-		Message msg = new Message(MessageType.downloadManualTest, "0000"); // in manual test id = 0000 always
+		Message msg = new Message(MessageType.downloadManualTest,TestTypeController.code );
 		ClientUI.accept(msg);
 		if (UserController.byteManualTest != null) {
 			System.out.println(UserController.byteManualTest);
@@ -81,9 +99,9 @@ public class ManualTestController {
 
 				FileOutputStream fos = new FileOutputStream(manualTest);
 				BufferedOutputStream bos = new BufferedOutputStream(fos);
-
+				
 				bos.write(UserController.byteManualTest, 0, UserController.byteManualTest.length);
-
+				
 				bos.flush();
 				fos.flush();
 				bos.close();
@@ -91,7 +109,11 @@ public class ManualTestController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			//ADD ongoing
+    		//studentDetails.add(0,StudentController.executionCodeForTest);
+    	//	studentDetails.add(1,UserController.username);
+    		
+			//StudentController.AddStudentToOnGoing(studentDetails);
 		}
 	}
 
@@ -150,22 +172,21 @@ public class ManualTestController {
 		ClientUI.accept(msg);
 		
 		if (UserController.flagForSubmittedTestSuccessfully) {
-			ClientUI.display("Succsessfully uploaded");
+			ClientUI.display("Succsessfully submitted");
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentMenuForm.fxml"));
 			Parent root;
 			try {
 				root = loader.load();
 				Scene scene = new Scene(root);
-				//UserController.extraStage = UserController.currentStage; // save the current stage // doesnt have back
-																			// button from student menu,-> lo yahol
-																		// lahzor ahora la submit test. ma kore be
-																			// mikre ve o roze leshanot et aagasha
-																			// shelo?
 				UserController.currentStage.setScene(scene);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		else ClientUI.display("You must upload a test to submit");
+		
+		//Message msg2 = new Message(MessageType.RemoveStudentFromOnGoing, studentDetails);
+		//ClientUI.accept(msg2);
 	}
 
 	@FXML
@@ -175,7 +196,6 @@ public class ManualTestController {
 		try {
 			root = loader.load();
 			Scene scene = new Scene(root);
-			UserController.extraStage = UserController.currentStage; // save the current stage
 			UserController.currentStage.setScene(scene);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -115,7 +115,7 @@ public class EditCoursesController implements Initializable {
     	String courseID = txtCourseID.getText();
     	String name = txtName.getText();
     	Course c = new Course(bankID,courseID,name);
-    	TeacherTestController.addCourse(c);
+    	//TeacherTestController.addCourse(c);
     	refreshTable();
     }
     

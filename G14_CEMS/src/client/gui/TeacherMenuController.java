@@ -69,6 +69,26 @@ public class TeacherMenuController {
     public void start() {
     	
     }
+   
+   //shahar for planing plan
+   /**
+    * moves to Plan a test stage
+    * @param event
+    */
+   @FXML
+   void clickPlaningATest(ActionEvent event) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("PlanningATestForm.fxml"));
+		Parent root;
+		try {
+			root = loader.load();
+			Scene scene = new Scene(root);
+			UserController.extraStage = UserController.currentStage; // save the current stage
+			UserController.currentStage.setScene(scene);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+   }
     
     @FXML
     void click_createQuestion(ActionEvent event) {

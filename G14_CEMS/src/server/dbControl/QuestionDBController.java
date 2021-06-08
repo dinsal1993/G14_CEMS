@@ -1,25 +1,42 @@
 package server.dbControl;
 
 import java.io.BufferedInputStream;
+
 import java.io.BufferedOutputStream;
+
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+
+import java.io.Serializable;
+
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 import entity.Question;
 import entity.QuestionBank;
 import entity.Subject;
 
+import client.controllers.ClientUI;
+import entity.Course;
+import entity.Question;
+import entity.QuestionBank;
+import entity.Test;
+import entity.TestBank;
+
+
 public class QuestionDBController {
 	
-
 	public static ArrayList<Subject> getAllSubjects(String username) {
 
 		ArrayList<Subject> subjects = new ArrayList<Subject>();
@@ -51,11 +68,11 @@ public class QuestionDBController {
 		}
 		return subjects;
 	}
-
+		
 	public static boolean addQuestion(Question q) {
 
-		String sqlQuery = "insert into question (id,description,correctAnswer,teacherName,A1,A2,A3,A4,teacherUsername) values (?,?,?,?,?,?,?,?,?)";
-
+		String sqlQuery = "insert into question (id,description,correctAnswer,teacherName,A1,A2,A3,A4) values (?,?,?,?,?,?,?,?)";
+		
 		PreparedStatement pst = null;
 		try {
 			if (DBConnector.myConn != null) {
@@ -84,6 +101,7 @@ public class QuestionDBController {
 		return false;
 	}
 	
+
 	public static boolean updateQuestion(Question q) {
 		String sqlQuery = "update question set description = ?,"
 				+ " correctAnswer = ?, A1 = ?,A2 = ?," + " A3 = ?, A4 = ? "
@@ -187,6 +205,62 @@ public class QuestionDBController {
 		}
 		return null;
 	}
+		
+	
+	public static Test getTestQuestions(String code) {
+	
+		String sqlQuery = "select * from test where executionCode ="+code+"";
+		
+		Test temp = null;
+		ArrayList<Question> questions;
+		ArrayList<Integer> points;
+		
+		
+		try {
+			if (DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				while (rs.next()) {
+					questions = new ArrayList<>();
+					points = new ArrayList<>();
+					
+					Blob questionsBlob = rs.getBlob(3);
+					BufferedInputStream bis = new BufferedInputStream(questionsBlob.getBinaryStream());
+					ObjectInputStream ois = new ObjectInputStream(bis);
+					questions = (ArrayList<Question>) ois.readObject();
+					
+
+					Blob qPointsBlob = rs.getBlob(4);
+					BufferedInputStream bis1 = new BufferedInputStream(qPointsBlob.getBinaryStream());
+					ObjectInputStream ois1 = new ObjectInputStream(bis1);
+					points = (ArrayList<Integer>) ois1.readObject();
+					
+					// construct current read test
+					temp = new Test();
+					temp.setId(rs.getString(1));
+					temp.setDuration(Integer.parseInt(rs.getString(2)));
+					temp.setQuestions(questions);
+					temp.setPointsPerQuestion(points);
+					temp.setTeacherName(rs.getString(5));
+					temp.setTeacherUsername(rs.getString(6));
+					temp.setExecutionCode(code);
+					temp.setTeacherNotes(rs.getString(8));
+					temp.setStudentNotes(rs.getString(9));
+					
+
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public static Question getQuestionByID(ArrayList<String> arr) {
 		String sqlQuery = "select * from question where id = \"" + 
@@ -214,8 +288,39 @@ public class QuestionDBController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return null;		
 	}
+	
+	
+	/*public static String getTestID(String code)
+	{
+		String id = null;
+		String sqlQuery = "select id from pretest where executioncode = "+code+"";
+		
+				try {
+					if(DBConnector.myConn != null)
+					{
+						Statement st = DBConnector.myConn.createStatement();
+						ResultSet rs = st.executeQuery(sqlQuery);
+						while(rs.next())
+						{
+							id = rs.getString("id");
+						}
+					}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+			}
+				
+			return id;
+		
+
+	}*/
+	
+	
+
+//}//End class
+
 
 	public static boolean deleteQuestion(Question q) {
 		String sqlQuery = "delete from question where id = ? and teacherUsername = ?;";

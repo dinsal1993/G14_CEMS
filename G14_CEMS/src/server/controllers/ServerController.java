@@ -52,6 +52,7 @@ public class ServerController extends AbstractServer {
 		switch (message.getMessageType()) {
 		case Hello:
 			client.setInfo("username",(String)message.getMessageData());
+			HashMap<String,Object> ass = new HashMap<String, Object>();
 			break;
 		case GetAllSubjects:
 			ArrayList<Subject> subjects = QuestionDBController.getAllSubjects((String)message.getMessageData());
@@ -99,16 +100,11 @@ public class ServerController extends AbstractServer {
 		case AddTest:
 			String temp = TeacherTestDBController.addTest((Test)message.getMessageData());
 			msgFromServer = new Message(MessageType.AddTest, temp);
-			break;
 		case UpdateQuestion:
 			check = QuestionDBController.updateQuestion((Question)message.getMessageData());
 			msgFromServer = new Message(MessageType.UpdateQuestion, check);
 			break;
 
-		case GetTestCount:
-			int countTest = TeacherTestDBController.getTestCount();
-			msgFromServer = new Message(MessageType.TestCount, countTest);
-			break;
 		case GetSubjectID:
 			getSubjectID((String)message.getMessageData());
 			break;
@@ -127,22 +123,6 @@ public class ServerController extends AbstractServer {
 			lockTest(TeacherTestDBController.lockTestDin((String)message.getMessageData()));
 			specificMsg = true;
 			break;
-		case RequestExtraTime:
-			TeacherTestDBController.requestExtraTime((testCopy)message.getMessageData());
-			msgFromServer = new Message(MessageType.SentExtraTimeRequest, null);
-			break;
-		//case RefreshCourseTable:
-		//	ArrayList<Course> list = TeacherTestDBController.refreshCourseTable();
-		//	msgFromServer = new Message(MessageType.CourseList, list);
-		//	break;
-		case AddCourse:
-			TeacherTestDBController.addCourse((Course)message.getMessageData());
-			msgFromServer = new Message(MessageType.CourseAdded,null);
-			break;
-		case DeleteCourse:
-			TeacherTestDBController.deleteCourse((Course)message.getMessageData());
-			msgFromServer = new Message(MessageType.CourseDeleted,null);
-			break;
 
 		case CheckTest:
 			boolean flag = StudentDBController.checkTest((String)message.getMessageData());
@@ -153,16 +133,16 @@ public class ServerController extends AbstractServer {
 			msgFromServer = new Message(MessageType.CheckedStudentID,isStudentIDExist);
 			break;
 		case CheckValidCode:
-			boolean isCodeExist = StudentDBController.checkValidCode((String)message.getMessageData());
-			msgFromServer = new Message(MessageType.CheckedCode,isCodeExist);
-
+			String testId = StudentDBController.checkValidCode((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.CheckedCode,testId);
+			break;
 		case execCode:
 			String id = TestDBController.FindTestIdAccordingToExecCode((String)message.getMessageData());
 			 msgFromServer = new Message(MessageType.execCode, id);
 			break;
 		case downloadManualTest:
-			byte[] byteManualTest = TestDBController.getTest((String)message.getMessageData()); // lo hayav, efshar she tamid nase ba func shel get test she yavi et a blob shel execcODE 0000 , LE SHEM HAVANA , OLAY NIMHAK
-			 msgFromServer = new Message(MessageType.downloadManualTest, byteManualTest); // mabey blob not object dont forgert
+			byte[] byteManualTest = TestDBController.getTest((String)message.getMessageData()); 
+			 msgFromServer = new Message(MessageType.downloadManualTest, byteManualTest); 
 			 break;
 		case submitManualTest:
 			boolean saveTestInDB = TestDBController.SaveManualTest((byte[])message.getMessageData());
@@ -170,7 +150,65 @@ public class ServerController extends AbstractServer {
 			else { msgFromServer = new Message(MessageType.submitManualTest, "Error in submit the test in to the database");}
 
 			break;
-		default:
+			
+		case ContinuePlanTest:
+			boolean ValidIdAndUsername = TeacherTestDBController.checkValidIdAndUsernameTest((ArrayList<String>)message.getMessageData());
+			if(ValidIdAndUsername) { msgFromServer = new Message(MessageType.ContinuePlanTest, "TestID and username matched");}
+			else { msgFromServer = new Message(MessageType.ContinuePlanTest, "TestID and username not matched");}
+			break;
+			
+		case InsertPlanTest:
+			String insertPlanToDb = TeacherTestDBController.insertPlanTestToDB((ArrayList<String>)message.getMessageData());
+			msgFromServer = new Message(MessageType.InsertPlanTest,insertPlanToDb);
+			break;
+			
+			//RAGAH - en bdika she ze takin.ok? 
+			//add to HAShMAP ConnectionClient. Shr
+		case AddStudentToOnGoing:
+			TestDBController.addConnectionClientToHashMap
+			(client,((ArrayList<String>)message.getMessageData()).get(2));// client, username of the student
+			TestDBController.addStudentToOnGoing
+			((ArrayList<String>)message.getMessageData());
+			break;
+		case RemoveStudentFromOnGoing:
+			TestDBController.removeConnectionClientToHashMap
+			(((ArrayList<String>)message.getMessageData()).get(2));// client, username of the student
+			TestDBController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+			
+		case lockTest:
+			TestDBController.lockTest((String)message.getMessageData());
+			break;
+		case AddExecCodeToTestDB:
+			TestDBController.addExecCodetoTestDB((ArrayList<String>)message.getMessageData());
+			break;
+			
+			
+			/// ragah
+			
+		case GetTestQuestions:
+			Test test = QuestionDBController.getTestQuestions((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.TestQuestions, test);
+			break;
+		case SubmitTest:
+			StudentDBController.submitTest((testCopy)message.getMessageData());
+			msgFromServer = new Message(MessageType.SubmittedTest, null);
+			break;
+		case AddStudentToOnGoingOnline:
+			StudentDBController.addStudentToOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+		case RemoveStudentFromOnGoingOnline:
+			StudentDBController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
+			break;
+
+		case GetExamDate:
+			ArrayList<String> examDate = new ArrayList<>();
+			examDate = StudentDBController.getExamDate((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.GotExamDate, examDate);
+			break;
+			
+			
+		default:	
 			msgFromServer = new Message(MessageType.Error, null);
 		}
 
