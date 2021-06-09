@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import client.gui.ManualTestController;
 import entity.Course;
 import entity.Message;
 import entity.MessageType;
@@ -16,7 +18,11 @@ import entity.TestBank;
 import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import ocsf.client.*;
+import ocsf.server.ConnectionToClient;
 import server.dbControl.UserDBController;
 //updated
 public class ClientController extends AbstractClient {
@@ -33,10 +39,11 @@ public class ClientController extends AbstractClient {
 
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-	
-		awaitResponse = false; // zarih liot be sof a kod????
+	System.out.println("in handle message from server");
+		 // zarih liot be sof a kod????
+		awaitResponse = false;
 		Message message = (Message)msg;
-		System.out.println(message.getMessageType());
+		System.out.println(message.getMessageType() + ", " + message.getMessageData());
 		switch(message.getMessageType()) {
 		case TestsList :
 			TeacherTestController.testArr = (ArrayList<Test>)message.getMessageData();
@@ -62,35 +69,7 @@ public class ClientController extends AbstractClient {
 		case logIn:
 			UserController.logInStatus = (String)message.getMessageData();
 	     	break;
-		/*case LockTest:
-			TeacherTestController.lockTest((Test)message.getMessageData());
-			break;
-		case SuccessLockTest:
-			ClientUI.display("Test Has Been Locked Successfully!");
-			break;
-		case RequestExtraTime:
-			TeacherTestController.requestExtraTime((testCopy)message.getMessageData());
-			break;
-		case SentExtraTimeRequest:
-			ClientUI.display("Request Has Been Sent!");
-			break;	case RefreshCourseTable:
-			TeacherTestController.refreshCourseTable();
-			break;
-		case CourseList:
-			TeacherTestController.courseArr = (ArrayList<Course>)message.getMessageData();
-			break;
-		case AddCourse:
-			TeacherTestController.addCourse((Course)message.getMessageData());
-			break;
-		case CourseAdded:
-			ClientUI.display("Course Has Been Added!");
-			break;
-		case DeleteCourse:
-			TeacherTestController.deleteCourse((Course)message.getMessageData());
-			break;
-		case CourseDeleted:		
-			ClientUI.display("Course Has Been Deleted!");
-			break;*/
+	
 		case execCode:
 			if(message.getMessageData() == null) ClientUI.display("execution code invalid");
 			else { UserController.CurrentTestID = (String)message.getMessageData();}
@@ -108,10 +87,22 @@ public class ClientController extends AbstractClient {
 		case InsertPlanTest:
 			UserController.InsertPlanTest = (String)message.getMessageData();
 			break;
-			
-			
-			
-			
+		case lockTest:
+			ClientUI.display("TEACHER LOCKED THE TEST! Good luck"
+					+ " next time click submit to get back to studentmenu");
+
+			StudentController.flagForLockTest = true;
+			break;
+		case lockTestTeacher:
+			ClientUI.display("Locked succssesfully");
+			break;
+		case getManualTestDetails:
+			 System.out.println( "IN CLIENTCONTROLLER");
+			 System.out.println( ManualTestController.manualTestDetails+"IN CLIENTCONTROLLER");
+			 ManualTestController.manualTestDetails = (ArrayList<String>)message.getMessageData();
+			 System.out.println( ManualTestController.manualTestDetails+"IN CLIENTCONTROLLER");
+			 break;
+		
 			//ragah
 		case CheckTest:
 			StudentController.isTestExist((String)message.getMessageData());
@@ -155,14 +146,12 @@ public class ClientController extends AbstractClient {
 		case SubmitTest:
 			StudentController.submitTest((testCopy)message.getMessageData());
 			break;
-		case SubmittedTest:
-			ClientUI.display("Test has been submitted successfully!");
-			break;
-		case AddStudentToOnGoingOnline:
-			StudentController.AddStudentToOnGoing((ArrayList<String>)message.getMessageData());
-			break;
-		case RemoveStudentFromOnGoingOnline:
-			StudentController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
+		case SubmittedTest:  // RAGAH ASITI PO flag be mida ve ha student lahaz al submit ve lo heala klom ba manual. 
+			if((boolean)message.getMessageData()) {
+				UserController.flagForSubmittedTestSuccessfully =true;
+					ClientUI.display("Test has been submitted successfully!");}
+			else
+				ClientUI.display("Error in submit test");
 			break;
 		case GetExamDate:
 			StudentController.getExamDate((String)message.getMessageData());
@@ -171,7 +160,6 @@ public class ClientController extends AbstractClient {
 			StudentController.examDate = (ArrayList<String>)message.getMessageData();
 			break;
 	
-
 			default:
 				ClientUI.display("cant read message from server");
 		}
@@ -187,6 +175,7 @@ public class ClientController extends AbstractClient {
 			// wait for response
 			while (awaitResponse) {
 				try {
+					System.out.println("sleep");
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();

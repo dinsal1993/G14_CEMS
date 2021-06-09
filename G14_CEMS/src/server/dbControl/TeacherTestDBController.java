@@ -47,7 +47,7 @@ public class TeacherTestDBController implements Serializable {
 		 * b); ps.executeUpdate();
 		 */
 		// Shahar- input- MIVHAN YADANI LEDOGMA -id-0000.
-	//	 writeBlob();
+		 writeBlob();
 		// readBlob("0000","a");
 
 	}
@@ -145,7 +145,7 @@ public class TeacherTestDBController implements Serializable {
 
 			// attach blob object to sql query
 			ps.setBlob(1, b);
-			ps.setString(2, "010301");
+			ps.setString(2, "010101");
 
 			// activate sql query
 			ps.executeUpdate();
@@ -426,13 +426,10 @@ public class TeacherTestDBController implements Serializable {
 			return "Start time must be in format hh:mm:ss or hh:mm";
 		}
 
-		if (!checkValidDuration(planTest.get(2))) {
-			return "Duration must be a number between 0-480";
-		}
 
 		// checkValidDate(planTest.get(0)); // eich osim me ayom va ala?
 
-		String insertPlannedTest = "INSERT INTO plannedtest " + "(execCode, startHour, duration, date)"
+		String insertPlannedTest = "INSERT INTO plannedtest " + "(execCode, startHour, teacherUsernameExecute, date)"
 				+ " VALUES (?, ?, ?, ?)";
 		PreparedStatement ps;
 
@@ -442,8 +439,9 @@ public class TeacherTestDBController implements Serializable {
 			ps.setString(1, planTest.get(0));
 			ps.setString(2, planTest.get(1));
 			ps.setString(3, planTest.get(2));
-			System.out.println(planTest.get(3));
+			ps.setString(4, planTest.get(3));
 			System.out.println(planTest.toString());
+
 
 			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 			java.util.Date u = sdf.parse(planTest.get(3));

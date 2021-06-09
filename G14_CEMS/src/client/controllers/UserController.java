@@ -70,6 +70,7 @@ public class UserController {
 	 * username of the user 
 	 */
 	public static String username;
+	
 	/**
 	 * send to the server the details about the login
 	 * 
@@ -85,6 +86,8 @@ public class UserController {
 		ClientUI.accept(msg);
 		return logInStatus;
 	}
+
+
 	
 	
 

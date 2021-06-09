@@ -19,10 +19,66 @@ public class testCopy  implements Serializable{
 	private boolean scoreApproved;
 	private String reasons;
 	
+	/**
+	 * array byte of the manual test to upload.
+	 */
+	private byte[] arrByteManualTestUpload;
+
+	/**
+	 * teacher who created the test
+	 */
+	private String teacherUsername;
+	
+	/**
+	 * teacher that execute the test
+	 */
+	private String teacherUsernameExecute;
+
+	public String getTeacherUsernameExecute() {
+		return teacherUsernameExecute;
+	}
+	
+	public void setTeacherUsernameExecute(String teacherUsernameExecute) {
+		 this.teacherUsernameExecute = teacherUsernameExecute;
+	}
+	
+	
+	
+	public byte[] getArrByteManualTestUpload() {
+		return arrByteManualTestUpload;
+	}
+	public void setArrByteManualTestUpload(byte[] arrByteManualTestUpload) {
+		this.arrByteManualTestUpload = arrByteManualTestUpload;
+	}
+	
+	public void setTeacherUsername(String teacherUsername)
+	{
+		this.teacherUsername = teacherUsername;
+	}
+	
+	public String getTeacherUsername()
+	{
+		return this.teacherUsername;
+	}
+	
+	/**
+	 * 
+	 * @param testID
+	 * @param year
+	 * @param semester
+	 * @param month
+	 * @param day
+	 * @param studentAnswers
+	 * @param finalScore
+	 * @param actualTime
+	 * @param studentID
+	 * @param scoreApproved
+	 */
+	
 	public testCopy(String testID, String year, String semester,
 			String month,String day,
 			ArrayList<Integer> studentAnswers, int finalScore,
-			long actualTime, String studentID, boolean scoreApproved) {
+			long actualTime, String studentID, boolean scoreApproved,String teacherUsername) {
 		this.testID = testID;
 		this.year = year;
 		this.semester = semester;
@@ -33,6 +89,7 @@ public class testCopy  implements Serializable{
 		this.scoreApproved = scoreApproved;
 		this.month = month;
 		this.day = day;
+		this.teacherUsername = teacherUsername;
 		reasons = null;
 	}
 	public testCopy() {

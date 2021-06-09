@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
+import client.controllers.StudentController;
 import client.controllers.TeacherTestController;
 import client.controllers.UserController;
 import entity.Message;
@@ -53,8 +54,8 @@ public class ManageTestController {
     @FXML 
     void clickLockTest(ActionEvent event) {
     	Message msg = new Message(MessageType.lockTest, getTxtExecCode() );
-    	ClientUI.accept(msg);
-    	
+    	ClientUI.accept(msg);   	
+    	System.out.println("AFTER SEND LOCK FROM SERVER");
     }
     
     @FXML

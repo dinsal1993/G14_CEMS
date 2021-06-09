@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 import java.sql.Blob;
 
 import client.controllers.ClientUI;
@@ -33,6 +33,7 @@ public class ServerController extends AbstractServer {
 	public String clientConnected = "Not Connected";
 	public static DBConnector dbConnector;
 	Message msgFromServer = null;
+	//static boolean flagForSendToOnlySomeClients = false;
 
 	public ServerController(int port) {
 		super(port);
@@ -42,10 +43,8 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		Message message = (Message) msg;
-
+		System.out.println("msg recieved: " + message.getMessageData());
 		switch (message.getMessageType()) {
-
-
 
 		case GetAllTestBanks:
 			System.out.println("in server controller. recieved msg");
@@ -63,10 +62,10 @@ public class ServerController extends AbstractServer {
 			String logInStatus = UserDBController.tryToConnect((User) message.getMessageData());
 			msgFromServer = new Message(MessageType.logIn, logInStatus);
 			break;
-		case LockTest:
+		/*case LockTest:
 			TeacherTestDBController.lockTest((Test)message.getMessageData());
 			msgFromServer = new Message(MessageType.SuccessLockTest, null);
-			break;
+			break;*/
 		case RequestExtraTime:
 			TeacherTestDBController.requestExtraTime((testCopy)message.getMessageData());
 			msgFromServer = new Message(MessageType.SentExtraTimeRequest, null);
@@ -111,27 +110,70 @@ public class ServerController extends AbstractServer {
 			//RAGAH - en bdika she ze takin.ok? 
 			//add to HAShMAP ConnectionClient. Shr
 		case AddStudentToOnGoing:
+
 			TestDBController.addConnectionClientToHashMap
-			(client,((ArrayList<String>)message.getMessageData()).get(2));// client, username of the student
+			(client, ((ArrayList<String>) message.getMessageData()).get(0) );// client, execCode
 			TestDBController.addStudentToOnGoing
 			((ArrayList<String>)message.getMessageData());
 			break;
 		case RemoveStudentFromOnGoing:
-			TestDBController.removeConnectionClientToHashMap
-			(((ArrayList<String>)message.getMessageData()).get(2));// client, username of the student
+			TestDBController.removeConnectionClientFromHashMap
+			(((ArrayList<String>)message.getMessageData()).get(0),client);
 			TestDBController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
 			break;
 			
 		case lockTest:
+			System.out.println("inlock test ServerController");
+			//flagForSendToOnlySomeClients = true;
+			List<ConnectionToClient> getListOfConnClientGoingTest = 
 			TestDBController.lockTest((String)message.getMessageData());
-			break;
+		
+			System.out.println("is null");
+			System.out.println("connections: " + getListOfConnClientGoingTest);
+			System.out.println("not null");
+		
+			if(getListOfConnClientGoingTest!=null) {
+				System.out.println("getList Not NULLLLL");
+			if(!getListOfConnClientGoingTest.isEmpty()) {
+				System.out.println("Yesh ANashimm ba MIVHAN NOT EMPTY");
+		for(ConnectionToClient conToClient : getListOfConnClientGoingTest ) {
+				
+					Message msgFromServer = new Message
+							(MessageType.lockTest,null);
+					System.out.println("before send to client: " +conToClient);
+					//sendToAllClients(msgFromServer);
+					try {
+						conToClient.sendToClient(msgFromServer);
+					System.out.println("after send to client");
+				
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}}}
+					//	flagForSendToOnlySomeClients=false;
+			Message msgFromServer2= new Message(MessageType.lockTestTeacher,null);
+			try {
+				client.sendToClient(msgFromServer2);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			return;
+			//break;
 		case AddExecCodeToTestDB:
 			TestDBController.addExecCodetoTestDB((ArrayList<String>)message.getMessageData());
 			break;
 			
-			
-			/// ragah
-			
+		case getManualTestDetails:
+			ArrayList<String> manualTestDetails = 
+			StudentDBController.getManualTestInfo((String)message.getMessageData());
+			System.out.println(manualTestDetails.toString()+"In SERVER CONTROLLER");
+			 msgFromServer = 
+					new Message(MessageType.getManualTestDetails,manualTestDetails);
+			break;
+				
+			/// ragah			
 		case CheckTest:
 			boolean flag = StudentDBController.checkTest((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.CheckedTest,flag);
@@ -149,14 +191,8 @@ public class ServerController extends AbstractServer {
 			msgFromServer = new Message(MessageType.TestQuestions, test);
 			break;
 		case SubmitTest:
-			StudentDBController.submitTest((testCopy)message.getMessageData());
-			msgFromServer = new Message(MessageType.SubmittedTest, null);
-			break;
-		case AddStudentToOnGoingOnline:
-			StudentDBController.addStudentToOnGoing((ArrayList<String>)message.getMessageData());
-			break;
-		case RemoveStudentFromOnGoingOnline:
-			StudentDBController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
+			boolean flagForSubmittedTestSuccessfully = StudentDBController.submitTest((testCopy)message.getMessageData());
+			msgFromServer = new Message(MessageType.SubmittedTest, flagForSubmittedTestSuccessfully);
 			break;
 
 		case GetExamDate:
@@ -164,19 +200,21 @@ public class ServerController extends AbstractServer {
 			examDate = StudentDBController.getExamDate((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.GotExamDate, examDate);
 			break;
-			
-			
+						
 		default:	
 			msgFromServer = new Message(MessageType.Error, null);
 		}
-		sendToAllClients(msgFromServer);
 		
+		try {
+			client.sendToClient(msgFromServer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
 	}
 
-
-
 	private void getAllTestBanks() {
-
 		HashMap<String, TestBank> testBankMap = TeacherTestDBController.getAllTestBanks();
 		msgFromServer = new Message(MessageType.TestBanksList, testBankMap);
 

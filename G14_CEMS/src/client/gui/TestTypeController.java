@@ -56,6 +56,7 @@ public class TestTypeController {
 	 */
 	@FXML
 	void clickManualTest(ActionEvent event) {
+		StudentController.flagForManualTest = true;
 		UserController.CurrentTestID = null;
 		Message msg = new Message(MessageType.execCode, getTxtExecCode());
 		ClientUI.accept(msg);
@@ -83,6 +84,8 @@ public class TestTypeController {
     @FXML
     void clickOnlineTest(ActionEvent event) 
     {
+		StudentController.flagForManualTest = false;
+
     	if(StudentController.isExecutionCodeValid( getTxtExecCode()))
 		{
     		code =  getTxtExecCode();

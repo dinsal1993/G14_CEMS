@@ -32,7 +32,7 @@ import javafx.scene.layout.AnchorPane;
 
 import server.dbControl.QuestionDBController;
 
-public class CreateQuestionController{
+public class CreateQuestionController{ //// ZE SHEL DIN 
 
 	@FXML
     private ComboBox<String> comboBank;
@@ -104,7 +104,7 @@ public class CreateQuestionController{
     			ClientUI.display("Description field is empty!");
     		else 
     		{
-    			Question q  = new Question(2, txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText());
+    			Question q  = new Question("2", txtDescription.getText(), answers,Integer.parseInt(comboCorrectAnswer.getValue()), txtTeacherName.getText(),"asd"); // lo meodkan
     			TeacherTestController.addQuestion(q);
     			
     		}	

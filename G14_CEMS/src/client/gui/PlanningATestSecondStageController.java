@@ -46,6 +46,15 @@ public class PlanningATestSecondStageController {
 			e.printStackTrace();
 		}
 	}*/
+	
+	/**
+	 * teacher that wants to execute the test
+	 */
+	public static String teacherUsernameExecuteTest;
+	
+	public static String getTeacherUsernameExecuteTest() {
+		 return teacherUsernameExecuteTest= UserController.username;
+	}
 
 	@FXML
 	private DatePicker txtDate;
@@ -62,8 +71,7 @@ public class PlanningATestSecondStageController {
 	@FXML
 	private Button btnBack;
 
-	@FXML
-	private TextField txtDuration;
+
 
 	public String getTxtDate() {
 		return txtDate.getEditor().getText();
@@ -77,9 +85,6 @@ public class PlanningATestSecondStageController {
 		return txtStartTime.getText();
 	}
 
-	public String getTxtDuration() {
-		return txtDuration.getText();
-	}
 
 	@FXML
 	void clickBuildTest(ActionEvent event) {
@@ -87,7 +92,7 @@ public class PlanningATestSecondStageController {
 		ArrayList<String> planTest = new ArrayList<String>();
 		planTest.add(getTxtExecutionCode());
 		planTest.add(getTxtStartTime());
-		planTest.add(getTxtDuration());
+		planTest.add(getTeacherUsernameExecuteTest());
 		planTest.add(getTxtDate());
 
 		Message msg = new Message(MessageType.InsertPlanTest, planTest);

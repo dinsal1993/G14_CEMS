@@ -15,9 +15,11 @@ import java.util.TimeZone;
 
 import client.controllers.ClientUI;
 import client.controllers.ScreenControllers;
+import client.controllers.StudentController;
 import client.controllers.UserController;
 import entity.Message;
 import entity.MessageType;
+import entity.testCopy;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -32,17 +34,15 @@ import javafx.stage.Stage;
 
 public class ManualTestController {
 
-	/*public static void main(String[] args) {
-	/*	Date d = new Date(0, 0, 0);
-		DateFormat timeFormat = new SimpleDateFormat("");
-		timeFormat.setTimeZone(TimeZone.getTimeZone("Asia/Jerusalem"));
-		String curTime = timeFormat.format(new Date());
-		Date d=new Date();
-		System.out.println("Old date is : "+d.getDate());
-		d.setDate(10);
-		System.out.println("Date after setting is : "+d.getDate());
-		}*/
-	
+	/*
+	 * public static void main(String[] args) { /* Date d = new Date(0, 0, 0);
+	 * DateFormat timeFormat = new SimpleDateFormat("");
+	 * timeFormat.setTimeZone(TimeZone.getTimeZone("Asia/Jerusalem")); String
+	 * curTime = timeFormat.format(new Date()); Date d=new Date();
+	 * System.out.println("Old date is : "+d.getDate()); d.setDate(10);
+	 * System.out.println("Date after setting is : "+d.getDate()); }
+	 */
+
 	/**
 	 * array byte of the uploaded word document file.
 	 */
@@ -52,8 +52,15 @@ public class ManualTestController {
 	 * flag to know if the user uploaded at least one test
 	 */
 	static boolean flagForUploadedTest = false;
-	
-	private static ArrayList<String> studentDetails = new ArrayList<String>();
+
+	public static testCopy tcManual;
+
+	public static ArrayList<String> studentDetails = new ArrayList<String>();
+
+	/**
+	 * details for the manual test
+	 */
+	public static ArrayList<String> manualTestDetails = null;
 
 	@FXML
 	private Button btnBack;
@@ -73,7 +80,7 @@ public class ManualTestController {
 	@FXML
 	void clickDownloadTest(ActionEvent event) {
 		UserController.byteManualTest = null;
-		Message msg = new Message(MessageType.downloadManualTest,TestTypeController.code );
+		Message msg = new Message(MessageType.downloadManualTest, TestTypeController.code);
 		ClientUI.accept(msg);
 		if (UserController.byteManualTest != null) {
 			System.out.println(UserController.byteManualTest);
@@ -88,9 +95,9 @@ public class ManualTestController {
 
 				FileOutputStream fos = new FileOutputStream(manualTest);
 				BufferedOutputStream bos = new BufferedOutputStream(fos);
-				
+
 				bos.write(UserController.byteManualTest, 0, UserController.byteManualTest.length);
-				
+
 				bos.flush();
 				fos.flush();
 				bos.close();
@@ -98,11 +105,14 @@ public class ManualTestController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//ADD ongoing
-    		//studentDetails.add(0,StudentController.executionCodeForTest);
-    	//	studentDetails.add(1,UserController.username);
-    		
-			//StudentController.AddStudentToOnGoing(studentDetails);
+			// ADD ongoing
+			studentDetails.add(0, TestTypeController.code);
+			studentDetails.add(1, UserController.username);
+			StudentController.AddStudentToOnGoing(studentDetails);
+
+			Message msg2 = new Message(MessageType.getManualTestDetails, TestTypeController.code);
+			ClientUI.accept(msg2);
+
 		}
 	}
 
@@ -123,7 +133,10 @@ public class ManualTestController {
 			FileInputStream fis = new FileInputStream(fileToUpload);
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			bis.read(arrByteManualTestUpload, 0, arrByteManualTestUpload.length);
-			System.out.println(arrByteManualTestUpload);
+			tcManual = new testCopy();
+			tcManual.setArrByteManualTestUpload(arrByteManualTestUpload);
+
+			// System.out.println(arrByteManualTestUpload);
 			bis.close();
 			flagForUploadedTest = true;
 		} catch (IOException e) {
@@ -156,11 +169,9 @@ public class ManualTestController {
 	 */
 	@FXML
 	void clickSubmit(ActionEvent event) {
-		Message msg = new Message(MessageType.submitManualTest, arrByteManualTestUpload);
-		ClientUI.accept(msg);
-		
-		if (UserController.flagForSubmittedTestSuccessfully) {
-			ClientUI.display("Succsessfully submitted");
+
+		if (StudentController.flagForLockTest) {
+			// goToStudentForm()
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentMenuForm.fxml"));
 			Parent root;
 			try {
@@ -170,11 +181,43 @@ public class ManualTestController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return;
 		}
-		else ClientUI.display("You must upload a test to submit");
-		
-		//Message msg2 = new Message(MessageType.RemoveStudentFromOnGoing, studentDetails);
-		//ClientUI.accept(msg2);
+
+		if (flagForUploadedTest) {
+			tcManual.setTeacherUsernameExecute(manualTestDetails.get(5));
+			tcManual.setTeacherUsername(manualTestDetails.get(2));
+			tcManual.setTestID(manualTestDetails.get(0));
+			tcManual.setYear(manualTestDetails.get(6).split("-")[0]);
+			tcManual.setMonth(manualTestDetails.get(6).split("-")[1]);
+			tcManual.setDay(manualTestDetails.get(6).split("-")[2]);
+
+			// eich osim ????? tcManual.setActualT_ime();
+			tcManual.setStudentID(UserController.username); // shahar shina
+			tcManual.setArrByteManualTestUpload(arrByteManualTestUpload);
+
+			StudentController.submitTest(tcManual);
+
+			if (UserController.flagForSubmittedTestSuccessfully) {
+
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentMenuForm.fxml"));
+				Parent root;
+				try {
+					root = loader.load();
+					Scene scene = new Scene(root);
+					UserController.currentStage.setScene(scene);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Message msg2 = new Message // olay lasim et 2 ele be ArraList<Object> pnia 1 la DB! basof livdok
+				(MessageType.RemoveStudentFromOnGoing, studentDetails);
+				ClientUI.accept(msg2);
+				// 0id,1duration,2teacherUsername,3execCode,4startHour,5teacherUsernameExec,Date
+
+			}
+		} else {
+			ClientUI.display("You must upload a test to submit");
+		}
 	}
 
 	@FXML
@@ -189,4 +232,5 @@ public class ManualTestController {
 			e.printStackTrace();
 		}
 	}
+
 }
