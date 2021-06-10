@@ -6,6 +6,7 @@ import client.gui.ManualTestController;
 
 
 import client.gui.OnlineTestController;
+import client.gui.SeeTestsStatisticsController;
 import client.gui.StudentMenuController;
 import client.gui.TeacherMenuController;
 import client.gui.TestQuestionsAndAnswersController;
@@ -27,11 +28,16 @@ import client.gui.EditDeleteQuestionController;
 
 
 
+/**
+ * a class to save a reference to all the controllers so we can access them quickly
+ *
+ */
 public class ScreenControllers {
 	public static LoginFormController loginFormController;
 	public static UserController userController;
 	public static TeacherMenuController teacherMenuController;
 	public static ManualTestController manualTestController;
+	public static SeeTestsStatisticsController seeTestsStatisticsControl;
 
 	public static CreateTestController createTestControl;
 
@@ -41,6 +47,7 @@ public class ScreenControllers {
 	public static OnlineTestController onlineTestControl;
 	public static ManualTestController manualTestControl;
 	public static StudentMenuController studentMenuControl;
+	
 
 
 	public static TestTypeController testTypeController;

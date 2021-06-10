@@ -48,7 +48,7 @@
             <Button fx:id="btnViewTest" layoutX="16.0" layoutY="125.0" mnemonicParsing="false" onAction="#click_viewTest" styleClass="btn" text="View test" />
 
 
-            <Button fx:id="btnSeeTestsStatistics" layoutX="17.0" layoutY="292.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="212.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="See tests statistics" textFill="WHITE" />
+            <Button fx:id="btnSeeTestsStatistics" layoutX="17.0" layoutY="292.0" mnemonicParsing="false" onAction="#click_seeTestStatistics" prefHeight="30.0" prefWidth="212.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="See tests statistics" textFill="WHITE" />
             <Button fx:id="btnManageATest" layoutX="14.0" layoutY="221.0" mnemonicParsing="false" onAction="#clickManageTest" prefHeight="30.0" prefWidth="224.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Manage a test" textFill="WHITE" />
             
             <ButtonBar layoutX="183.0" layoutY="183.0" prefHeight="40.0" prefWidth="81.0" />

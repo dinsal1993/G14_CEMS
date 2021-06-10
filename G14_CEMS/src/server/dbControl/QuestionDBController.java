@@ -35,8 +35,15 @@ import entity.Test;
 import entity.TestBank;
 
 
+/**
+ * Deals with inserting, deleting and updating questions
+ */
 public class QuestionDBController {
 	
+	/**
+	 * @param username
+	 * @return returns all subjects by giiven teacherUsername
+	 */
 	public static ArrayList<Subject> getAllSubjects(String username) {
 
 		ArrayList<Subject> subjects = new ArrayList<Subject>();
@@ -69,6 +76,10 @@ public class QuestionDBController {
 		return subjects;
 	}
 		
+	/**
+	 * @param q the question to add to database
+	 * @return true or false if operation succeded
+	 */
 	public static boolean addQuestion(Question q) {
 
 		String sqlQuery = "insert into question (id,description,correctAnswer,teacherName,A1,A2,A3,A4) values (?,?,?,?,?,?,?,?)";
@@ -102,6 +113,10 @@ public class QuestionDBController {
 	}
 	
 
+	/**
+	 * @param q the question to update
+	 * @return returns true or false if operations succeded
+	 */
 	public static boolean updateQuestion(Question q) {
 		String sqlQuery = "update question set description = ?,"
 				+ " correctAnswer = ?, A1 = ?,A2 = ?," + " A3 = ?, A4 = ? "
@@ -134,33 +149,12 @@ public class QuestionDBController {
 		return false;
 	}
 
-	public static void insertQuestionBank(QuestionBank QB) throws SQLException {
-		try (PreparedStatement pst = DBConnector.myConn
-				.prepareStatement("SELECT 1 FROM cems.questionbank WHERE name = ?")) {
-			pst.setString(1, QB.getName());
 
-			try (ResultSet rs = pst.executeQuery()) {
-				if (rs.next()) {
-					// ClientUI.display("This bank name already exist!");
-					// handle account already exists
-				} else {
-					try (PreparedStatement insert = DBConnector.myConn
-							.prepareStatement("insert into cems.questionbank (id,name) values (?,?)")) {
-						insert.setString(1, String.valueOf(QB.getId()));
-
-						insert.setString(2, QB.getName());
-
-						insert.executeUpdate();
-						insert.close();
-					}
-				}
-
-			}
-			pst.close();
-		}
-
-	}
 	//get num of questions in question bank
+	/**
+	 * @param arr arr[0] - subjectID, arr[1] - courseID, arr[2] - teacherUsername
+	 * @return returns the next QuestionID 
+	 */
 	public static int getNextQID(ArrayList<String> arr) {
 		String sqlQuery = "select * from question where id like \"" + arr.get(0) + "%\" and"
 				+ " teacherUsername = \"" + arr.get(1) + "\";";
@@ -186,6 +180,10 @@ public class QuestionDBController {
 		return place;
 	}
 	//get subjectID from bank name
+	/**
+	 * @param bankName the subject name
+	 * @return returns the subjectID
+	 */
 	public static String getSubjectID(String bankName) {
 		String sqlQuery = "select * from subject;";
 		try {
@@ -207,6 +205,10 @@ public class QuestionDBController {
 	}
 		
 	
+	/**
+	 * @param code the test executionCode
+	 * @return returns a test given from executioncode
+	 */
 	public static Test getTestQuestions(String code) {
 	
 		String sqlQuery = "select * from test where executionCode ="+code+"";
@@ -262,6 +264,10 @@ public class QuestionDBController {
 		return null;
 	}
 
+	/**
+	 * @param arr arr[0] - questionID, arr[1] - teacherUsername
+	 * @return returns specific question by given questionID and the teacher that wrote it
+	 */
 	public static Question getQuestionByID(ArrayList<String> arr) {
 		String sqlQuery = "select * from question where id = \"" + 
 				arr.get(0) + "\" and teacherUsername = \"" + arr.get(1) + "\";";
@@ -290,38 +296,11 @@ public class QuestionDBController {
 		}
 		return null;		
 	}
-	
-	
-	/*public static String getTestID(String code)
-	{
-		String id = null;
-		String sqlQuery = "select id from pretest where executioncode = "+code+"";
-		
-				try {
-					if(DBConnector.myConn != null)
-					{
-						Statement st = DBConnector.myConn.createStatement();
-						ResultSet rs = st.executeQuery(sqlQuery);
-						while(rs.next())
-						{
-							id = rs.getString("id");
-						}
-					}
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-			}
-				
-			return id;
-		
 
-	}*/
-	
-	
-
-//}//End class
-
-
+	/**
+	 * @param q the question to be deleted according to the teacherUsername
+	 * @return true or false if operation succeded
+	 */
 	public static boolean deleteQuestion(Question q) {
 		String sqlQuery = "delete from question where id = ? and teacherUsername = ?;";
 		try {

@@ -73,13 +73,17 @@ public class CreateQuestionController {
 
 	@FXML
 	private Button btnDelete;
-
+	/** indicates if we come from the create test menu*/
 	private boolean fromAddQuestion;
 
+	/** indicates if we are editing a question */
 	private boolean fromEdit;
-
+	/** the question we want to edit */
 	private Question questionForEdit;
 
+	/**
+	 * start point - setup UI and fill subject comboBox
+	 */
 	public void start() {
 		fromAddQuestion = false;
 		fromEdit = false;
@@ -113,6 +117,9 @@ public class CreateQuestionController {
 
 	}
 
+	/**
+	 * fill correct answer comboBox
+	 */
 	private void fillCorrectAnswer() {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("1");
@@ -218,6 +225,10 @@ public class CreateQuestionController {
 		ClientUI.accept(msg);
 	}
 
+	/**
+	 * @param q the question to which subject name we want accordint to subjectID
+	 * @return return subject name
+	 */
 	private String getsubjectFromID(Question q) {
 		String subject = null;
 		String idChosen = q.getId().substring(0, 2);
@@ -230,7 +241,8 @@ public class CreateQuestionController {
 		}
 		return subject;
 	}
-
+	
+	/** start point if start from the createTest form - used to view the question */
 	public void startFromAddQuestion(Question chosenQuestion) {
 		String subject = getsubjectFromID(chosenQuestion);
 
@@ -240,7 +252,10 @@ public class CreateQuestionController {
 		disableUI(chosenQuestion);
 		fromAddQuestion = true;
 	}
-
+	
+	/**disables the UI and sets the fields in the form to given values - view mode 
+	 * @param q set the fields in form to values in q
+	 */
 	private void disableUI(Question q) {
 		comboBank.setDisable(true);
 		txtDescription.setText(q.getDescription());
@@ -265,7 +280,9 @@ public class CreateQuestionController {
 		btnEdit.setDisable(true);
 		
 	}
-
+	
+	/**start point - set up to start edit a question
+	 */
 	public void startEdit() {
 		fromEdit = true;
 
@@ -279,6 +296,9 @@ public class CreateQuestionController {
 		
 	}
 
+	/**  setUI - edit question q - can't change subject
+	 * @param q question to be edited
+	 */
 	private void fromEditSetUI(Question q) {
 		comboBank.setDisable(true);
 		txtDescription.setText(q.getDescription());

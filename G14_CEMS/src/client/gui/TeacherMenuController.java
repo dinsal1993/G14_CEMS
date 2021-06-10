@@ -201,4 +201,24 @@ public class TeacherMenuController {
 			e.printStackTrace();
 		}
     }
+    
+    @FXML
+    void click_seeTestStatistics(ActionEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("SeeTestsStatisticsForm.fxml"));
+		Parent root;
+		try {
+			
+			root = loader.load();
+			Scene scene = new Scene(root);
+			Stage manage = new Stage();
+			manage.setScene(scene);
+			UserController.currentStage.hide(); // close?
+			UserController.currentStage = manage;
+			manage.show();
+			ScreenControllers.seeTestsStatisticsControl = loader.getController();
+			ScreenControllers.seeTestsStatisticsControl.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

@@ -12,6 +12,7 @@ import java.sql.Blob;
 
 import client.controllers.ClientUI;
 import client.controllers.StudentController;
+import client.controllers.UserController;
 import client.gui.CreateQuestionController;
 import entity.Course;
 import entity.Message;
@@ -24,7 +25,7 @@ import entity.Test;
 import entity.User;
 import entity.testCopy;
 import entity.TestBank;
-
+import entity.TestDocs;
 import javafx.collections.ObservableList;
 import ocsf.server.*;
 import server.dbControl.*;
@@ -51,8 +52,9 @@ public class ServerController extends AbstractServer {
 		boolean check;
 		switch (message.getMessageType()) {
 		case Hello:
-			client.setInfo("username",(String)message.getMessageData());
-			HashMap<String,Object> ass = new HashMap<String, Object>();
+			//client.setInfo("username",(String)message.getMessageData());
+			//HashMap<String,Object> ass = new HashMap<String, Object>();
+			msgFromServer = new Message(MessageType.Hello, "hello " + (String)message.getMessageData());
 			break;
 		case GetAllSubjects:
 			ArrayList<Subject> subjects = QuestionDBController.getAllSubjects((String)message.getMessageData());
@@ -64,6 +66,9 @@ public class ServerController extends AbstractServer {
 		case GetAllTestsBySubject:
 			getAllTestsBySubject((String)message.getMessageData());
 			break;
+		case GetAllTestsDocsBySubject:
+			getAllTestsDocsBySubject((ArrayList<String>)message.getMessageData());
+			break;
 		case getCoursesBySubject:
 			getCoursesBySubject((String)message.getMessageData());
 			break;
@@ -72,9 +77,6 @@ public class ServerController extends AbstractServer {
 			break;
 		case GetNextTID:
 			getNextTID((ArrayList<String>)message.getMessageData());
-			break;
-		case GetTCount:
-			getTCount((ArrayList<String>)message.getMessageData());
 			break;
 		case addQuestion:
 			check = QuestionDBController.addQuestion((Question) message.getMessageData());
@@ -221,6 +223,12 @@ public class ServerController extends AbstractServer {
 
 	}
 
+	private void getAllTestsDocsBySubject(ArrayList<String> arr) {
+		ArrayList<TestDocs> answer = ReportDBController.getAllTestsDocsBySubject(arr);
+		msgFromServer = new Message(MessageType.GetAllTestsDocsBySubject, answer);
+		
+	}
+
 	private void getAllTestsBySubject(String subject) {
 		ArrayList<Test> arr = TeacherTestDBController.getAllTestsBySubject(subject);
 		msgFromServer = new Message(MessageType.GetAllTestsBySubject, arr);
@@ -231,13 +239,20 @@ public class ServerController extends AbstractServer {
 		msgFromServer = new Message(MessageType.GetNextTID, count);
 		
 	}
-
+	
+	
+	/**get all the tests the teacher wrote
+	 * @param username teacher username
+	 */
 	private void getAllTests(String username) {
 		ArrayList<Test> arr = TeacherTestDBController.getAllTests(username);
 		msgFromServer = new Message(MessageType.GetAllTests, arr);
 		
 	}
 
+	/**
+	 * @param usersList
+	 */
 	private void lockTest(ArrayList<String> usersList) {
 		Thread[] connections = super.getClientConnections();
 		Message msg = new Message(MessageType.LockTest, null);
@@ -254,12 +269,6 @@ public class ServerController extends AbstractServer {
 			}
 			
 		}
-		
-	}
-
-	private void getTCount(ArrayList<String> arr) {
-		int count = TeacherTestDBController.getTestCount(arr);
-		msgFromServer = new Message(MessageType.GetTCount, count);
 		
 	}
 

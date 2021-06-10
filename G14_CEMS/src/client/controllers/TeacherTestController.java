@@ -15,42 +15,55 @@ import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * deals with getting and inserting info to database regarding the
+ *  test from teacher perspective and creating / editing / deleting questions
+ */
 public class TeacherTestController { //ragah evreything
-	public static final int MAX_TEST_TIME = 300;
-	public static ObservableList<Test> list = FXCollections.observableArrayList();
-	public static ObservableList<Course> courseList = FXCollections.observableArrayList();
-	public static ObservableList<TestBank> testBanklist = FXCollections.observableArrayList();
-
+	
+	/**  local copy of all tests by specific teacher or subject*/
 	public static ArrayList<Test> testArr = new ArrayList<>();
-
+	
+	/**  local copy of all courses by specific teacher or subject*/
 	public static ArrayList<Course> courseArr = new ArrayList<>();
-	public static Test t = new Test();
-	public static Test testQuestions = new Test();
+	
 	public static testCopy tc = new testCopy();
-	public static int testCount;
-	public static Course course = new Course();
-
 
 	public static ArrayList<Subject> subjects;
+	
+	/** next Question ID inside specific subject */
 	public static int nextQID;
+	
+	/** next Test ID inside specific subject and course */
 	public static int nextTID;
+	
+	/** local copy of a saved subjectID */
 	public static String subjectID;
+	
+	/** a list of Questions used in creating tests/ editing and viewing */
 	public static ArrayList<Question> questionsBySubject;
+	
+	/** local copy of specific courseID */
 	public static String courseID;
+	
 	public static int tCountByBankAndCourse;
+	
+	/** hold a specific question for editing proccess */
 	public static Question specificQ;
-
-    public static int currentQuestions = 0;
-    public static int currentBanks = 0;
-    public static String testID;
+    
+	public static int currentQuestions = 0;
+    
+	public static int currentBanks = 0;
+    
+	/** local instance of a testID */
+	public static String testID;
 	
-	public static HashMap<String, TestBank> banksMap;
-	public static HashMap<String, Question> questionMap;
 	public static Test currentTest;
-	public static ArrayList<String> QuestionArr;
-	public static ArrayList<Question> QuestionList;
 	
-
+	/**
+	 * @param username the teacher username
+	 * @return returns a list of all the tests by "username"
+	 */
 	public static ArrayList<Test> getAllTests(String username) {
 		Message msg = new Message(MessageType.GetAllTests, username);
 		ClientUI.accept(msg);
@@ -58,6 +71,10 @@ public class TeacherTestController { //ragah evreything
 		return testArr;
 	}
 	
+	/**
+	 * @param subjectID the subject ID
+	 * @return returns a list of all the tests by given subjectID
+	 */
 	public static ArrayList<Test> getAllTestsBySubject(String subjectID) {
 		Message msg = new Message(MessageType.GetAllTestsBySubject, subjectID);
 		ClientUI.accept(msg);
@@ -65,6 +82,10 @@ public class TeacherTestController { //ragah evreything
 		return testArr;
 	}
 
+	/**
+	 * @param subjectName the subject name
+	 * @return return a list of all the course names in given subjectName
+	 */
 	public static ObservableList<String> getCourseList(String subjectName) {
 		String subjectID = getSubjectID(subjectName);
 
@@ -77,22 +98,20 @@ public class TeacherTestController { //ragah evreything
 		return arr;
 	}
 
+	/**
+	 * @param q questioin to add to database
+	 */
 	public static void addQuestion(Question q) {
 		Message msg = new Message(MessageType.addQuestion, q);
 		ClientUI.accept(msg);
 	}
-
-	public static void insertQuestionBank(QuestionBank QB) {
-		Message msg = new Message(MessageType.insertQuestionBank, QB);
-		ClientUI.accept(msg);
-
-	}
-
-	public static void insertTestBank(TestBank TB) {
-		Message msg = new Message(MessageType.insertTestBank, TB);
-		ClientUI.accept(msg);
-	}
 	
+	/**
+	 * @param subjectID the subjectID
+	 * @param courseName the course name
+	 * @return returns the courseID by given subjectID and coursename
+	 *  from local copy of courses -- faster access
+	 */
 	public static String getCourseIDNotDB(String subjectID, String courseName) {
 		for(Course c: courseArr) {
 			if(c.getSubjectID().equals(subjectID) && c.getName().equals(courseName))
@@ -101,6 +120,10 @@ public class TeacherTestController { //ragah evreything
 		return null;
 	}
 
+	/**
+	 * @param username the teacher username
+	 * @return returns a list of subjects the teacher teach
+	 */
 	public static ObservableList<String> getAllSubjects(String username) {
 		Message msg = new Message(MessageType.GetAllSubjects, username);
 		ClientUI.accept(msg);
@@ -110,30 +133,21 @@ public class TeacherTestController { //ragah evreything
 		return answer;
 	}
 
+	/**lock a given test
+	 * @param test the test to lock
+	 */
 	public static void lockTest(Test test) {
 		Message msg = new Message(MessageType.LockTest, test);
 		ClientUI.accept(msg);
 
 	}
 
+	/**request extra time for test
+	 * @param test the test that needs extra time
+	 */
 	public static void requestExtraTime(testCopy test) {
 		Message msg = new Message(MessageType.RequestExtraTime, test);
 		ClientUI.accept(msg);
-
-	}
-
-
-	public static ObservableList<Course> refreshCourseTable() {
-		Message msg = new Message(MessageType.RefreshCourseTable, courseArr);
-		ClientUI.accept(msg);
-
-		/*
-		 * for (Course c : courseList) courseList.remove(c);
-		 */
-		for (Course c : courseArr)
-			courseList.add(c);
-
-		return courseList;
 
 	}
 
@@ -146,12 +160,12 @@ public class TeacherTestController { //ragah evreything
 		return currentTest;
 	}
 
-	public static void deleteCourse(Course c) {
-		Message msg = new Message(MessageType.DeleteCourse, c);
-		ClientUI.accept(msg);
-	}
 
-
+	/**
+	 * @param subjectID
+	 * @param username
+	 * @return return next QuestionID by given subjectID and teacherUsername
+	 */
 	public static int getNextQID(String subjectID, String username) {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(subjectID);
@@ -161,6 +175,10 @@ public class TeacherTestController { //ragah evreything
 		return nextQID;
 	}
 
+	/**
+	 * @param bankName the subject name
+	 * @return return the subjectID
+	 */
 	public static String getSubjectID(String bankName) {
 		Message msg = new Message(MessageType.GetSubjectID, bankName);
 		ClientUI.accept(msg);
@@ -168,6 +186,12 @@ public class TeacherTestController { //ragah evreything
 
 	}
 
+	/**
+	 * @param subjectID
+	 * @param username
+	 * @return return a list of questions in specific subject that 
+	 * belong to specific teacher
+	 */
 	public static ObservableList<Question> getQuestionsBySubject(String subjectID, String username) {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(subjectID);
@@ -182,6 +206,13 @@ public class TeacherTestController { //ragah evreything
 
 	// before add question to question list in test check if question exist and
 	// teacher input valid score
+	/**
+	 * @param questionID the question ID
+	 * @param score the score i want for the question
+	 * @param currentSum the cuurent sum of questions
+	 * @param questionsInTest the other questions
+	 * @return return if the input for adding a question to a created test is valid
+	 */
 	public static String checkValidQuestionID(String questionID, String score, int currentSum,
 			ObservableList<String> questionsInTest) {
 		boolean questionExist = false, scoreValid = false;
@@ -218,6 +249,11 @@ public class TeacherTestController { //ragah evreything
 		return "not valid";
 	}
 
+	/**
+	 * @param subject
+	 * @param courseName
+	 * @return return a courseID by given subject and courseName
+	 */
 	public static String getCourseID(String subject, String courseName) {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(subject);
@@ -226,17 +262,13 @@ public class TeacherTestController { //ragah evreything
 		ClientUI.accept(msg);
 		return courseID;
 	}
-
-	public static int getTCount(String subjectID, String courseID, String username) {
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add(subjectID);
-		arr.add(courseID);
-		arr.add(username);
-		Message msg = new Message(MessageType.GetTCount, arr);
-		ClientUI.accept(msg);
-		return tCountByBankAndCourse;
-	}
-
+	
+	
+	/**used for editing questions
+	 * @param id questionID
+	 * @param username the teacher username
+	 * @return returns a specific question by ID and teacherUsername
+	 */
 	public static Question getQuestionByID(String id, String username) {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(id);
@@ -246,6 +278,12 @@ public class TeacherTestController { //ragah evreything
 		return specificQ;
 	}
 
+	/**
+	 * @param q the question
+	 * @param subject
+	 * @param correctAnswer
+	 * @return return valid or not for fields in creating a question
+	 */
 	public static String isValidFieldsCreateQuestion(Question q, String subject, String correctAnswer) {
 		if (subject == null)
 			return "please choose subject";
@@ -260,6 +298,13 @@ public class TeacherTestController { //ragah evreything
 	}
 	
 
+	/**
+	 * @param t the test to create
+	 * @param subject the test subject
+	 * @param course the test course
+	 * @param duration the test duration
+	 * @return return valid or error message about fields in form of creating question
+	 */
 	public static String isValidFieldsCreateTest(Test t,String subject, String course, String duration) {
 		if (subject == null)
 			return "please choose subject";
@@ -274,6 +319,11 @@ public class TeacherTestController { //ragah evreything
 		return "valid";
 	}
 
+	/**
+	 * @param teacherUsername the teacher username
+	 * @param subject the question subject
+	 * @return return the next QuestionID when creating question
+	 */
 	public static String getNextQuestionID(String teacherUsername, String subject) {
 		String subjectID = getSubjectID(subject);
 		int nextID = getNextQID(subjectID, teacherUsername);
@@ -288,6 +338,12 @@ public class TeacherTestController { //ragah evreything
 		}
 	}
 
+	/**
+	 * @param subjectID the subjectID
+	 * @param courseID the courseID
+	 * @param teacherUsername the teacher username
+	 * @return return the next TestID when creating tests
+	 */
 	public static String getNextTestID(String subjectID, String courseID, String teacherUsername) {
 		int nextID = getNextTID(subjectID, courseID, teacherUsername);
 		if (nextID < 10)
@@ -298,6 +354,12 @@ public class TeacherTestController { //ragah evreything
 			return "error";
 	}
 
+	/**
+	 * @param subjectID
+	 * @param courseID
+	 * @param teacherUsername
+	 * @return return the next testID in given subjectID, courseID and teacherUsername
+	 */
 	private static int getNextTID(String subjectID, String courseID, String teacherUsername) {
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(subjectID);
@@ -308,6 +370,10 @@ public class TeacherTestController { //ragah evreything
 		return nextTID;
 	}
 
+	/**
+	 * @param code the executionCode
+	 * @return get testID by given executionCode
+	 */
 	public static String getTestID(String code)
 	{
 		Message msg = new Message(MessageType.GetTestCode,code);

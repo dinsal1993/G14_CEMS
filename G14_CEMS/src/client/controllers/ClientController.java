@@ -15,6 +15,7 @@ import entity.Question;
 import entity.Subject;
 import entity.Test;
 import entity.TestBank;
+import entity.TestDocs;
 import entity.testCopy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,6 +46,12 @@ public class ClientController extends AbstractClient {
 		case GetAllTestsBySubject:
 			TeacherTestController.testArr = (ArrayList<Test>)message.getMessageData();
 		break;
+		case GetAllTestsDocsBySubject:
+			ReportController.testDocsBySubject = (ArrayList<TestDocs>)message.getMessageData();
+			break;
+		case Hello:
+			ClientUI.display((String)message.getMessageData());
+			break;
 		case GetAllSubjects:
 			TeacherTestController.subjects = (ArrayList<Subject>)message.getMessageData();
 			break;
@@ -90,9 +97,6 @@ public class ClientController extends AbstractClient {
 		case GetNextTID:
 			TeacherTestController.nextTID = (int)message.getMessageData();
 			break;
-		case GetTCount:
-			TeacherTestController.tCountByBankAndCourse = (int)message.getMessageData();
-			break;
 		case GetSubjectID:
 			TeacherTestController.subjectID = (String)message.getMessageData();
 			break;
@@ -102,82 +106,10 @@ public class ClientController extends AbstractClient {
 		case getCoursesBySubject:
 			TeacherTestController.courseArr = (ArrayList<Course>)message.getMessageData();
 			break;
-		case insertQuestionBank:
-		ClientUI.display("Created question bank successfully");
-		break;
-		case insertTestBank:
-			ClientUI.display("Created test bank successfully");
-			break;
-		case TestCount:
-			TeacherTestController.testCount = (int)message.getMessageData();
-			break;
-		case TestBanksList:
-			TeacherTestController.banksMap = (HashMap<String, TestBank>)message.getMessageData();
-			break;
+		
 		case logIn:
 			UserController.logInStatus = (String)message.getMessageData();
 	     	break;
-		/*case LockTest:
-			TeacherTestController.lockTest((Test)message.getMessageData());
-			break;
-		case SuccessLockTest:
-			ClientUI.display("Test Has Been Locked Successfully!");
-			break;
-		case RequestExtraTime:
-			TeacherTestController.requestExtraTime((testCopy)message.getMessageData());
-			break;
-		case SentExtraTimeRequest:
-			ClientUI.display("Request Has Been Sent!");
-			break;	case RefreshCourseTable:
-			TeacherTestController.refreshCourseTable();
-			break;
-		case CourseList:
-			TeacherTestController.courseArr = (ArrayList<Course>)message.getMessageData();
-			break;
-		case AddCourse:
-			TeacherTestController.addCourse((Course)message.getMessageData());
-			break;
-		case CourseAdded:
-			ClientUI.display("Course Has Been Added!");
-			break;
-		case DeleteCourse:
-			TeacherTestController.deleteCourse((Course)message.getMessageData());
-			break;
-		case CourseDeleted:		
-			ClientUI.display("Course Has Been Deleted!");
-
-			break;
-
-		case CheckTest:
-			StudentController.isTestExist((String)message.getMessageData());
-			break;
-		case CheckedTest:
-			if(!(boolean)message.getMessageData())
-				StudentController.testExist = false;
-			else
-				StudentController.testExist = true;
-			break;
-		case CheckStudentID:
-			StudentController.isStudentIDExist((String)message.getMessageData());
-			break;
-		case CheckedStudentID:
-			if(!(boolean)message.getMessageData())
-				StudentController.studentIDExist = false;
-			else
-				StudentController.studentIDExist = true;
-			break;
-		case CheckValidCode:
-			StudentController.isExecutionCodeValid((String)message.getMessageData());
-			break;
-		case CheckedCode:
-			if(!(boolean)message.getMessageData())
-				StudentController.validCode = false;
-			else
-				StudentController.validCode = true;
-			break;
-
-
-			break;*/
 
 		case execCode:
 			if(message.getMessageData() == null) ClientUI.display("execution code invalid");
@@ -194,6 +126,7 @@ public class ClientController extends AbstractClient {
 		case ContinuePlanTest:
 			if( ((String)message.getMessageData()).equals("TestID and username matched")) {
 				UserController.flagForContinuePlanTest= true; }		
+			break;
 		case InsertPlanTest:
 			UserController.InsertPlanTest = (String)message.getMessageData();
 			break;

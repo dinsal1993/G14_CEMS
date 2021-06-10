@@ -58,6 +58,10 @@ public class TeacherTestDBController {
 	}
 
 
+	/**
+	 * @param subjectID the subject ID
+	 * @return returns all courses in a specific subject
+	 */
 	public static ArrayList<Course> getCoursesBySubject(String subjectID) {
 		ArrayList<Course> arr = new ArrayList<>();
 		String sqlQuery = "select * from course where subjectID like \"" + subjectID + "%\";";
@@ -74,6 +78,10 @@ public class TeacherTestDBController {
 		return arr;
 	}
 
+	/**
+	 * @param arr arr[0] - subjectID, arr[1] - teacherUsername
+	 * @return returns all the questions with id that start with arr[0] and belong to teacher arr[1]
+	 */
 	public static ArrayList<Question> getQuestionsBySubject(ArrayList<String> arr) {
 		ArrayList<Question> answer = new ArrayList<>();
 		String sqlQuery = "select * from question where id like \"" + arr.get(0) + "%\" and teacherUsername = \""
@@ -119,7 +127,13 @@ public class TeacherTestDBController {
 		}
 		return null;
 	}
-
+	
+	
+	/**
+	 * @param arr arr[0] - subjectID, arr[1] - courseID, arr[2] - teacherUsername
+	 * @return returns the number of tests in a given subject and course
+	 *  that belong to teacher teacherUsername
+	 */
 	public static int getTestCount(ArrayList<String> arr) {
 		String sqlQuery = "select count(*) from test where id like" + " \"" + arr.get(0) + arr.get(1)
 				+ "%\" and teacherUsername = \"" + arr.get(2) + "\";";
@@ -139,6 +153,10 @@ public class TeacherTestDBController {
 		return -1;
 	}
 
+	/**
+	 * @param t test to be added to database
+	 * @return returns Success or Error 
+	 */
 	public static String addTest(Test t) {
 		String sqlQuery = "insert into test values (?,?,?,?,?,?,?,?,?)";
 
@@ -194,7 +212,11 @@ public class TeacherTestDBController {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
+	/**
+	 * @param username the username of the required teacher
+	 * @return returns all the Tests written by teacher "username"
+	 */
 	public static ArrayList<Test> getAllTests(String username) {
 		
 		String sqlQuery = "select * from test where teacherUsername = \"" + username + "\";";
@@ -245,6 +267,10 @@ public class TeacherTestDBController {
 		return arr;
 	}
 	
+	/**
+	 * @param arr arr[0] - subjectID, arr[1] - courseID, arr[2] - teacherUsername
+	 * @return returns the next available TestID in given subject and course and in a specific teacher's bank
+	 */
 	public static int getNextTID(ArrayList<String> arr) {
 		String sqlQuery = "select * from test where id like \"" + arr.get(0) + arr.get(1) + "%\" and"
 				+ " teacherUsername = \"" + arr.get(2) + "\";";
@@ -270,6 +296,10 @@ public class TeacherTestDBController {
 		return place;
 	}
 
+	/**
+	 * @param subjectID the subject ID
+	 * @return returns a list of Test in given subject
+	 */
 	public static ArrayList<Test> getAllTestsBySubject(String subjectID) {
 		String sqlQuery = "select * from test where id like \"" + subjectID + "%\";";
 		ArrayList<Test> arr = new ArrayList<Test>();
@@ -319,6 +349,10 @@ public class TeacherTestDBController {
 		return arr;
 	}
 
+	/**
+	 * @param t the Test to be deleted
+	 * @return true or false if operation succeded
+	 */
 	public static boolean deleteTest(Test t) {
 		System.out.println("in DB: Test = " + t);
 		String sqlQuery = "delete from test where id = ? and teacherUsername = ?;";
@@ -337,6 +371,10 @@ public class TeacherTestDBController {
 		return false;
 	}
 	
+	/**updated the Test t for given testID and teacherUsername
+	 * @param t the test to be updated
+	 * @return returns true or false if operation succeded
+	 */
 	public static boolean updateTest(Test t) {
 		String sqlQuery = "update test set duration = ?,"
 				+ " questions = ?, questionPoint = ?,teacherNotes = ?," + " studentNotes = ? "

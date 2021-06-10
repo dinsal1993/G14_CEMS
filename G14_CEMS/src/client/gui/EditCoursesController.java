@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 
 
 
-public class EditCoursesController implements Initializable {
+/*public class EditCoursesController implements Initializable {
 
     @FXML
     private Text txtEditCourses;
@@ -156,4 +156,4 @@ public class EditCoursesController implements Initializable {
     
     
 
-}
+}*/

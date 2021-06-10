@@ -90,10 +90,6 @@ public class AddQuestionController {
 				txtTotalScore.setText(String.valueOf(sum));
 			} else
 				ClientUI.display(isValid);
-		} else if (mode.equals("edit")) {
-
-		} else {
-
 		}
 	}
 

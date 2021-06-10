@@ -2,12 +2,22 @@ package entity;
 
 import java.io.Serializable;
 
+/**
+ * a class representing a subject of study
+ */
 public class Subject implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	/** The subject ID*/
 	private String id;
+	
+	/** The subject name */
 	private String name;
 	
+	/**
+	 * @param id the subject ID
+	 * @param name the subject name
+	 */
 	public Subject(String id, String name) {
 		super();
 		this.id = id;

@@ -3,22 +3,60 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * represents a copy of a test done by a student
+ */
 public class testCopy  implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	/** the testID  */
 	private String testID;
+	
+	/** the year of the test */
 	private String year;
+	
+	/** the month of the test */
 	private String month;
+	
+	/** the day of the test */
 	private String day;
+	
+	/** the test semester (01 or 02) */
 	private String semester;
+	
+	/** a list of the students answer
+	 * array[0] -> answer in question 0(first question) */
 	private ArrayList<Integer> studentAnswers;
+	
+	/** student's final score */
 	private int finalScore;
+	
+	/** actual time of test - including extensions */
 	private long actualTime;
+	
+	/** the student ID */
 	private String studentID;
+	
+	/** test approved by teacher or not
+	 * cannot see copy until score is approved */
 	private boolean scoreApproved;
+	
+	/** if finalScore was changed - teacher must provide reasons */
 	private String reasons;
 	
+	/**
+	 * @param testID the ID of the test
+	 * @param year the year of the test
+	 * @param semester the test semester
+	 * @param month the month of the test
+	 * @param day the day of the test
+	 * @param studentAnswers a list of student's answers
+	 * @param finalScore student's final score
+	 * @param actualTime actual test time - including extensions
+	 * @param studentID student ID
+	 * @param scoreApproved teacher approved test or not
+	 */
 	public testCopy(String testID, String year, String semester,
 			String month,String day,
 			ArrayList<Integer> studentAnswers, int finalScore,

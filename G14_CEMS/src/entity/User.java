@@ -2,16 +2,44 @@ package entity;
 
 import java.io.Serializable;
 
+/**
+ * represents a User in the system
+ */
 public class User implements Serializable {
 	
-	private static final long serialVersionUID = 1L; 
+	private static final long serialVersionUID = 1L;
+	
+	/** the user ID */
 	private int id;
+	
+	/** the User's username */
 	private String username;
+	
+	/** the user password */
 	private String password;
+	
+	/**  the user first name*/
 	private String firstName;
+	
+	/** the user last name */
 	private String lastName;
+	
+	/**  the user email*/
 	private String email;
+	
+	/**the user permission */
 	private String permissions;
+	
+	
+	/**
+	 * @param id the user ID
+	 * @param username the user's username
+	 * @param password the user password
+	 * @param firstName the user first name
+	 * @param lastName the user last name
+	 * @param email the user email
+	 * @param permissions the user permission - teacher/ student/ principal
+	 */
 	public User(int id, String username, String password, String firstName, String lastName, String email,
 			String permissions) {
 		super();
@@ -25,7 +53,7 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * constructor
 	 * @param username username account
 	 * @param password password for the username  account
 	 */
