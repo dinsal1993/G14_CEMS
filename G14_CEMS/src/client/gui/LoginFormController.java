@@ -91,8 +91,8 @@ public class LoginFormController {
 				Message msg = new Message(MessageType.Hello, username);
 				ClientUI.accept(msg);
 				
-			    msg = new Message(MessageType.GetName, username);
-				ClientUI.accept(msg);
+			    //msg = new Message(MessageType.GetName, username);
+				//ClientUI.accept(msg);
 
 			//	ScreenControllers.teacherMenuController.start();
 
