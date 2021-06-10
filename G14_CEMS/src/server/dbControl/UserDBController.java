@@ -160,4 +160,20 @@ public class UserDBController {
 	  return "ERROR-Permission";
 	}
 
+	public static String getName(String username) {
+		String sqlQuesry = "select * from user where username = " + username + ";";
+		Statement st;
+		try {
+			st = DBConnector.myConn.createStatement();
+			ResultSet rs = st.executeQuery(sqlQuesry);
+			rs.next();
+			return rs.getString(4) + " " + rs.getString(5);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+
 }

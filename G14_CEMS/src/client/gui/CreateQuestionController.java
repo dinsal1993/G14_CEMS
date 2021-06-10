@@ -92,7 +92,7 @@ public class CreateQuestionController {
 		txtAnswerC.setText("");
 		txtAnswerD.setText("");
 		txtDescription.setText("");
-		txtTeacherName.setText(LoginFormController.username);// take the teacher object from login and get teacher name
+		txtTeacherName.setText(UserController.teacherName);// take the teacher object from login and get teacher name
 																// by getter
 		txtTeacherName.setEditable(false);
 		comboBank.setEditable(false);
@@ -152,7 +152,7 @@ public class CreateQuestionController {
 		}
 		String correctAnswer = comboCorrectAnswer.getSelectionModel().getSelectedItem();
 		Question q = new Question(qID, txtDescription.getText(), answers,
-				-1, txtTeacherName.getText(), teacherUsername);
+				-1, UserController.teacherName, teacherUsername);
 		String valid = TeacherTestController.isValidFieldsCreateQuestion(q, subject, correctAnswer);
 		if(valid.equals("valid")) {
 			q.setCorrectAnswer(Integer.parseInt(correctAnswer));

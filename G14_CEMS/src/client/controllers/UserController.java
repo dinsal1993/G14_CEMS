@@ -75,6 +75,8 @@ public class UserController {
 	 * username of the user 
 	 */
 	public static String username;
+	
+	public static String teacherName;
 	/**
 	 * send to the server the details about the login
 	 * 

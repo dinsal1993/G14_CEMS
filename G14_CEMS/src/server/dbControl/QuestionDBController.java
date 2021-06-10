@@ -248,7 +248,7 @@ public class QuestionDBController {
 					temp.setExecutionCode(code);
 					temp.setTeacherNotes(rs.getString(8));
 					temp.setStudentNotes(rs.getString(9));
-					
+					return temp;
 
 				}
 			}

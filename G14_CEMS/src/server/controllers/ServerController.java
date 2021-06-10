@@ -51,11 +51,9 @@ public class ServerController extends AbstractServer {
 		Message message = (Message) msg;
 		boolean check;
 		switch (message.getMessageType()) {
-		case Hello:
-			//client.setInfo("username",(String)message.getMessageData());
-			//HashMap<String,Object> ass = new HashMap<String, Object>();
-			msgFromServer = new Message(MessageType.Hello, "hello " + (String)message.getMessageData());
-			break;
+		//case Hello:
+		//	getName((String)message.getMessageData());
+		//	break;
 		case GetAllSubjects:
 			ArrayList<Subject> subjects = QuestionDBController.getAllSubjects((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.GetAllSubjects, subjects);
@@ -221,6 +219,11 @@ public class ServerController extends AbstractServer {
 			//send to specific clients
 		}
 
+	}
+
+	private void getName(String username) {
+		String answer = UserDBController.getName(username);
+		msgFromServer = new Message(MessageType.Hello, answer);
 	}
 
 	private void getAllTestsDocsBySubject(ArrayList<String> arr) {

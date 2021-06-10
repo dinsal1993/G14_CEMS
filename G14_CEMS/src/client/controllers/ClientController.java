@@ -50,7 +50,8 @@ public class ClientController extends AbstractClient {
 			ReportController.testDocsBySubject = (ArrayList<TestDocs>)message.getMessageData();
 			break;
 		case Hello:
-			ClientUI.display((String)message.getMessageData());
+			//UserController.teacherName = (String)message.getMessageData();
+			//ClientUI.display("hello " + (String)message.getMessageData());
 			break;
 		case GetAllSubjects:
 			TeacherTestController.subjects = (ArrayList<Subject>)message.getMessageData();

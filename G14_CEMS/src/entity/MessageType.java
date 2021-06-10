@@ -28,6 +28,6 @@ public enum MessageType {
 
 	 execCode, execCodeManual, downloadManualTest, submitManualTest, DeleteQuestion, GetNextTID, GetAllTestsBySubject, deleteTest, updateTest,
 
-  ContinuePlanTest, InsertPlanTest, SubmitTest, AddStudentToOnGoing, RemoveStudentFromOnGoing , lockTest, AddExecCodeToTestDB, GetTestQuestions, GetTestCode, CheckStudentID, GetExamDate, GotTestCode, TestQuestions, SubmittedTest, GotExamDate, CheckedCode, CheckedStudentID, CheckedTest, AddStudentToOnGoingOnline, RemoveStudentFromOnGoingOnline, GetAllTestsDocsBySubject;
+  ContinuePlanTest, InsertPlanTest, SubmitTest, AddStudentToOnGoing, RemoveStudentFromOnGoing , lockTest, AddExecCodeToTestDB, GetTestQuestions, GetTestCode, CheckStudentID, GetExamDate, GotTestCode, TestQuestions, SubmittedTest, GotExamDate, CheckedCode, CheckedStudentID, CheckedTest, AddStudentToOnGoingOnline, RemoveStudentFromOnGoingOnline, GetAllTestsDocsBySubject, GetName;
 
 }
