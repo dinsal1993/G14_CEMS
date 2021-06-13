@@ -292,31 +292,7 @@ public class QuestionDBController {
 	}
 	
 	
-	/*public static String getTestID(String code)
-	{
-		String id = null;
-		String sqlQuery = "select id from pretest where executioncode = "+code+"";
 		
-				try {
-					if(DBConnector.myConn != null)
-					{
-						Statement st = DBConnector.myConn.createStatement();
-						ResultSet rs = st.executeQuery(sqlQuery);
-						while(rs.next())
-						{
-							id = rs.getString("id");
-						}
-					}
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-			}
-				
-			return id;
-		
-
-	}*/
-	
 	
 
 //}
@@ -337,5 +313,63 @@ public class QuestionDBController {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public static Test getTestPreview(String id) {
+
+		String sqlQuery = "select * from test where id ="+id+"";
+		
+		Test temp = null;
+		ArrayList<Question> questions;
+		ArrayList<Integer> points;
+		
+		
+		try {
+			if (DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				while (rs.next()) {
+					questions = new ArrayList<>();
+					points = new ArrayList<>();
+					
+					Blob questionsBlob = rs.getBlob(3);
+					BufferedInputStream bis = new BufferedInputStream(questionsBlob.getBinaryStream());
+					ObjectInputStream ois = new ObjectInputStream(bis);
+					questions = (ArrayList<Question>) ois.readObject();
+					
+
+					Blob qPointsBlob = rs.getBlob(4);
+					BufferedInputStream bis1 = new BufferedInputStream(qPointsBlob.getBinaryStream());
+					ObjectInputStream ois1 = new ObjectInputStream(bis1);
+					points = (ArrayList<Integer>) ois1.readObject();
+					
+					// construct current read test
+					temp = new Test();
+					temp.setId(rs.getString(1));
+					temp.setDuration(Integer.parseInt(rs.getString(2)));
+					temp.setQuestions(questions);
+					temp.setPointsPerQuestion(points);
+					temp.setTeacherName(rs.getString(5));
+					temp.setTeacherUsername(rs.getString(6));
+					temp.setExecutionCode(rs.getString(7));
+					temp.setTeacherNotes(rs.getString(8));
+					temp.setStudentNotes(rs.getString(9));
+					
+
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(temp);
+		return temp;
+
+		
 	}
 }

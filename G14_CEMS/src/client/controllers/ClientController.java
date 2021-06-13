@@ -301,6 +301,24 @@ public class ClientController extends AbstractClient {
 			else
 				StudentController.lastStudent = false;
 			break;
+		case GetStudentDetails:
+			StudentController.getAllStudentDetails((String)message.getMessageData());
+			break;
+		case GotStudentTDetails:
+			StudentController.studentTestCopy = (ArrayList<testCopy>)message.getMessageData();
+			break;
+		case GetSubjectNamebyID:
+			StudentController.getSubjectNamebyID((String)message.getMessageData());
+			break;
+		case GotSubjectNamebyID:
+			StudentController.subjectName = (String)message.getMessageData();
+			break;
+		case PreviewTest:
+			StudentController.previewTest((String)message.getMessageData());
+			break;
+		case GotTestPreview:
+			StudentController.testPreview = (Test)message.getMessageData();
+			break;
 		default:
 			ClientUI.display("cant read message from server");
 		}

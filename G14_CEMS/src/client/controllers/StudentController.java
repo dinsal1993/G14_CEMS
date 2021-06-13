@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import entity.Message;
 import entity.MessageType;
+import entity.Test;
 import entity.TestDocs;
 import entity.testCopy;
 import server.dbControl.StudentDBController;
@@ -17,7 +18,11 @@ public class StudentController {
 	public static int numberOfStudentsStartedExam;
 	public static int numberOfStudentsFinishedExam;
 	public static ArrayList<Integer> studentGrades;
-	public static boolean lastStudent; 
+	public static boolean lastStudent;
+	public static ArrayList<testCopy> studentTestCopy;
+	public static String subjectName;
+	public static Test testPreview;
+	
 	public static boolean isTestExist(String testID)
 	{
 		Message msg = new Message(MessageType.CheckTest, testID);
@@ -119,5 +124,25 @@ public class StudentController {
 		return lastStudent;
 	}
 	
+	public static ArrayList<testCopy> getAllStudentDetails(String username)
+	{
+		
+		Message msg = new Message(MessageType.GetStudentDetails,username);
+		ClientUI.accept(msg);
+		return studentTestCopy;
+	}
+	
+	public static String getSubjectNamebyID(String id)
+	{
+		Message msg = new Message(MessageType.GetSubjectNamebyID,id);
+		ClientUI.accept(msg);	
+		return subjectName;
+	}
+
+	public static Test previewTest(String testID) {
+		Message msg = new Message(MessageType.PreviewTest,testID);
+		ClientUI.accept(msg);
+		return testPreview;
+	}
 	
 }//End StudentController

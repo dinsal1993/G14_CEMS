@@ -6,6 +6,7 @@ import client.gui.ManualTestController;
 
 
 import client.gui.OnlineTestController;
+import client.gui.PreviewScoresController;
 import client.gui.StudentMenuController;
 import client.gui.TeacherMenuController;
 import client.gui.TestQuestionsAndAnswersController;
@@ -57,5 +58,6 @@ public class ScreenControllers {
 
 
 	public static TestQuestionsAndAnswersController duringTestControl;
+	public static PreviewScoresController previewScoresController;
 
 }

@@ -236,6 +236,20 @@ public class ServerController extends AbstractServer {
 			int isLastStudent = StudentDBController.checkLastStudent((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.CheckedIfLast, isLastStudent);
 			break;
+		case GetStudentDetails:
+			
+			ArrayList<testCopy> tc = new ArrayList<>();
+			tc = StudentDBController.getStudentTestDetails((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.GotStudentTDetails, tc);
+			break;
+		case GetSubjectNamebyID:
+			String subjectName = StudentDBController.getSubjectNamebyID((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.GotSubjectNamebyID, subjectName);
+			break;
+		case PreviewTest:
+			Test testPreview = QuestionDBController.getTestPreview((String)message.getMessageData());
+			msgFromServer = new Message(MessageType.GotTestPreview, testPreview);
+			break;
 		default:	
 			msgFromServer = new Message(MessageType.Error, null);
 		}

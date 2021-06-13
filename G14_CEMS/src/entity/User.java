@@ -5,13 +5,29 @@ import java.io.Serializable;
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L; 
+	
+	/**User ID.*/
 	private int id;
+	
+	/**User's username.*/
 	private String username;
+	
+	/**User's password.*/
 	private String password;
+	
+	/**User's firstname.*/
 	private String firstName;
+	
+	/**User's lastname.*/
 	private String lastName;
+	
+	/**User's email.*/
 	private String email;
+	
+	/**User permission , could be - Student , Teacher , principal*/
 	private String permissions;
+	
+	
 	public User(int id, String username, String password, String firstName, String lastName, String email,
 			String permissions) {
 		super();

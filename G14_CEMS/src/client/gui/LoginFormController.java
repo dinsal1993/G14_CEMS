@@ -23,28 +23,16 @@ import javafx.stage.Stage;
 public class LoginFormController {
 
 	
-	
-	@FXML
-	private Button btnLogin;
+	 @FXML
+	 private Button btnLogin;
 
-	@FXML
-	private Label lblUsername;
+	 @FXML
+	 private TextField txtUsername;
 
-	@FXML
-	private Label lblPassword;
-
-	@FXML
-	private Button btnRegister;
-
-	@FXML
-	private Button btnForgetPassword;
-
-	@FXML
-	private TextField txtUsername;
-
-	@FXML
-	private PasswordField txtPassword;
-
+	 @FXML
+	 private TextField txtPassword;
+	 
+	 
 	public static String username;
 
 	public String getUsername() {
@@ -56,7 +44,7 @@ public class LoginFormController {
 	}
 
 	public void start(Stage primaryStage) throws IOException {
-
+		
 	}
 
 	@FXML
@@ -66,7 +54,7 @@ public class LoginFormController {
 				getPassword());
 		switch (logInStatus) {
 		case "You must fill all the fields":
-		case "The user is not exist":
+		case "The user does not exist":
 		case "The password is incorrect":
 		case "The user is already connected":
 			ClientUI.display(logInStatus);

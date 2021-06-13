@@ -7,16 +7,37 @@ public class TestDocs implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	/**Exam ID*/
 	private String id;
+	
+	/**The year in which the exam took place.*/
 	private String year;
+	
+	/**The semester in which the exam took place.*/
 	private String semester;
+	
+	/**The date of the exam.*/
 	private String date;
+	
+	/**The exam duration.*/
 	private String assignedTime;
+	
+	/**Number of students who started the exam.*/
 	private int numStudentsStart;
+	
+	/**Number of students who couldn't finish the exam in time.*/
 	private int numStudentsNotFinishInTime;
+	
+	/**Number of students who finished the exam in the given time.*/
 	private int numStudentsFinishInTime;
+	
+	/**The average grades of the exam.*/
 	private double average;
+	
+	/**The exam median.*/
 	private double median;
+	
+	/**Grades distribution.*/
 	private ArrayList<Integer> distribution;
 	
 	

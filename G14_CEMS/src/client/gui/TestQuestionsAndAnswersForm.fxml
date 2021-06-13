@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -26,9 +25,6 @@
                   <Font size="25.0" />
                </font>
             </Text>
-            <Button fx:id="btnBack" layoutX="39.0" layoutY="360.0" mnemonicParsing="false" onAction="#click_Back" prefHeight="33.0" prefWidth="75.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em; -fx-border-radius: 5em;" text="Back" textFill="WHITE" />
-            <Button fx:id="btnNext" layoutX="619.0" layoutY="360.0" mnemonicParsing="false" onAction="#click_Next" prefHeight="33.0" prefWidth="75.0" style="-fx-background-color: #7f7454; -fx-background-radius: 5em; -fx-border-radius: 5em;" text="Next" textFill="WHITE" />
-            <TextArea fx:id="qstDescription" layoutX="26.0" layoutY="40.0" prefHeight="66.0" prefWidth="234.0" promptText="Question Description" />
             <Label layoutX="27.0" layoutY="9.0" style="-fx-text-fill: GREEN;" text="Points :" />
             <Label fx:id="points" layoutX="77.0" layoutY="9.0" prefHeight="17.0" prefWidth="39.0" />
             <RadioButton fx:id="answer3" layoutX="46.0" layoutY="228.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="13.0" />
@@ -43,10 +39,15 @@
             <Label fx:id="option2" layoutX="107.0" layoutY="179.0" text="Answer 2" />
             <Label fx:id="option3" layoutX="107.0" layoutY="227.0" text="Answer 3" />
             <Label fx:id="option4" layoutX="107.0" layoutY="274.0" text="Answer 4" />
-            <Text fill="GREEN" layoutX="369.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining Time : " />
+            <Text fx:id="txtTime" fill="GREEN" layoutX="369.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining Time : " />
             <Label fx:id="lblTimer" layoutX="504.0" layoutY="9.0" prefHeight="17.0" prefWidth="116.0" />
             <Label fx:id="lblTeacherNotes" alignment="CENTER" layoutX="504.0" layoutY="81.0" prefHeight="163.0" prefWidth="193.0" />
             <Text layoutX="557.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teacher's Notes:" />
+            <Button fx:id="btnBack" layoutX="43.0" layoutY="360.0" mnemonicParsing="false" onAction="#click_Back" prefHeight="33.0" prefWidth="107.0" style="-fx-background-color: #1f093e;" text="Back" textFill="WHITE" />
+            <Button fx:id="btnNext" layoutX="590.0" layoutY="360.0" mnemonicParsing="false" onAction="#click_Next" prefHeight="33.0" prefWidth="107.0" style="-fx-background-color: #1f093e;" text="Next" textFill="WHITE" />
+            <Label fx:id="qstDescription" alignment="TOP_LEFT" layoutX="32.0" layoutY="66.0" prefHeight="40.0" prefWidth="210.0" />
+            <Button fx:id="btnNext_preview" layoutX="590.0" layoutY="360.0" mnemonicParsing="false" onAction="#click_Next_Preview" prefHeight="33.0" prefWidth="107.0" style="-fx-background-color: #1f093e;" text="Next" textFill="WHITE" />
+            <Button fx:id="btnBack_Preview" layoutX="43.0" layoutY="360.0" mnemonicParsing="false" onAction="#click_Back_preview" prefHeight="33.0" prefWidth="107.0" style="-fx-background-color: #1f093e;" text="Back" textFill="WHITE" />
          </children></AnchorPane>
   </items>
 </SplitPane>

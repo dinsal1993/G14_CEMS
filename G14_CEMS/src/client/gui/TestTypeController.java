@@ -26,26 +26,23 @@ public class TestTypeController {
 
 	/**
 	 * 
-	 * @return
+	 * @return execution code.
 	 */
 	public String getTxtExecCode() {
 		return txtExecCode.getText();
 	}
+    @FXML
+    private Button btnOnlineTest;
 
-	@FXML
-	private Button btnBack;
+    @FXML
+    private Button btnManualTest;
 
-	@FXML
-	private Button btnOnlineTest;
+    @FXML
+    private Button btnBack;
 
-	@FXML
-	private Button btnManualTest;
-
-	
-	//ragah
-	@FXML
+    @FXML
     private Label lblIsExecCodeValid;
-   
+    
     public static String code;
 
 	
@@ -78,8 +75,11 @@ public class TestTypeController {
 
 	}
 	
-	//ragah
-
+	
+	/**
+	 * change the stage to the online test form in case the execution code is right
+	 * @param event
+	 */
 	@FXML
     void clickOnlineTest(ActionEvent event) 
     {

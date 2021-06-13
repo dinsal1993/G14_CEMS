@@ -10,7 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
+ 
 
 public class StudentMenuController {
 
@@ -22,6 +25,9 @@ public class StudentMenuController {
 
     @FXML
     private Button btnBack;      
+    
+    @FXML
+    private Label lblStudentName;
 
     @FXML
     void clickTakeATest(ActionEvent event) 
@@ -41,9 +47,29 @@ public class StudentMenuController {
 			e.printStackTrace();
 		}
     }
+    
+    @FXML
+    void clickPreviewScores(ActionEvent event) 
+    {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("PreviewScoresForm.fxml"));
+		Parent root;
+		try {
+			ScreenControllers.previewScoresController = loader.getController();
+			root = loader.load();
+			Scene scene = new Scene(root);
+			Stage preview = new Stage();
+			preview.setScene(scene);
+			UserController.currentStage.hide(); // close?
+			UserController.currentStage = preview;
+			preview.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 
 	public void start() {
-		// TODO Auto-generated method stub
+		
+		lblStudentName.setText(UserController.username+"!");
 		
 	}
 

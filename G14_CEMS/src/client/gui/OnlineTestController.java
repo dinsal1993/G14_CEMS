@@ -41,15 +41,31 @@ public class OnlineTestController {
 
     @FXML
     private Label lblValidStudentID;
-    
+
+    /** A list of all the questions in the specific test.*/
     public static ObservableList<Question> testQuestionsList;
+    
     public static Test test;
+    
+    
     public static ObservableList<Test> tests;
+    
+    /** List that contains the student details , including his ID,Name,etc...*/
     public static ArrayList<String> studentDetails;
+    
+    /** List that contains the exam details*/
     public static ArrayList<String> examTime;
-    public static long delayTimeInSecs;
+    
+    /** count how many seconds the student entered after the exam has started.*/
+     public static long delayTimeInSecs; 
+     
+    /** String that contains the exam end hour. */
     public static String endExamHour;
+    
+    /** String that contains the total duration of an exam.*/
     public static String totalDurationOfExam;
+    
+    
     @FXML
     void clickBack(ActionEvent event) 
     {
@@ -68,6 +84,15 @@ public class OnlineTestController {
 
     }
     
+    /**
+     * The clickStart function , first checks if the written student ID exists , if so , 
+     * Get the specific exam according to the execution code that has been entered in 
+     * The previous screen. Also , calculates the total exam duration and the student
+     * total delay time in seconds before he starts an exam.
+     * 
+     * @param event
+     * @throws ParseException
+     */
     @FXML
     void clickStart(ActionEvent event) throws ParseException 
     {
@@ -83,7 +108,15 @@ public class OnlineTestController {
        		SimpleDateFormat defaultFormat = new SimpleDateFormat("HH:mm:ss");
     		String examStartHour = examTime.get(1); // exam planned start hour
     		String currentTime = defaultFormat.format(Calendar.getInstance().getTime()); // current time
-    		
+    		System.out.println("Current time :"+currentTime);
+    		String[] newCurrentTime = new String[3];
+    		newCurrentTime[0] = currentTime.split(":")[0];
+    		newCurrentTime[1] = currentTime.split(":")[1];
+    		newCurrentTime[2] = currentTime.split(":")[2];
+    		if(currentTime.split(":")[0].equals("00"))
+    			newCurrentTime[0] = "24";
+    		currentTime = newCurrentTime[0]+":"+newCurrentTime[1]+":"+newCurrentTime[2];
+    		System.out.println("Current time after change :"+currentTime);
     		Date startExamHour = defaultFormat.parse(examStartHour);
     		Date currHour = defaultFormat.parse(currentTime);
     		int durationHours = test.getDuration()/60;
@@ -103,7 +136,6 @@ public class OnlineTestController {
     		
     		long difference = currHour.getTime() - startExamHour.getTime();
     		
-
     		long diffSeconds = difference / 1000 % 60;
     		long diffMinutes = difference / (60 * 1000) % 60;
     		long diffHours = difference / (60 * 60 * 1000) % 24;
@@ -115,7 +147,7 @@ public class OnlineTestController {
     		startExamHour = cal.getTime();
     		String endHour = defaultFormat.format(startExamHour);
     		endExamHour = endHour;
-    		//System.out.println("exam ends in :"+endHour+"");
+    		System.out.println("exam ends in :"+endHour+"");
     		
     		
     		
@@ -173,7 +205,11 @@ public class OnlineTestController {
     		return;
     	}
 }
-    
+    /**
+     * This function checks if the student entered a valid execution code.
+     *  
+     * @return True if the execution code valid , otherwise return False.
+     */
     public boolean isExecutionCodeValid()
     {
     	if(StudentController.isExecutionCodeValid(getExecutionCode()))
@@ -182,22 +218,39 @@ public class OnlineTestController {
 
     }
     
+    /**
+     * Get the execution code that the student entered in the previous screen.
+     * @return execution Code.
+     */
     public String getExecutionCode()
     {
     	return TestTypeController.code;
     }
     
    
+    /**
+     * 
+     * @return this.test
+     */
     public static Test getTest()
     {
     	return test;
     }
     
+    /**
+     * 
+     * @return student ID.
+     */
     public String getStudentID()
     {
     	return txtStudentID.getText();
     }
   
+    
+    /**
+     * Check if the current Student ID , exists in the system.
+     * @return True if the student ID exists , otherwise return False.
+     */
     public boolean isStudentIDExist()
     {
     	if(StudentController.isStudentIDExist(getStudentID()))

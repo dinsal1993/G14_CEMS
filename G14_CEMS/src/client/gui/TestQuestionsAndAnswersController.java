@@ -34,6 +34,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class TestQuestionsAndAnswersController {
 	
@@ -42,10 +44,10 @@ public class TestQuestionsAndAnswersController {
 
 	    @FXML
 	    private Button btnNext;
-
+	    
 	    @FXML
-	    private TextArea qstDescription;
-
+	    private Label qstDescription;
+	    
 	    @FXML
 	    private RadioButton answer1;
 
@@ -79,19 +81,53 @@ public class TestQuestionsAndAnswersController {
 	    @FXML
 	    private Label lblTeacherNotes;
 	    
-	    public static Test questionsList = OnlineTestController.test;
-	    public int i,finalGrade = 0;
-	    public static ArrayList<Integer> selectedAnswers = new ArrayList<>();	    
-	    private ToggleGroup firstAnswer;
-	    public int[] currentAnswers =  new int[questionsList.getQuestions().size()];
-	    public int currAnswer;
-	    public long timeTookToFinish;
-	    public ArrayList<String> examDateAndTime = OnlineTestController.examTime;
+	    @FXML
+	    private Button btnNext_preview;
 	    
+	    @FXML
+	    private Button btnBack_Preview;
+	    
+	    @FXML
+	    private Text txtTime;
+
+	    /** Test that contains all the questions according to the specific execution code.*/
+	    public static Test questionsList;// = OnlineTestController.test;
+	    
+	    public int i;
+	    /** The student final grade.*/
+	    public int finalGrade = 0;
+	    
+	    /** List that contains all the answers that the student has selected during the exam.*/
+	    public static ArrayList<Integer> selectedAnswers = new ArrayList<>();	    
+	    
+	    /** ToggleGroup paramter to let the student select only one radio button at any given time.*/
+	    private ToggleGroup onlyOneAnswer;
+	    
+	    /** Array that contains all the answers that the student has selected , and save them
+	     * in the right index , to not lose them.
+	     */
+	    public int[] currentAnswers;// =  new int[questionsList.getQuestions().size()];
+	    
+	    /** The current question on the screen.*/
+	    public int currAnswer;
+	    
+	    /**Calculate the total time that took the student to finish the exam.*/
+	    public long timeTookToFinish;
+	    
+	    /**List that contains the exam date and time details. */
+	    public ArrayList<String> examDateAndTime;// = OnlineTestController.examTime;
+	    
+	    
+	    private int r;
+	    private ArrayList<Integer> previewAnswers;
 	    //timer fields
 	    private long min, sec, hr, totalSec; 
 	    private Timer timer;
 	    
+	    /**
+	     * function that shows the next question.
+	     * @param answerIndex shows the current index of the question.
+	     */
 	    public void showAnswer(int answerIndex)
 	    {
 	    	currAnswer = answerIndex;
@@ -115,7 +151,7 @@ public class TestQuestionsAndAnswersController {
 	    	
 	    	if(currentAnswers[currAnswer] != 0 )
 	    	{
-	    		firstAnswer.getToggles().get(currentAnswers[currAnswer]-1).setSelected(true);
+	    		onlyOneAnswer.getToggles().get(currentAnswers[currAnswer]-1).setSelected(true);
 	    	}
 	    	else
 	    	{
@@ -127,26 +163,102 @@ public class TestQuestionsAndAnswersController {
 	    	
 	    }
 	    
-	    public void start(int j) {  	
+	    /**
+	     * function that starts an exam , first it sets the timer then it shows the question
+	     * by calling the "showAnswer" function.
+	     * @param j indicates the current question index.
+	     */
+	    public void start(Integer j) {  	
 	    	
-	    	setTimer();
-	    	lblTeacherNotes.setText(questionsList.getTeacherNotes());
-	    	firstAnswer = new ToggleGroup();
-	    	answer1.setToggleGroup(firstAnswer);
-	    	answer2.setToggleGroup(firstAnswer);
-	    	answer3.setToggleGroup(firstAnswer);
-	    	answer4.setToggleGroup(firstAnswer);
+	    	if(j == 0)
+	    	{
+	    		btnBack_Preview.setVisible(false);
+	    		btnNext_preview.setVisible(false);
+	    		questionsList = OnlineTestController.test;
+	    		currentAnswers =  new int[questionsList.getQuestions().size()];
+	    		examDateAndTime = OnlineTestController.examTime;
+	    		setTimer();
+	    		lblTeacherNotes.setText(questionsList.getTeacherNotes());
+	    		onlyOneAnswer = new ToggleGroup();
+	    		answer1.setToggleGroup(onlyOneAnswer);
+	    		answer2.setToggleGroup(onlyOneAnswer);
+	    		answer3.setToggleGroup(onlyOneAnswer);
+	    		answer4.setToggleGroup(onlyOneAnswer);
 	    	
 	    	
-	    	currAnswer = j;
+	    		currAnswer = j;
 	    	
-	    	for(int i=0; i< currentAnswers.length; i++)
-	    		currentAnswers[i] = 0;
+	    		for(int i=0; i< currentAnswers.length; i++)
+	    			currentAnswers[i] = 0;
 	    	
-	    	showAnswer(currAnswer);
+	    		showAnswer(currAnswer);
+	    	}
+	    	else //preview test
+	    	{
+	    		r = 0;
+	    		txtTime.setVisible(false);
+	    		btnNext.setVisible(false);
+	    		lblTimer.setVisible(false);
+	    		btnBack.setVisible(false);
+	    		btnBack_Preview.setText("Exit");
+	    		previewAnswers = new ArrayList<>();
+	    		String testID = j.toString(); // SHOULD BE "0"+j.toString()+"";
+	    		for(int i = 0 ; i < PreviewScoresController.list.size();i++)
+	    		{
+	    			if(PreviewScoresController.list.get(i).getTestID().equals(testID))
+	    				previewAnswers = PreviewScoresController.list.get(i).getStudentAnswers();
+	    		}
+	    		
+	    		System.out.println(previewAnswers);
+	    		
+	    		StudentController.previewTest(testID);
+	    		questionsList = StudentController.testPreview;
+	    		lblTeacherNotes.setText(questionsList.getTeacherNotes());
+	    		
+	    		setQuestionDescription(0);
+		    	setQuestionOptions(0);
+		    	int previewAnswer = previewAnswers.get(r);
+		    	answer1.setDisable(true);
+		    	answer2.setDisable(true);
+		    	answer3.setDisable(true);
+		    	answer4.setDisable(true);
+		    	switch (previewAnswer)
+		    	{
+		    	case 1:
+		    		answer1.setSelected(true);
+		    		answer2.setSelected(false);
+		    		answer3.setSelected(false);
+		    		answer4.setSelected(false);
+		    		break;
+		    	case 2:
+		    		answer1.setSelected(false);
+		    		answer2.setSelected(true);
+		    		answer3.setSelected(false);
+		    		answer4.setSelected(false);
+		    		break;
+		    	case 3:
+		    		answer1.setSelected(false);
+		    		answer2.setSelected(false);
+		    		answer3.setSelected(true);
+		    		answer4.setSelected(false);
+		    		break;
+		    	case 4:
+		    		answer1.setSelected(false);
+		    		answer2.setSelected(false);
+		    		answer3.setSelected(false);
+		    		answer4.setSelected(true);
+		    		break;
+		    	}
+	    		
+	    	}
 	    
 	    }
 	    
+	    
+	    /**
+	     * function the sets the question description and points.
+	     * @param i shows the current question index.
+	     */
 	    public void setQuestionDescription(int i)
 	    {
 	    	
@@ -154,6 +266,10 @@ public class TestQuestionsAndAnswersController {
 	    	points.setText(questionsList.getPointsPerQuestion().get(i).toString());
 	    }
 	    
+	    /**
+	     * function that sets all the current question options
+	     * @param i shows the current question index.
+	     */
 	    public void setQuestionOptions(int i)
 	    {		    		
 	    	option1.setText(questionsList.getQuestions().get(i).getAnswers().get(0));
@@ -163,6 +279,148 @@ public class TestQuestionsAndAnswersController {
 	    	
 	    }
 	    
+	    
+	    
+	    @FXML
+	    void click_Next_Preview(ActionEvent event) {
+	    	r++;
+	    	if(r == previewAnswers.size())
+	    	{
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("PreviewScoresForm.fxml"));
+	    		Parent root;
+	    		try {
+	    			ScreenControllers.previewScoresController = loader.getController();
+	    			root = loader.load();
+	    			Scene scene = new Scene(root);
+	    			Stage preview = new Stage();
+	    			preview.setScene(scene);
+	    			UserController.currentStage.hide(); // close?
+	    			UserController.currentStage = preview;
+	    			preview.show();
+	    		} catch (IOException e) {
+	    			e.printStackTrace();
+	    		}
+	    		return;
+	    	}
+	    	btnBack_Preview.setText("Back");
+	    	if(r == previewAnswers.size() - 1)
+	    		btnNext_preview.setText("Finish Reviewing");
+	    	else
+	    		btnNext_preview.setText("Next");
+	    	setQuestionDescription(r);
+	    	setQuestionOptions(r);
+	    	int previewAnswer = previewAnswers.get(r);
+	    	answer1.setDisable(true);
+	    	answer2.setDisable(true);
+	    	answer3.setDisable(true);
+	    	answer4.setDisable(true);
+	    	switch (previewAnswer)
+	    	{
+	    	case 1:
+	    		answer1.setSelected(true);
+	    		answer2.setSelected(false);
+	    		answer3.setSelected(false);
+	    		answer4.setSelected(false);
+	    		break;
+	    	case 2:
+	    		answer1.setSelected(false);
+	    		answer2.setSelected(true);
+	    		answer3.setSelected(false);
+	    		answer4.setSelected(false);
+	    		break;
+	    	case 3:
+	    		answer1.setSelected(false);
+	    		answer2.setSelected(false);
+	    		answer3.setSelected(true);
+	    		answer4.setSelected(false);
+	    		break;
+	    	case 4:
+	    		answer1.setSelected(false);
+	    		answer2.setSelected(false);
+	    		answer3.setSelected(false);
+	    		answer4.setSelected(true);
+	    		break;
+	    	}
+	    
+	    	
+	    }
+	    
+	    @FXML
+	    void click_Back_preview(ActionEvent event) {
+	    	
+	    	if(r == 0)
+	    	{
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("PreviewScoresForm.fxml"));
+	    		Parent root;
+	    		try {
+	    			ScreenControllers.previewScoresController = loader.getController();
+	    			root = loader.load();
+	    			Scene scene = new Scene(root);
+	    			Stage preview = new Stage();
+	    			preview.setScene(scene);
+	    			UserController.currentStage.hide(); // close?
+	    			UserController.currentStage = preview;
+	    			preview.show();
+	    		} catch (IOException e) {
+	    			e.printStackTrace();
+	    		}
+	    		return;
+	    	}
+	    	else
+	    	{
+	    		
+	    		r--;
+	    		btnNext_preview.setText("Next");
+	    		if(r == 0)
+	    			btnBack_Preview.setText("Exit");
+	    		setQuestionDescription(r);
+	    		setQuestionOptions(r);
+	    		int previewAnswer = previewAnswers.get(r);
+	    		answer1.setDisable(true);
+	    		answer2.setDisable(true);
+	    		answer3.setDisable(true);
+	    		answer4.setDisable(true);
+	    		switch (previewAnswer)
+	    		{
+	    		case 1:
+	    			answer1.setSelected(true);
+	    			answer2.setSelected(false);
+	    			answer3.setSelected(false);
+	    			answer4.setSelected(false);
+	    			break;
+	    		case 2:
+	    			answer1.setSelected(false);
+	    			answer2.setSelected(true);
+	    			answer3.setSelected(false);
+	    			answer4.setSelected(false);
+	    			break;
+	    		case 3:
+	    			answer1.setSelected(false);
+	    			answer2.setSelected(false);
+	    			answer3.setSelected(true);
+	    			answer4.setSelected(false);
+	    			break;
+	    		case 4:
+	    			answer1.setSelected(false);
+	    			answer2.setSelected(false);
+	    			answer3.setSelected(false);
+	    			answer4.setSelected(true);
+	    			break;
+	    		}
+	    	}
+	    	
+	    }//End function
+	    
+	    
+	    
+	    /**
+	     * This function show the next question once its clicked. In addition , it also
+	     * checks if the student has finished the exam , in that case calculate the total
+	     * time took the student to finish , check his answers and submit the test.
+	     * in case he is the last student the test statistics become available.
+	     * @param event
+	     */
 	    @FXML
 	    void click_Next(ActionEvent event) {
 	    	
@@ -200,13 +458,15 @@ public class TestQuestionsAndAnswersController {
 	    		
 	    			testCopy tc = new testCopy();
 	    			tc.setTestID(questionsList.getId());
-	    			tc.setYear(examDateAndTime.get(2).split("-")[0]);
-	    			tc.setMonth(examDateAndTime.get(2).split("-")[1]);
-	    			tc.setDay(examDateAndTime.get(2).split("-")[2]);
+	    			tc.setYear(examDateAndTime.get(3).split("-")[0]);
+	    			tc.setMonth(examDateAndTime.get(3).split("-")[1]);
+	    			tc.setDay(examDateAndTime.get(3).split("-")[2]);
 	    			tc.setStudentAnswers(answers);
 	    			tc.setFinalScore(finalGrade);
 	    			tc.setActualTime(timeTookToFinish/60);
 	    			tc.setTeacherUsername(questionsList.getTeacherName());
+	    			tc.setTestWriterUsername(examDateAndTime.get(2));
+	    			
 	    			tc.setStudentID(LoginFormController.username);
 	    			StudentController.submitTest(tc);
 	    			
@@ -239,13 +499,18 @@ public class TestQuestionsAndAnswersController {
 
 	    }
 	    
+	    
+	    /**
+	     * the student can go back to the previous question and still have his previous answer selected.
+	     * @param event
+	     */
 	    @FXML
 	    void click_Back(ActionEvent event) {
 	    	
 	    	//Save previous question's details
 	    	if(answer1.isSelected())
 	    		currentAnswers[currAnswer] = 1;
-	    	else if(answer2.isSelected())		    	
+	    	else if(answer2.isSelected())		
 	    		currentAnswers[currAnswer] = 2;
 	    	else if(answer3.isSelected())		    	
 	    		currentAnswers[currAnswer] = 3;
@@ -261,6 +526,9 @@ public class TestQuestionsAndAnswersController {
 	
 	    }
 	    
+	    /**
+	     * change screen and return student to the "Student Menu".
+	     */
 	    public void returnToStudentMainMenu()
 	    {
 	    	StudentController.removeStudentFromOnGoing(OnlineTestController.studentDetails);
@@ -280,6 +548,12 @@ public class TestQuestionsAndAnswersController {
 			}
 	    }
 	    
+	    
+	    /**
+	     * Check the student selected answers. 
+	     * @param array contains all the answers that the student has selected.
+	     * @return student final grade.
+	     */
 	    public int checkAnswers(int[] array)
 	    {
 	    	int points = 0;
@@ -293,6 +567,10 @@ public class TestQuestionsAndAnswersController {
 	    }
 	    
 	        
+	    /**
+	     * check if the students answered all the questions.
+	     * @return True if the student answered all the questions , otherwise return False.
+	     */
 	    private boolean IsTestCompeted()
 	    {	
 	    	for(int i = 0; i < this.currentAnswers.length; i++ )
@@ -300,6 +578,7 @@ public class TestQuestionsAndAnswersController {
 	    			return false;
 	    	return true;
 	    }
+	    
 	    
 	    public void printTime(long time)
 	    {
@@ -310,6 +589,7 @@ public class TestQuestionsAndAnswersController {
 	        System.out.println("Took you : "+(format(hr) + ":" + format(min) + ":" + format(sec)+" to finish the test."));
  
 	    }
+	    
 	    public void convertTime() {
 
 	        min = TimeUnit.SECONDS.toMinutes(totalSec);
@@ -330,10 +610,18 @@ public class TestQuestionsAndAnswersController {
 	        return value + "";
 	    }
 	    
+	    
+	    /**
+	     * set the exam timer according to its duration
+	     * in case a student couldn't finish the exam in the given time , 
+	     * the system submits that the student has failed the exam with a final grade of 0.
+	     *	Also , if the given time has ended which means the exam has ended , let
+	     *	the exam statistics become available.
+	     */
 	    private void setTimer() {
 	        
-	    	//totalSec = questionsList.getDuration() * 60 - OnlineTestController.delayTimeInSecs;
-	    	totalSec = 20;
+	    	totalSec = questionsList.getDuration() * 60 - OnlineTestController.delayTimeInSecs;
+	    	//totalSec = ;
 	    	
 	    	
 	    	timeTookToFinish = totalSec;
@@ -359,10 +647,11 @@ public class TestQuestionsAndAnswersController {
 	                            testCopy failed = new testCopy();
 	                            failed.setActualTime(0);
 	                            failed.setTestID(questionsList.getId());
-	        	    			failed.setYear(examDateAndTime.get(2).split("-")[0]);
-	        	    			failed.setMonth(examDateAndTime.get(2).split("-")[1]);
-	        	    			failed.setDay(examDateAndTime.get(2).split("-")[2]);
+	        	    			failed.setYear(examDateAndTime.get(3).split("-")[0]);
+	        	    			failed.setMonth(examDateAndTime.get(3).split("-")[1]);
+	        	    			failed.setDay(examDateAndTime.get(3).split("-")[2]);
 	        	    			failed.setTeacherUsername(questionsList.getTeacherName());
+	        	    			failed.setTestWriterUsername(examDateAndTime.get(2));
 	        	    			failed.setStudentAnswers(null);
 	        	    			failed.setFinalScore(0);
 	        	    			failed.setStudentID(UserController.username);
@@ -389,6 +678,12 @@ public class TestQuestionsAndAnswersController {
 	        timer.schedule(timerTask, 0, 1000);
 	    }
 	   
+	    /**
+	     * Function that removes all the duplicate elements in a given list.
+	     * @param <T> generic type
+	     * @param list that has duplicate elements.
+	     * @return new list with the same given list type that has no duplicate elements.
+	     */
 	    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
 	    {
 	  
@@ -410,16 +705,23 @@ public class TestQuestionsAndAnswersController {
 	        return newList;
 	    }
 	   
+	    /**
+	     * sets all the testDocs information.
+	     * Calculates the number of students who started an exam and those who finished in time , 
+	     * and the students who couldn't finish in time to add them to the statistics.
+	     * Calculates the average, median and distribution.
+	     * @return TestDocs that has all the information of an exam.
+	     */
 	    public TestDocs submitTestDocs()
 	    {
 
             TestDocs td = new TestDocs();
             td.setId(questionsList.getId());
             td.setAssignedTime(OnlineTestController.totalDurationOfExam);
-            td.setYear(examDateAndTime.get(2).split("-")[0]);
-            td.setDate(examDateAndTime.get(2));
+            td.setYear(examDateAndTime.get(3).split("-")[0]);
+            td.setDate(examDateAndTime.get(3));
             String semester = "";
-            switch (examDateAndTime.get(2).split("-")[1])
+            switch (examDateAndTime.get(3).split("-")[1])
             {
             case "01":
             	semester = "01";
