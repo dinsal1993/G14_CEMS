@@ -75,7 +75,9 @@ public class TestQuestionsAndAnswersController {
 	    
 	    public static Test questionsList = OnlineTestController.test;
 	    public int i,finalGrade = 0;
-	    public static ArrayList<Integer> selectedAnswers = new ArrayList<>();	    
+	    public static ArrayList<Integer> selectedAnswers = new ArrayList<>();
+
+		public static int addExtraTime;	    
 	    private ToggleGroup firstAnswer;
 	    public int[] currentAnswers =  new int[questionsList.getQuestions().size()];
 	    public int currAnswer;
@@ -290,7 +292,7 @@ public class TestQuestionsAndAnswersController {
  
 	    }
 	    public void convertTime() {
-
+	    	totalSec = totalSec+addExtraTime;////////
 	        min = TimeUnit.SECONDS.toMinutes(totalSec);
 	        sec = totalSec - (min * 60);
 	        hr = TimeUnit.MINUTES.toHours(min);
@@ -314,8 +316,7 @@ public class TestQuestionsAndAnswersController {
 	    	//SHOULD BE totalSec = exam duration - (current local time - exam start hour)
 	    	totalSec = questionsList.getDuration() * 60 + OnlineTestController.delayTimeInSecs;
 	    
-	    	
-	    	
+	   
 	    	timeTookToFinish = totalSec;
 	        this.timer = new Timer();
 

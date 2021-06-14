@@ -190,7 +190,7 @@ public class StudentDBController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		ArrayList<String> toAdd = getExamDate(code); // olay shirshor lo tov
+		ArrayList<String> toAdd = TestDBController.getExamInfo(code); // olay shirshor lo tov
 		// id,duration,teacherUsername,execCode,startHour,teacherUsernameExecute,Date;
 		testDetails.addAll(toAdd);
 		System.out.println("NExt2 ::: " + testDetails.toString());
@@ -255,28 +255,7 @@ public class StudentDBController {
 		return;
 	}
 
-	public static ArrayList<String> getExamDate(String code) {
-		ArrayList<String> list = new ArrayList<>();
-		String sqlQuery = "select * from plannedtest where execCode = " + code + "";
 
-		try {
-			if (DBConnector.myConn != null) {
-				Statement st = DBConnector.myConn.createStatement();
-				ResultSet rs = st.executeQuery(sqlQuery);
-				while (rs.next()) {
-					list.add(0, String.valueOf(rs.getString(1)));
-					list.add(1, String.valueOf(rs.getString(2)));
-					list.add(2,rs.getString(3)); //teacherUserName execute
-					list.add(3, String.valueOf(rs.getString(4)));
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println(list);
-		return list;
-	}
+	
 
 }

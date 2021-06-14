@@ -4,6 +4,7 @@ import client.gui.LoginFormController;
 import client.gui.ManageTestController;
 import client.gui.ManualTestController;
 import client.gui.OnlineTestController;
+import client.gui.PrincipleMenuController;
 import client.gui.StudentMenuController;
 import client.gui.TeacherMenuController;
 import client.gui.TestQuestionsAndAnswersController;
@@ -36,6 +37,7 @@ public class ScreenControllers {
 	public static AddQuestionController addQuestionControl;
 	public static OnlineTestController onlineTestControl;
 	public static TestQuestionsAndAnswersController duringTestControl;
+	public static PrincipleMenuController principleMenuController;
 
 
 	

@@ -87,11 +87,9 @@ public class OnlineTestController {
     		long diffSeconds = difference / 1000 % 60;
     		long diffMinutes = difference / (60 * 1000) % 60;
     		long diffHours = difference / (60 * 60 * 1000) % 24;
-    		
-    		
+    				
     		
     		delayTimeInSecs = diffHours * 3600 + diffMinutes * 60 + diffSeconds;
-    		
     		
     		//System.out.println(difference);
     		//System.out.println(test);
@@ -122,7 +120,6 @@ public class OnlineTestController {
     		}
     		else
     		{
-    			
     			lblValidStudentID.setText("");
     			ClientUI.display("Exam Has Already Ended!");
     		}

@@ -78,7 +78,7 @@ public class UserDBController {
 	 * @param username name of the user account
 	 */
 	private static void addUserToUsersConnectedArrayList(String username) {
-		//usersConnected.add(username);---------L----------------
+	usersConnected.add(username);
 	}
 
 	/**
@@ -158,6 +158,14 @@ public class UserDBController {
 			e.printStackTrace();
 		}
 	  return "ERROR-Permission";
+	}
+
+	/**
+	 * remove user from current users connected
+	 * @param username username of the user
+	 */
+	public static void removeUserFromLoginArr(String username) {
+		usersConnected.remove(username);
 	}
 
 }

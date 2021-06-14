@@ -36,6 +36,12 @@ public class TeacherTestController { //ragah evreything
 	public static Test currentTest;
 	public static ArrayList<String> QuestionArr;
 	public static ArrayList<Question> QuestionList;
+	/**
+	 * flag is true when the teacher can sent a request for extra time
+	 */
+	public static boolean flagForRequestValidExecCode=false;
+	
+	public static String executionCodeForExtraTime=null;
 	
 	public static boolean updateTestValidFields(String testID, String newDuration) {
 		int id, duration;
@@ -117,11 +123,7 @@ public class TeacherTestController { //ragah evreything
 		
 	}
 	
-	public static void requestExtraTime(testCopy test) {
-		Message msg = new Message(MessageType.RequestExtraTime, test);
-		ClientUI.accept(msg);
-		
-	}
+
 	
 	
 	public static Test getTestQuestions(String code) {		

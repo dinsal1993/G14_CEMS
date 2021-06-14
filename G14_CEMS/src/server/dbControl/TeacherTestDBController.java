@@ -13,10 +13,16 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+
+import javax.swing.text.DateFormatter;
 
 import client.controllers.ClientUI;
 import entity.Course;
@@ -47,10 +53,118 @@ public class TeacherTestDBController implements Serializable {
 		 * b); ps.executeUpdate();
 		 */
 		// Shahar- input- MIVHAN YADANI LEDOGMA -id-0000.
-		 writeBlob();
+	//	 writeBlob();
 		// readBlob("0000","a");
+		
+		/*DateFormatter dtf = new DateFormatter();
+		   LocalTime now = LocalTime.now();  
+		   System.out.println(dtf.s);  
+		   String a = String.valueOf(now);
+		   
+		System.out.println(   a.split("-")[0]);
+			System.out.println(a.split("-")[1]);
+			System.out.println(a.split("-")[2]);
+			System.out.println(a.split(":")[0]);		
+			
+			System.out.println(a.split(":")[0]);
+	    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+	    LocalDate.now();
+	    Date date = new Date(LocalDate.now()); 
+	    System.out.println(formatter.format(date));*/
+		
+		/*String b = "12:12:13";
+		SimpleDateFormat a = new SimpleDateFormat("H:m:s");
+		a.setLenient(false);
+		
+			java.util.Date d;
+			try {
+				d = a.parse(b);
+		
+			System.out.println(d);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+		
+	
+		
+	
 
+		
+		int hourUntil =
+				Integer.parseInt("21") +1;
+		int minUntil =
+				Integer.parseInt("25") +1;
+		
+		String testAvailableUntil = hourUntil+":"+minUntil+":00";
+	System.out.println(testAvailableUntil);
+		String.valueOf(java.time.LocalTime.now());  
+		System.out.println(String.valueOf(java.time.LocalDate.now()));  
+		String a = String.valueOf(java.time.LocalTime.now());
+		if(testAvailableUntil.compareTo(a) > 0 )
+			System.out.println("test gadol yoter");
+		else System.out.println("aheret");
+			
+		
+		/*Calendar cal = Calendar.getInstance();
+		cal.setTime(java.time.LocalTime.now()));
+		cal.add(Calendar.HOUR_OF_DAY, durationHours);
+		cal.add(Calendar.MINUTE, durationMinutes);
+		startExamHour = cal.getTime();
+		String endHour = defaultFormat.format(startExamHour);
+		endExamHour = endHour;*/
+		//System.out.println("exam ends in :"+endHour+"");
+		
+		
+		//delayTimeInSecs = diffHours * 3600 + diffMinutes * 60 + diffSeconds;
+	//	System.out.println(delayTimeInSecs);
+	
 	}
+	
+	/*/ragah
+	
+	examTime = new ArrayList<>();
+	examTime = StudentController.getExamDate(getExecutionCode());
+	
+	SimpleDateFormat defaultFormat = new SimpleDateFormat("HH:mm:ss");
+	String examStartHour = examTime.get(1); // exam planned start hour
+	String currentTime = defaultFormat.format(Calendar.getInstance().getTime()); // current time
+	
+	Date startExamHour = defaultFormat.parse(examStartHour);
+	Date currHour = defaultFormat.parse(currentTime);
+	int durationHours = test.getDuration()/60;
+	String durationHrs = "0"+durationHours+"";
+
+	int durationMinutes = test.getDuration() - (60 * durationHours);
+	String durationMns;
+	if(durationMinutes < 10)
+		durationMns = "0"+durationMinutes+"";
+	else
+		durationMns = Integer.toString(durationMinutes);
+	
+	String totalDuration = durationHrs+":"+durationMns+":00";
+	totalDurationOfExam = totalDuration;
+	System.out.println("total duration of the exam is :"+totalDuration);
+
+	
+	long difference = currHour.getTime() - startExamHour.getTime();
+
+	long diffSeconds = difference / 1000 % 60;
+	long diffMinutes = difference / (60 * 1000) % 60;
+	long diffHours = difference / (60 * 60 * 1000) % 24;
+	
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(startExamHour);
+	cal.add(Calendar.HOUR_OF_DAY, durationHours);
+	cal.add(Calendar.MINUTE, durationMinutes);
+	startExamHour = cal.getTime();
+	String endHour = defaultFormat.format(startExamHour);
+	endExamHour = endHour;
+	//System.out.println("exam ends in :"+endHour+"");
+	
+	
+	delayTimeInSecs = diffHours * 3600 + diffMinutes * 60 + diffSeconds;
+	System.out.println(delayTimeInSecs);*/
 
 	/**
 	 * get the test
@@ -301,21 +415,84 @@ public class TeacherTestDBController implements Serializable {
 		}
 	}
 
-	public static void requestExtraTime(testCopy tc) {
+	/**
+	 * check if current time occurs a test with the execution code in examInfo
+	 * @param examInfo [0]execCode,[1]startHour,[2]teacherUsernameExecute,[3]date
+	 * @return true in case teacher can request extra time, false otherwise
+	 */
+	public static boolean requestExtraTime(ArrayList<String> examInfo) {
+		
+		String durationOfTheTest = null;
+		if(examInfo.get(3).equals((String.valueOf(java.time.LocalDate.now())))) {
+		
+		//get the duration time of the test
+		String sqlQuery = "select duration from test "
+				+ "where executionCode = " + examInfo.get(0) + "";
 
-		String sqlQuery = "update testcopy set requestExtraTime = ? ,reasons = ? where id = ?;";
-		try {
-			if (DBConnector.myConn != null) {
-				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
-				ps.setString(1, String.valueOf("yes"));
-				ps.setString(2, String.valueOf(tc.getReasons()));
-				ps.setString(3, String.valueOf(tc.getTestID()));
-				ps.executeUpdate();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+				Statement st;
+				try {
+					st = DBConnector.myConn.createStatement();
+			
+				ResultSet rs = st.executeQuery(sqlQuery);
+				if (rs.next()) {
+					 durationOfTheTest = rs.getString(1);
+				}else {System.out.println(
+						"didnt get the duration, execCodeFail");}				
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} //// verifty the exam is ON
+				
+				/*SimpleDateFormat sdf = new SimpleDateFormat("H:m:s");
+				sdf.setLenient(false);
+				
+				java.util.Date temp = sdf.parse(examInfo.get(1));
+				sdf.format(temp);
+			
+				int durationOfTheTestHour =
+						Integer.parseInt(durationOfTheTest)/60; 
+				int durationOfTheTestMin =
+						Integer.parseInt(durationOfTheTest)%60; 
+				
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(temp);
+				cal.add(Calendar.HOUR_OF_DAY, durationOfTheTestHour);
+				cal.add(Calendar.MINUTE, durationOfTheTestMin);
+				java.util.Date testAvailableUntil = cal.getTime();*/
 
+				String hour = examInfo.get(1).split(":")[0];
+				String min = examInfo.get(1).split(":")[1];
+				System.out.println("Hour"+ hour);
+
+				int durationOfTheTestMin =
+						Integer.parseInt(durationOfTheTest)%60;
+			//	System.out.println("durationOfTheTestMin:"+ durationOfTheTestMin);
+				
+				int addHour=0;
+				if(durationOfTheTestMin >= 60) {
+					addHour=1;durationOfTheTestMin = durationOfTheTestMin-60;}
+
+				int durationOfTheTestHour =
+						(Integer.parseInt(durationOfTheTest)/60)+addHour; 
+				//System.out.println("durationOfTheTestHour:"+durationOfTheTestHour);
+
+		 				int hourUntil =
+						Integer.parseInt(hour) +durationOfTheTestHour;
+
+				int minUntil =
+						Integer.parseInt(min) +durationOfTheTestMin;
+
+				String testAvailableUntil = hourUntil+":"+minUntil+":00";
+				
+				String currTime = String.valueOf(java.time.LocalTime.now());
+			//	System.out.println("Test Avail UNTIL :" +testAvailableUntil);
+				//System.out.println("curr time:" +currTime);
+
+				if(testAvailableUntil.compareTo(currTime) > 0) {// the test is still ON
+					if(examInfo.get(1).compareTo(currTime) <0) { // before the test start
+						return true;}}}//if date is same
+				
+				//System.out.println("Return TRUE FROM REQUESTEXTRATIME");
+				return false;		
 	}
 
 	public static ArrayList<Course> refreshCourseTable() {

@@ -9,12 +9,14 @@ import java.util.List;
 import java.sql.Blob;
 
 import client.controllers.ClientUI;
+import client.controllers.TeacherTestController;
 import client.gui.CreateQuestionController;
 import entity.Course;
 import entity.Message;
 import entity.MessageType;
 import entity.Question;
 import entity.QuestionBank;
+import entity.RequestExtraTime;
 import entity.Test;
 
 import entity.User;
@@ -62,14 +64,6 @@ public class ServerController extends AbstractServer {
 			String logInStatus = UserDBController.tryToConnect((User) message.getMessageData());
 			msgFromServer = new Message(MessageType.logIn, logInStatus);
 			break;
-		/*case LockTest:
-			TeacherTestDBController.lockTest((Test)message.getMessageData());
-			msgFromServer = new Message(MessageType.SuccessLockTest, null);
-			break;*/
-		case RequestExtraTime:
-			TeacherTestDBController.requestExtraTime((testCopy)message.getMessageData());
-			msgFromServer = new Message(MessageType.SentExtraTimeRequest, null);
-			break;
 		case RefreshCourseTable:
 			ArrayList<Course> list = TeacherTestDBController.refreshCourseTable();
 			msgFromServer = new Message(MessageType.CourseList, list);
@@ -106,11 +100,37 @@ public class ServerController extends AbstractServer {
 			String insertPlanToDb = TeacherTestDBController.insertPlanTestToDB((ArrayList<String>)message.getMessageData());
 			msgFromServer = new Message(MessageType.InsertPlanTest,insertPlanToDb);
 			break;
+		case RequestExtraTime:
+			ArrayList<String> examInfo =
+			TestDBController.getExamInfo((String)message.getMessageData());
 			
+			if(!examInfo.isEmpty()) { 
+				boolean canRequestExtraTime =
+						TeacherTestDBController.requestExtraTime(examInfo);
+				if(canRequestExtraTime) {
+			msgFromServer = new Message(MessageType.RequestExtraTime, "Can Request");}
+			}
+			else {			msgFromServer = new Message
+					(MessageType.RequestExtraTime, "The exec code isnt valid");}
+
+			break;
+		
+		case addRequestForExtraTime:
+			TestDBController.addRequestForExtraTime
+				((ArrayList<String>)message.getMessageData());		
+			break;
+		case logOut: //didnt finish
+			UserDBController.removeUserFromLoginArr((String)message.getMessageData());
+			break;
+		case getExtraTime:
+			ArrayList<RequestExtraTime> arr = 
+			ExtraTimeDBController.getRequest();
+			msgFromServer = new Message(MessageType.getExtraTime, arr);
+			break;
+	
 			//RAGAH - en bdika she ze takin.ok? 
 			//add to HAShMAP ConnectionClient. Shr
 		case AddStudentToOnGoing:
-
 			TestDBController.addConnectionClientToHashMap
 			(client, ((ArrayList<String>) message.getMessageData()).get(0) );// client, execCode
 			TestDBController.addStudentToOnGoing
@@ -122,43 +142,80 @@ public class ServerController extends AbstractServer {
 			TestDBController.removeStudentFromOnGoing((ArrayList<String>)message.getMessageData());
 			break;
 			
-		case lockTest:
-			System.out.println("inlock test ServerController");
-			//flagForSendToOnlySomeClients = true;
-			List<ConnectionToClient> getListOfConnClientGoingTest = 
-			TestDBController.lockTest((String)message.getMessageData());
+		case DetailsExtraTime: //zarih leshanot et a shem
+			//getAndSendToStudentsOnGoingTest(message,client);
+			System.out.println("DetailsExtratime ServerController");
+			String execCode = 
+					((ArrayList<String>)message.getMessageData()).get(0);
+			String time =((ArrayList<String>)message.getMessageData()).get(1);
+
+		List<ConnectionToClient> getListOfConnClientGoingTest2 = 
+		TestDBController.lockTest(execCode);///////////////////////////////////////
 		
-			System.out.println("is null");
-			System.out.println("connections: " + getListOfConnClientGoingTest);
-			System.out.println("not null");
-		
-			if(getListOfConnClientGoingTest!=null) {
-				System.out.println("getList Not NULLLLL");
-			if(!getListOfConnClientGoingTest.isEmpty()) {
-				System.out.println("Yesh ANashimm ba MIVHAN NOT EMPTY");
-		for(ConnectionToClient conToClient : getListOfConnClientGoingTest ) {
-				
-					Message msgFromServer = new Message
-							(MessageType.lockTest,null);
-					System.out.println("before send to client: " +conToClient);
-					//sendToAllClients(msgFromServer);
-					try {
-						conToClient.sendToClient(msgFromServer);
-					System.out.println("after send to client");
-				
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}}}}
-					//	flagForSendToOnlySomeClients=false;
-			Message msgFromServer2= new Message(MessageType.lockTestTeacher,null);
-			try {
-				client.sendToClient(msgFromServer2);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+	//	System.out.println("is null");
+	//	System.out.println("connections: " + getListOfConnClientGoingTest);
+	//	System.out.println("not null");
+	
+		if(getListOfConnClientGoingTest2!=null) {
+		//	System.out.println("getList Not NULLLLL");
+		if(!getListOfConnClientGoingTest2.isEmpty()) {
+			//System.out.println("Yesh ANashimm ba MIVHAN NOT EMPTY");
+	for(ConnectionToClient conToClient : getListOfConnClientGoingTest2 ) {
 			
+				Message msgFromServer = new Message
+						(MessageType.addExtraTime,time);
+				System.out.println("before send to client: " +conToClient);
+				try {
+					conToClient.sendToClient(msgFromServer);
+				System.out.println("after send to client");
+			
+				} catch (IOException e) {
+					e.printStackTrace();
+				}}}}
+		Message msgFromServer2= new Message(MessageType.addExtraTimePrinciple,null);
+		try {
+			client.sendToClient(msgFromServer2);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+			return;					
+		case lockTest:
+			//getAndSendToStudentsOnGoingTest(message,client);
+			System.out.println("getAndSend  ServerController");
+		List<ConnectionToClient> getListOfConnClientGoingTest = 
+		TestDBController.lockTest((String)message.getMessageData());
+	
+	//	System.out.println("is null");
+	//	System.out.println("connections: " + getListOfConnClientGoingTest);
+	//	System.out.println("not null");
+	
+		if(getListOfConnClientGoingTest!=null) {
+		//	System.out.println("getList Not NULLLLL");
+		if(!getListOfConnClientGoingTest.isEmpty()) {
+			//System.out.println("Yesh ANashimm ba MIVHAN NOT EMPTY");
+	for(ConnectionToClient conToClient : getListOfConnClientGoingTest ) {
+			
+				Message msgFromServer = new Message
+						(MessageType.lockTest,null);
+				System.out.println("before send to client: " +conToClient);
+				try {
+					conToClient.sendToClient(msgFromServer);
+				System.out.println("after send to client");
+			
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}}}
+		Message msgFromServer3= new Message(MessageType.lockTestTeacher,null);
+		try {
+			client.sendToClient(msgFromServer3);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 			return;
 			//break;
 		case AddExecCodeToTestDB:
@@ -195,9 +252,9 @@ public class ServerController extends AbstractServer {
 			msgFromServer = new Message(MessageType.SubmittedTest, flagForSubmittedTestSuccessfully);
 			break;
 
-		case GetExamDate:
+		case GetExamDate:// ezel ragah ze getExamDate
 			ArrayList<String> examDate = new ArrayList<>();
-			examDate = StudentDBController.getExamDate((String)message.getMessageData());
+			examDate = TestDBController.getExamInfo((String)message.getMessageData());
 			msgFromServer = new Message(MessageType.GotExamDate, examDate);
 			break;
 						
@@ -211,7 +268,18 @@ public class ServerController extends AbstractServer {
 			e.printStackTrace();
 		}
 		
+	}
 
+
+/**
+ * 
+ * @param message 
+ * @param msgType
+ */
+	private void getAndSendToStudentsOnGoingTest
+	(Message message,ConnectionToClient client) {
+
+		
 	}
 
 	private void getAllTestBanks() {

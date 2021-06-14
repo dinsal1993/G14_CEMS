@@ -10,9 +10,11 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import client.gui.ManualTestController;
+import client.gui.TestQuestionsAndAnswersController;
 import entity.Course;
 import entity.Message;
 import entity.MessageType;
+import entity.RequestExtraTime;
 import entity.Test;
 import entity.TestBank;
 import entity.testCopy;
@@ -102,7 +104,11 @@ public class ClientController extends AbstractClient {
 			 ManualTestController.manualTestDetails = (ArrayList<String>)message.getMessageData();
 			 System.out.println( ManualTestController.manualTestDetails+"IN CLIENTCONTROLLER");
 			 break;
-		
+		case RequestExtraTime:
+			if(message.getMessageData().equals("Can Request")) {
+				TeacherTestController.flagForRequestValidExecCode = true;
+			}
+			break;
 			//ragah
 		case CheckTest:
 			StudentController.isTestExist((String)message.getMessageData());
@@ -159,7 +165,20 @@ public class ClientController extends AbstractClient {
 		case GotExamDate:
 			StudentController.examDate = (ArrayList<String>)message.getMessageData();
 			break;
-	
+		case getExtraTime:
+			ExtraTimeController.list = 
+				(ArrayList<RequestExtraTime>)message.getMessageData();
+			break;
+		case addExtraTime:
+			TestQuestionsAndAnswersController.addExtraTime = 
+							Integer.parseInt((String)message.getMessageData());
+			clientUI.display("You get more time for finish the test:"
+							+ (String)message.getMessageData()+"min");
+			break;
+		case addExtraTimePrinciple:
+			ClientUI.display("Adding extra time succssesfully");
+			break;
+			
 			default:
 				ClientUI.display("cant read message from server");
 		}

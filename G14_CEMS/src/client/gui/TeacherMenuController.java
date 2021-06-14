@@ -6,6 +6,8 @@ import client.controllers.ClientUI;
 import javafx.application.Application;
 import client.controllers.ScreenControllers;
 import client.controllers.UserController;
+import entity.Message;
+import entity.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,6 +64,19 @@ public class TeacherMenuController {
     	
     }
    
+   /**
+    * 
+    * @param event
+    */
+   @FXML
+   void clickLogOut(ActionEvent event) {
+	   Message msg = new Message(MessageType.logOut,UserController.username);
+	   ClientUI.accept(msg);
+   }
+   
+   
+   
+   
    //shahar for planing plan
    /**
     * moves to Plan a test stage
@@ -74,8 +89,9 @@ public class TeacherMenuController {
 		try {
 			root = loader.load();
 			Scene scene = new Scene(root);
-			UserController.extraStage = UserController.currentStage; // save the current stage
 			UserController.currentStage.setScene(scene);
+		//	UserController.currentStage.onCloseRequestProperty(
+			//		event->   clickLogOut() );
 			
 		} catch (IOException e) {
 			e.printStackTrace();

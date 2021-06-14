@@ -267,5 +267,53 @@ public class TestDBController implements Serializable {
 		}
 		return;
 	}
+	
+	public static ArrayList<String> getExamInfo(String code) {
+		ArrayList<String> list = new ArrayList<>();
+		String sqlQuery = "select * from plannedtest where execCode = " + code + "";
+
+		try {
+			if (DBConnector.myConn != null) {
+				Statement st = DBConnector.myConn.createStatement();
+				ResultSet rs = st.executeQuery(sqlQuery);
+				while (rs.next()) {
+					list.add(0, String.valueOf(rs.getString(1)));
+					list.add(1, String.valueOf(rs.getString(2)));
+					list.add(2,rs.getString(3)); //teacherUserName execute
+					list.add(3, String.valueOf(rs.getString(4)));
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(list);
+		return list;
+	}
+
+	/**
+	 * add to the DB the request
+	 * @param requestDetails [0]execCode,[1]Reasons,[2]Time
+	 */
+	public static void addRequestForExtraTime
+						(ArrayList<String> requestDetails) {
+		System.out.println(requestDetails);
+		String sqlQuery = "insert into extratime (execcode,reasons,time) values (?,?,?)";
+		try {
+				PreparedStatement ps = DBConnector.myConn.prepareStatement(sqlQuery);
+				ps.setString(1, String.valueOf(requestDetails.get(0)));
+				ps.setString(2, String.valueOf(requestDetails.get(1)));
+				ps.setString(3, String.valueOf(requestDetails.get(2)));
+				ps.executeUpdate();
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
 
 }

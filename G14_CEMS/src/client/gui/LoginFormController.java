@@ -100,6 +100,22 @@ public class LoginFormController {
 				e.printStackTrace();
 			}
 			break;
+			
+		case "principle": // openStudentMenuForm();
+			UserController.username = getUsername();
+			FXMLLoader loader3 = new FXMLLoader(getClass().getResource
+					("PrincipleMenuForm.fxml")); // change the name to StudentMenu"Form"
+			Parent root3;
+			try {	
+				root3 = loader3.load();
+				ScreenControllers.principleMenuController =	loader3.getController();
+				Scene scene = new Scene(root3);
+				UserController.currentStage.setScene(scene);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+			
 		default:
 			ClientUI.display("cant read message from server");
 		}

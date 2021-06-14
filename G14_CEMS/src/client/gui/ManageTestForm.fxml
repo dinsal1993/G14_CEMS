@@ -30,7 +30,7 @@
             <Button fx:id="btnLockTest" layoutX="370.0" layoutY="142.0" mnemonicParsing="false" onAction="#clickLockTest" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Lock test" textFill="WHITE" />
             <Button fx:id="btnBack" layoutX="16.0" layoutY="276.0" mnemonicParsing="false" onAction="#clickBack" style="-fx-background-color: #7f7454; -fx-background-radius: 5em;" styleClass="btn" text="Back" textFill="WHITE" />
             <Text layoutX="31.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(of the specific test)" />
-            <Button layoutX="131.0" layoutY="149.0" mnemonicParsing="false" text="Request extra time" />
+            <Button layoutX="131.0" layoutY="149.0" mnemonicParsing="false" onAction="#clickRequestExtraTime" text="Request extra time" />
             <Text layoutX="131.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="livnot od halon shel reasons" wrappingWidth="153.99999618530273">
                <font>
                   <Font size="21.0" />
